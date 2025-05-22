@@ -1222,7 +1222,7 @@
                                 console.log(data)
                                 var select = $("#_PM");
                                 select.children().remove();
-                                if (UserId == "approvepm") {
+                                if (UserId == "approvepm" /*|| UserId == "yanee.p"*/) {
                                     select.append($("<option>").val("").text("PM ALL"));
                                 }
                                 $(data).each(function (index, item) {
@@ -1251,7 +1251,7 @@
                             }
                         });
                     }
-                   
+                    
                     if (data.UsrClmStaff != "3") {
                         //alert("xxx" + data.UsrClmStaff)
                         $("#_admintec").val(userlog);
@@ -1270,10 +1270,7 @@
 
                         $("#_btnsaveapprove").attr("disabled", "disabled");
                         $("#_btnsavecheck").removeAttr('disabled');
-
-
-                    }
-                    else if (data.UsrClmStaff == "3") {
+                    } else if (data.UsrClmStaff == "3" || data.UsrClmStaff == "6") {
                         ///alert("yyy" + data.UsrClmStaff)
                         $("#_PM").removeAttr('disabled');  // Product Manager
                         $("#_pmdate").removeAttr('disabled'); //วันที่PM พิจารณา
@@ -1283,6 +1280,15 @@
 
                         $("#_btnsaveapprove").removeAttr('disabled');
 
+                    }
+                    //ถ้าเป็น UserType = 6(Logitic)
+                    if (data.UsrClmStaff == "6") {
+                        $("#_PM").removeAttr('disabled');  // Product Manager
+                        $("#_pmdate").removeAttr('disabled'); //วันที่PM พิจารณา
+                        $("#_pmtstus").removeAttr('disabled'); //สถานะอนุมัติ
+                        $("#remakepm").removeAttr('disabled');
+                        $("#_pmnewpn").removeAttr('disabled');
+                        $("#_btnsaveapprove").removeAttr('disabled');
                     }
                 }
             });

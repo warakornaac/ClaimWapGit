@@ -2,7 +2,7 @@
     ViewBag.Title = "Index";
     var user = ViewBag.UserId;
     var usertype = ViewBag.UserType;
-    if (user.ToUpper() != "PSA" && user.ToUpper() != "PPTM")
+    if (user.ToUpper() != "PSA" && user.ToUpper() != "PPTM" && user.ToUpper() != "TPCM")
     {
         Layout = "~/Views/Shared/_LayoutindexRT.cshtml";
     } else {
@@ -1479,11 +1479,11 @@
                                                 SubmithtmlPage += '<td>  <button type="button" id="_btndelclaim" disabled="disabled" class="btn btn-light"  statuscenter="' + sta + '" req_no="' + data.Getdata[i].val.STMP_ID + '"  clm_no_sub="' + data.Getdata[i].val.STMP_ID_SUB + '">ยกเลิก</button></td>';
                                             }
                                         } else if (ustyp == "5" || ustyp == "10") { //user:adminwh, adminwh
-                                            if (sta == "4") {
+                                            //if (sta == "4") {
                                                 SubmithtmlPage += '<td>  <button type="button" id="_btndelclaimwh" class="btn btn-warning"  statuscenter="' + sta + '" req_no="' + data.Getdata[i].val.STMP_ID + '"  clm_no_sub="' + data.Getdata[i].val.STMP_ID_SUB + '">ยกเลิก</button></td>';
-                                            } else {
-                                                SubmithtmlPage += '<td>  <button type="button" id="_btndelclaimwh" disabled="disabled" class="btn btn-light"  statuscenter="' + sta + '" req_no="' + data.Getdata[i].val.STMP_ID + '"  clm_no_sub="' + data.Getdata[i].val.STMP_ID_SUB + '">ยกเลิก</button></td>';
-                                            }
+                                            //} else { //26/02/25 เอาเงื่อนไขนี้ออกเพราะจะให้ Wherehouse มัสิทธิ์เท่า User : admineh
+                                            //    SubmithtmlPage += '<td>  <button type="button" id="_btndelclaimwh" disabled="disabled" class="btn btn-light"  statuscenter="' + sta + '" req_no="' + data.Getdata[i].val.STMP_ID + '"  clm_no_sub="' + data.Getdata[i].val.STMP_ID_SUB + '">ยกเลิก</button></td>';
+                                            //}
                                         }
 
                                         if (sta != "7") { //ผ่านอนุมัติ ไม่ยกเลิก

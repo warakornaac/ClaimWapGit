@@ -33,6 +33,7 @@
     </style>
 </head>
 <body class="fixed-nav sticky-footer bg-dark sidenav-toggled" id="page-top">
+
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
         <a class="navbar-brand" href="">TRW Auto Service  System</a>
@@ -287,6 +288,18 @@
                 {
                     <i class="fa fa-area-chart" style="color:white">
                         SalesCo  >>>@Session["DatetoExpire"]
+                    </i>
+                }
+                else if (Session["UserType"].ToString() == "6")
+                {
+                    <i class="fa fa-area-chart" style="color:white">
+                        Logistic  >>>@Session["DatetoExpire"]
+                    </i>
+                }
+                else if (Session["UserType"].ToString() == "10")
+                {
+                    <i class="fa fa-area-chart" style="color:white">
+                        Warehouse  >>>@Session["DatetoExpire"]
                     </i>
                 }
             </a>
@@ -608,6 +621,34 @@
                     </div>
                 </div>
             }
+
+            else if (@Session["UserType"].ToString() == "6")
+            {
+                <div class="row">
+                    <div class="col-xl-2 col-sm-6 mb-3">
+
+                        <div class="card text-white bg-primary o-hidden">
+                            <a class="card-footer text-white clearfix small z-1" id="SrcProcessApprove" href="~/SelectDisplay/Index">
+                                <span class="float-left">กลับสู่เมนูหลัก</span>
+                                <span class="float-right">
+                                    <!-- <i class="fa fa-angle-right"></i>-->
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-sm-6 mb-3">
+
+                        <div class="card text-white bg-info o-hidden">
+                            <a class="card-footer text-white clearfix small z-1" id="ProcessApproveRT" href="~/ProcessApproveRT/Index">
+                                <span class="float-left">Approve SalesReturn With 7 Day</span>
+                                <span class="float-right">
+                                    <!-- <i class="fa fa-angle-right"></i>-->
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
             else if (@Session["UserType"].ToString() == "4")
             {
                 if (@Session["ISApprover"].ToString() == "1")
@@ -707,7 +748,7 @@
                                 </div>*@
                             <div class="card text-white bg-info o-hidden">
                                 <a class="card-footer text-white clearfix small z-1" id="Sccreateclaim" href="~/Createsalesreturn_sales/Index">
-                                    <span class="float-left">สร้างใบคำขอคืนสินค้า</span>
+                                    <span class="float-left">สร้างใบคำขอคืนสินค้า2</span>
                                     <span class="float-right">
                                         <!-- <i class="fa fa-angle-right"></i>-->
                                     </span>
@@ -766,7 +807,7 @@
                     </div>
                 }
             }
-            else if (@Session["UserType"].ToString() == "5")
+            else if (@Session["UserType"].ToString() == "5" || @Session["UserType"].ToString() == "10")
             {
 
                 if (@Session["ISApprover"].ToString() == "1")
@@ -784,7 +825,7 @@
                                 </div>*@
                             <div class="card text-white bg-info o-hidden">
                                 <a class="card-footer text-white clearfix small z-1" id="Sccreateclaim" href="~/Createsalesreturn_sales/Index">
-                                    <span class="float-left">สร้างใบคำขอคืนสินค้า</span>
+                                    <span class="float-left">สร้างใบคำขอคืนสินค้า3</span>
                                     <span class="float-right">
                                         <!-- <i class="fa fa-angle-right"></i>-->
                                     </span>

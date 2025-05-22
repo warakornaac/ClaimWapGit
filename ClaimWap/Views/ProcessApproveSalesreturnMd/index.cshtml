@@ -1490,13 +1490,13 @@
                                 var statusApproveMd = data.Getdata[i].val.MD_APPRV_STATUS;
                                 SubmithtmlPage = '<tr   fax="1" cmno="' + data.Getdata[i].val.STMP_ID + '"  foc="' + data.Getdata[i].val.STMP_ID_SUB + '" >';
                                 SubmithtmlPage += '<td style="color: blue;text-decoration: underline;font-weight: bold;cursor:pointer;" id="xxx" fax="1"  cmno="' + data.Getdata[i].val.STMP_ID + '" clmnoup="' + data.Getdata[i].val.STMP_ID_SUB + '"  cuscod="' + data.Getdata[i].val.CUSCOD + '"   cusnam="' + data.Getdata[i].val.CUSNAM + '"  slmcod="' + data.Getdata[i].val.SLMCOD + '"  slmnam ="' + data.Getdata[i].val.SLMNAM + '" company ="' + data.Getdata[i].val.STMP_COMPANY + '"  qty ="' + data.Getdata[i].val.STMP_REQQTY + '"  item ="' + data.Getdata[i].val.STKCOD + '"   PERFORMDESCRIPTION ="' + data.Getdata[i].val.PERFORMDESCRIPTION + '"  RCVSTATUSDESCRIPTION ="' + data.Getdata[i].val.RCVSTATUSDESCRIPTION + '">' + data.Getdata[i].val.STMP_ID_SUB + '</td>';
-                                if (stasmpm == "0") {
-                                    SubmithtmlPage += '<td></td>';
-                                } else if (stasmpm == "1") {//pm approve
+                                if ((stasmpm == "0" || stasmpm == "1") && statusApproveMd == "0") {//pm approve
                                     SubmithtmlPage += '<td><input id="checkbox" cmno="' + data.Getdata[i].val.STMP_ID + '" clmnoup="' + data.Getdata[i].val.STMP_ID_SUB + '"  class="chk" type="checkbox"  class="form-control input-lg" ></td>';
                                 } else if (stasmpm == "2") {
                                     SubmithtmlPage += '<td></td>';
                                 } else if (stasmpm == "99") {
+                                    SubmithtmlPage += '<td></td>';
+                                } else {
                                     SubmithtmlPage += '<td></td>';
                                 }
                                 SubmithtmlPage += '<td>' + data.Getdata[i].val.STMP_ID_SUB + '</td>';

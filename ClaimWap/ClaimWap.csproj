@@ -165,6 +165,7 @@
     <Compile Include="Controllers\ProcessApproveGmTamController.cs" />
     <Compile Include="Controllers\ProcessApproveRTController.cs" />
     <Compile Include="Controllers\ProcessApproveSalesreturnMdController.cs" />
+    <Compile Include="Controllers\ProcessApproveSalesreturnWith7DayController.cs" />
     <Compile Include="Controllers\ProcessApproveSmSupController.cs" />
     <Compile Include="Controllers\ProcessApproveSmTamController.cs" />
     <Compile Include="Controllers\ProcessApproveWHController.cs" />
@@ -2531,6 +2532,7 @@
     <Content Include="Views\ProcessApproveGmTam\Index.cshtml" />
     <Content Include="Views\ProcessApprovSM\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutindexRTMD.cshtml" />
+    <Content Include="Views\ProcessApproveSalesreturnWith7Day\index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

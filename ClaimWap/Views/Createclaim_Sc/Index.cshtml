@@ -630,6 +630,7 @@
                                 <option value="AAC">AAC</option>
                                 <option value="OMP">OMP</option>
                                 <option value="TAM">TAM</option>
+                                <option value="VELOX">VELOX</option>
                                 <!-- <option value="ALL">ALL</option>-->
                             </select>
                         </span>
@@ -1240,9 +1241,10 @@
             var company = '@company';
             $(document).ready(function () {
                 if (company != "") {
-                    if (company == "TAM") {
-                        $("#_company").val("TAM");
-                        $('#_company').attr('disabled', true);
+                    if (company == "TAM" || company == "VELOX") {
+                        //$("#_company").val(company);
+                        //$('#_company').attr('disabled', true);
+                        $("#_company option[value='TAC'], option[value='AAC'], option[value='OMP']").remove();
                         $('#divFieldClaimNote').css('display', 'block');
                         //ยี่ห้อรถ
                         $('#_vemac').css('border-bottom', 'none');
@@ -3612,7 +3614,7 @@
                             return false;
                         }
                         //ที่ TAM ไม่ต้อง mandatory field 1,2,10,11
-                        if (company != "TAM") {
+                        if (company != "TAM" && company != "VELOX") {
                             var xvehicle = $("#_vemac").val();
                             if (xvehicle == "") {
                                 $("#textAlertWarningmes").empty();
@@ -3741,6 +3743,8 @@
                                 Gendoc = 'CMO';
                             } else if (Com == "TAM") {
                                 Gendoc = 'CMM';
+                            } else if (Com == "VELOX") {
+                                Gendoc = 'CMV';
                             }
                             //gen เลขเคลม
                             $.ajax({
@@ -4316,7 +4320,7 @@
 
                 $("#_claimqty").on("keyup", function () {
                     var txtQty = 'จำนวนที่สามารถเคลมได้ : ';
-                    if (company == 'TAM') {
+                    if (company == 'TAM' || company == 'VELOX') {
                         txtQty = ' Qty more than can be claimed : ';
                     }
                     var ids = $(this).val();
