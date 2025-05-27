@@ -24,7 +24,7 @@
     <script src="~/Content/fixed-table-master/fixed-table.js"></script>
     <link href="~/Content/fixed-table-master/fixed-table.css" rel="stylesheet" />
     <script src="~/Scripts/signaturepad-master/js/signature_pad.umd.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         #loadingImg {
             display: none;
@@ -3468,11 +3468,12 @@
                     }
                 }
 
-                $("#btnuploadsales").click(function () {
+                function uploadImageClaim() {
 
                     var No = $("#_claimno").val();
                     //var inCim_NoSub = 'CMT23010003';
                     var inCim_NoSub = $("#_claimnosub").text();
+                    var flag_error = '';
                     //var No = 'CMTXXXXXX';
                     // var inCim_NoSub = 'CMTXXXXXX-01';
                     formdata.set('uploadername', No + "-" + inCim_NoSub);
@@ -3489,16 +3490,224 @@
                         data: formdata,
                         async: false,
                         success: function (result) {
-                            if (result != "") {
-                                alert(result);
+                            if (result.message == "true") {
+                                var result_img = result.alertmessage.substring(0, 1);
+                                if (result_img > 0) {
+                                    alert(result.alertmessage);
+                                    console.log('file uploaded : ' + result_img);
+                                    flag_error = '';
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: "Error",
+                                        html: "การอัปโหลดรูปภาพไม่สำเร็จ กรุณายกเลิกรายการและดำเนินการใหม่อีกครั้ง |<br>The image upload was unsuccessful. Please cancel the operation and try again.",
+                                        icon: "error"
+                                    });
+
+                                    @*$.ajax({
+                                        url: '@Url.Action("DeleteClaimtemp", "Createclaim_Sc")',
+                                        data: {
+                                            comid: No,
+                                            clmnoup: inCim_NoSub
+                                        },
+                                        type: "POST",
+                                        dataType: "JSON",
+                                        success: function (data) {
+                                            //console.log(data);
+                                            if (data.message == "true") {
+                                                /*alert("ลบรายการเรียบร้อย");*/
+                                                //GetClimtemp(No)
+                                                $("#_claimno").val("");
+
+                                            } else {
+                                                alert(data.message);
+                                            }
+                                        }
+                                    });*@
+                                    flag_error = 'no upload picture';
+                                }
                                 $("#FilesList tr .delimagsal").trigger("click");
-                               
+                            }
+                            else {
+                                //alert(result.message);
+
+                                Swal.fire({
+                                    title: "Error",
+                                    //html: "ไม่สามารถอัปโหลดรูปภาพได้ กรุณาตรวจสอบรูปภาพและลองใหม่อีกครั้ง |<br>Unable to upload the image. Please check the image and try again",
+                                    //html: "เกิดข้อผิดพลาดขณะดำเนินการ กรุณาลองใหม่อีกครั้ง |<br>An error occurred during the process. Please try again.",
+                                    html: "การอัปโหลดรูปภาพไม่สำเร็จ กรุณายกเลิกรายการและดำเนินการใหม่อีกครั้ง |<br>The image upload was unsuccessful. Please cancel the operation and try again.",
+                                    icon: "error"
+                                });
+
+                                @*$.ajax({
+                                    url: '@Url.Action("DeleteClaimtemp", "Createclaim_Sc")',
+                                    data: {
+                                        comid: No,
+                                        clmnoup: inCim_NoSub
+                                    },
+                                    type: "POST",
+                                    dataType: "JSON",
+                                    success: function (data) {
+                                        //console.log(data);
+                                        if (data.message == "true") {
+                                            /*alert("ลบรายการเรียบร้อย");*/
+                                            //GetClimtemp(No)
+                                            $("#_claimno").val("");
+
+                                        } else {
+                                            alert(data.message);
+                                        }
+                                    }
+                                });*@
+                                flag_error = result.message;
                             }
                         },
                         error: function (err) {
                             alert(err.statusText);
+                            Swal.fire({
+                                title: "Error",
+                                //html: "ไม่สามารถอัปโหลดรูปภาพได้ กรุณาตรวจสอบรูปภาพและลองใหม่อีกครั้ง |<br>Unable to upload the image. Please check the image and try again",
+                                html: "Error :" + err.statusText,
+                                icon: "error"
+                            });
+                            @*$.ajax({
+                                url: '@Url.Action("DeleteClaimtemp", "Createclaim_Sc")',
+                                data: {
+                                    comid: No,
+                                    clmnoup: inCim_NoSub
+                                },
+                                type: "POST",
+                                dataType: "JSON",
+                                success: function (data) {
+                                    //console.log(data);
+                                    if (data.message == "true") {
+                                        /*alert("ลบรายการเรียบร้อย");*/
+                                        //GetClimtemp(No)
+                                        $("#_claimno").val("");
+
+                                    } else {
+                                        alert(data.message);
+                                    }
+                                }
+                            });*@
+                            flag_error = err.statusText;
                         }
                     });
+                    if (flag_error != '') {
+                        console.log("Error : " + flag_error);
+                        return true;
+                    }
+                    else {
+                        return true;
+                    }
+                }
+
+                $("#btnuploadsales").click(function () {
+
+                    var No = $("#_claimno").val();
+                    //var inCim_NoSub = 'CMT23010003';
+                    var inCim_NoSub = $("#_claimnosub").text();
+                    var flag_error = '';
+                    //var No = 'CMTXXXXXX';
+                    // var inCim_NoSub = 'CMTXXXXXX-01';
+                    formdata.set('uploadername', No + "-" + inCim_NoSub);
+                    formdata.set('inCim_NoSub', inCim_NoSub);
+                    formdata.set('No', No);
+                    console.log(formdata);
+                    //return false;
+                    $.ajax({
+                        url: '@Url.Action("UploadFiles", "Createclaim_Sc")',
+                        type: "POST",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        //data: formdata,
+                        data: formdata,
+                        async: false,
+                        success: function (result) {
+                            if (result.message == "true") {
+                                var result_img = result.alertmessage.substring(0, 1);
+                                if (result_img > 0) {
+                                    alert(result.alertmessage);
+                                    console.log('file uploaded : ' + result_img);
+                                    flag_error = '';
+
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: "Error",
+                                        text: "ไม่สามารถอัปโหลดรูปภาพได้ กรุณาลองใหม่อีกครั้ง | Unable to upload the image. Please try again.",
+                                        icon: "error"
+                                    });
+
+                                    $.ajax({
+                                        url: '@Url.Action("DeleteClaimtemp", "Createclaim_Sc")',
+                                        data: {
+                                            comid: No,
+                                            clmnoup: inCim_NoSub
+                                        },
+                                        type: "POST",
+                                        dataType: "JSON",
+                                        success: function (data) {
+                                            //console.log(data);
+                                            if (data.message == "true") {
+                                                /*alert("ลบรายการเรียบร้อย");*/
+
+                                               // GetClimtemp(No)
+                                                $("#_claimno").val("");
+                                                return false;
+                                            } else {
+                                                alert(data.message);
+                                            }
+                                        }
+                                    });
+
+
+                                }
+                                $("#FilesList tr .delimagsal").trigger("click");
+                            }
+                            else {
+                                alert(result.message);
+                                flag_error = result.message;
+                                $.ajax({
+                                    url: '@Url.Action("DeleteClaimtemp", "Createclaim_Sc")',
+                                    data: {
+                                        comid: No,
+                                        clmnoup: inCim_NoSub
+                                    },
+                                    type: "POST",
+                                    dataType: "JSON",
+                                    success: function (data) {
+                                        //console.log(data);
+                                        if (data.message == "true") {
+                                            /*alert("ลบรายการเรียบร้อย");*/
+
+                                            GetClimtemp(No)
+                                            $("#_claimno").val("");
+                                            return false;
+                                        } else {
+                                            alert(data.message);
+                                        }
+                                    }
+                                });
+                            }
+                        },
+                        error: function (err) {
+                            alert(err.statusText + ' เออเร่อ');
+                            flag_error = err.statusText;
+                            //Swal.fire({
+                            //    title: "Error",
+                            //    text: "ไม่สามารถอัปโหลดรูปภาพได้ กรุณาลองใหม่อีกครั้ง | Unable to upload the image. Please try again.",
+                            //    icon: "error"
+                            //});
+                            //Delete Temp For new Pic
+
+
+                        }
+                    });
+                    if (flag_error != '') {
+                        console.log("Error : " + flag_error);
+                        return false;
+                    }
                 });
 
 
@@ -3876,6 +4085,7 @@
                                         console.log("_cqty = " + _cqty);
                                         console.log("claimqty = " + claimqty);
                                         console.log("reminqtynew = " + reminqtynew);
+
                                         //return false;
                                         $.ajax({
                                             url: '@Url.Action("SaveClimtemp", "Createclaim_Sc")',
@@ -3925,8 +4135,18 @@
                                                 if (data.message == "true") {
                                                     $("#_claimnosub").text(data.subno);
                                                     $("#btnUpload").click(); //VDO
-                                                    $("#btnuploadsales").click(); //IMAGE
+                                                    // $("#btnuploadsales").click(); //IMAGE
+                                                    const imageSuccess = uploadImageClaim();
+                                                    if (!imageSuccess) {
+                                                        console.warn("หยุดทำงานเพราะอัปโหลดรูปภาพล้มเหลว");
+                                                        return; // หยุดไม่ให้ทำงานต่อด้านล่าง
+                                                    }
                                                     alert("สร้างรายการสำเร็จ/Item created success")
+                                                    //Swal.fire({
+                                                    //    title: "Success",
+                                                    //    text: "สร้างรายการสำเร็จ/Item created success",
+                                                    //    icon: "success"
+                                                    //});
                                                     $("#FilesList tbody tr:not(:first)").remove();
                                                     clearval()
                                                     clearimage()
@@ -4045,6 +4265,7 @@
                             }
                             var reminqtyold = $('#_reminqty').val();
                             var reminqtynew = parseInt(reminqtyold) - parseInt(claimqty)
+
                             $.ajax({
                                 url: '@Url.Action("SaveClimtemp", "Createclaim_Sc")',
                                 data: {
@@ -4094,8 +4315,18 @@
                                     if (data.message == 'true') {
                                         $("#_claimnosub").text(data.subno);
                                         $("#btnUpload").click();
-                                        $("#btnuploadsales").click();
+                                        //$("#btnuploadsales").click();
+                                        const imageSuccess = uploadImageClaim();
+                                        if (!imageSuccess) {
+                                            console.warn("หยุดทำงานเพราะอัปโหลดรูปภาพล้มเหลว");
+                                            return; // หยุดไม่ให้ทำงานต่อด้านล่าง
+                                        }
                                         alert("บีนทึกรายการสำเร็จ/Save successfully.")
+                                        //Swal.fire({
+                                        //    title: "Success",
+                                        //    text: "สร้างรายการสำเร็จ/Item created success",
+                                        //    icon: "success"
+                                        //});
                                         $("#FilesList tbody tr:not(:first)").remove();
                                         clearval()
                                         clearimage()

@@ -213,6 +213,8 @@ namespace ClaimWap.Controllers
             //int pus = 0;
             int countPass = 0;
             int countError = 0;
+            string message = string.Empty;
+            string alertmessage = string.Empty;
             string uname = string.Empty;
             string Pathimg = string.Empty;
             string path = Server.MapPath(@"~\ImgUpload\");
@@ -220,72 +222,85 @@ namespace ClaimWap.Controllers
             var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
             SqlConnection Connection = new SqlConnection(connectionString);
             Connection.Open();
-            for (int i = 0; i < files.Count; i++)
+            try
             {
-                bool allowSave = true;
-                string name = formCollection["uploadername"];
-                string inCim_NoSub = formCollection["inCim_NoSub"];
-                string No = formCollection["No"];
-                //Pathimg = name + "-" + pussend + ".png";
-                var command = new SqlCommand("P_Save_PathImage", Connection);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue("@inim_name", "");
-                command.Parameters.AddWithValue("@inCim_NoSub", inCim_NoSub);
-                command.Parameters.AddWithValue("@inCim_No", No);
-                command.Parameters.AddWithValue("@inIm_No", "");
-
-                SqlParameter returnValuedoc = new SqlParameter("@outimagename", SqlDbType.NVarChar, 100);
-                returnValuedoc.Direction = System.Data.ParameterDirection.Output;
-                command.Parameters.Add(returnValuedoc);
-                command.ExecuteNonQuery();
-                //text sql
-                uname = returnValuedoc.Value.ToString();
-                command.Dispose();
-                //pus = i;
-                //pussend = (pus + 1);
-                HttpPostedFileBase file = files[i];
-                string fileName = file.FileName;
-                //file.SaveAs(path + file.FileName);
-                string fullPath = Server.MapPath("~/ImgUpload/" + uname);
-                file.SaveAs(fullPath);
-                int byteCount = file.ContentLength;
-                if (file.ContentType.Contains("image"))
+                for (int i = 0; i < files.Count; i++)
                 {
-                    if (byteCount > 1048576)
-                    { //เกิน 1 MB
-                        try
-                        {
-                            System.Web.Helpers.WebImage img = new System.Web.Helpers.WebImage(fullPath);
-                            if (img.Width > 1000)
+                    bool allowSave = true;
+                    string name = formCollection["uploadername"];
+                    string inCim_NoSub = formCollection["inCim_NoSub"];
+                    string No = formCollection["No"];
+                    //Pathimg = name + "-" + pussend + ".png";
+                    var command = new SqlCommand("P_Save_PathImage", Connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@inim_name", "");
+                    command.Parameters.AddWithValue("@inCim_NoSub", inCim_NoSub);
+                    command.Parameters.AddWithValue("@inCim_No", No);
+                    command.Parameters.AddWithValue("@inIm_No", "");
+
+                    SqlParameter returnValuedoc = new SqlParameter("@outimagename", SqlDbType.NVarChar, 100);
+                    returnValuedoc.Direction = System.Data.ParameterDirection.Output;
+                    command.Parameters.Add(returnValuedoc);
+                    command.ExecuteNonQuery();
+                    //text sql
+                    uname = returnValuedoc.Value.ToString();
+                    command.Dispose();
+                    message = "true";
+                    //pus = i;
+                    //pussend = (pus + 1);
+                    HttpPostedFileBase file = files[i];
+                    string fileName = file.FileName;
+                    //file.SaveAs(path + file.FileName);
+                    string fullPath = Server.MapPath("~/ImgUpload/" + uname);
+                    file.SaveAs(fullPath);
+                    int byteCount = file.ContentLength;
+                    if (file.ContentType.Contains("image"))
+                    {
+                        if (byteCount > 1048576)
+                        { //เกิน 1 MB
+                            try
                             {
-                                img.Resize(1024, 768);
-                                FileInfo fileInfo = new FileInfo(fullPath);
-                                long sizeAfter = fileInfo.Length;
-                                if (sizeAfter > 1048576)
-                                { //เกิน 1 MB
-                                    img.Resize(800, 600);
+                                System.Web.Helpers.WebImage img = new System.Web.Helpers.WebImage(fullPath);
+                                if (img.Width > 1000)
+                                {
+                                    img.Resize(1024, 768);
+                                    FileInfo fileInfo = new FileInfo(fullPath);
+                                    long sizeAfter = fileInfo.Length;
+                                    if (sizeAfter > 1048576)
+                                    { //เกิน 1 MB
+                                        img.Resize(800, 600);
+                                    }
+                                    img.Save(fullPath, "png", true);
                                 }
-                                img.Save(fullPath, "png", true);
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            allowSave = false;
-                            ++countError;
-                            FileInfo fileInfo = new FileInfo(fullPath);
-                            fileInfo.Delete();
-                            command = new SqlCommand("P_Delete_PathImage", Connection);
-                            command.CommandType = CommandType.StoredProcedure;
-                            command.Parameters.AddWithValue("@imageName", uname);
-                            command.ExecuteNonQuery();
-                            command.Dispose();
+                            catch (Exception ex)
+                            {
+                                allowSave = false;
+                                ++countError;
+                                FileInfo fileInfo = new FileInfo(fullPath);
+                                fileInfo.Delete();
+                                command = new SqlCommand("P_Delete_PathImage", Connection);
+                                command.CommandType = CommandType.StoredProcedure;
+                                command.Parameters.AddWithValue("@imageName", uname);
+                                command.ExecuteNonQuery();
+                                command.Dispose();
+
+
+                                message = ex.Message;
+                            }
                         }
                     }
                 }
             }
+            catch (Exception exc)
+            {
+                message = exc.Message;
+            }
+
             Connection.Close();
             countPass = files.Count - countError;
-            return Json(countPass + " Files uploaded!" + " \n" + countError + " Unable upload file!");
+            alertmessage = countPass + " Files uploaded!" + " \n" + countError + " Unable upload file!";
+            return Json(new { message, alertmessage }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult Upload(HttpPostedFileBase filex, string UserID)
