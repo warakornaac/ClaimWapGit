@@ -233,6 +233,8 @@ namespace ClaimWap.Controllers
                     //Pathimg = name + "-" + pussend + ".png";
                     var command = new SqlCommand("P_Save_PathImage", Connection);
                     command.CommandType = CommandType.StoredProcedure;
+                    command.CommandTimeout = 0;
+
                     command.Parameters.AddWithValue("@inim_name", "");
                     command.Parameters.AddWithValue("@inCim_NoSub", inCim_NoSub);
                     command.Parameters.AddWithValue("@inCim_No", No);
