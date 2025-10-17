@@ -321,9 +321,9 @@ namespace ClaimWap.Controllers
                 //pussend = (pus + 1);
                 HttpPostedFileBase file = files[i];
                 string fileName = file.FileName;
-                //file.SaveAs(path + file.FileName);
                 string fullPath = Server.MapPath("~/ImgUpload/" + uname);
                 file.SaveAs(fullPath);
+                //file.SaveAs(fullPath);
                 int byteCount = file.ContentLength;
                 if (file.ContentType.Contains("image"))
                 {

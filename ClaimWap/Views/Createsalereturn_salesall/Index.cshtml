@@ -816,6 +816,7 @@
                 var SubmithtmlPage = '';
                 for (var i = 0; i < data.Getdata.length; i++) {
                     var chkremqty = data.Getdata[i].val.QTY_Remaining;
+                    //console.log("chkremqty = " + chkremqty);
                     $("#_slmcod").val(data.Getdata[0].val.SLMCOD);
                     if (chkremqty > 0) {
                         SubmithtmlPage = '<tr fax="2" invno="' + data.Getdata[i].val.DOCNUM + '" invqty="' + data.Getdata[i].val.Qty + '"  invdat="' + data.Getdata[i].val.PSTDAT + '"  netprice="' + data.Getdata[i].val.NetAmt + '" stkcod="' + data.Getdata[i].val.STKCOD + '" stkdes="' + data.Getdata[i].val.STKDES + '" uom="' + data.Getdata[i].val.Uom + '" reqty="' + data.Getdata[i].val.QTY_Remaining + '" cuscod="' + data.Getdata[i].val.PEOPLE + '" foc="' + data.Getdata[i].val.FOC + '">';

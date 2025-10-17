@@ -330,6 +330,7 @@
                                 <option value="AAC">AAC</option>
                                 <option value="OMP">OMP</option>
                                 <option value="TAM">TAM</option>
+                                <option value="VELOX">VELOX</option>
                                 <option value="ALL" selected>ALL</option>
                             </select>
                         </div>
@@ -1396,9 +1397,10 @@
             //ถ้าเป็น TAM -> company = TAM
             var company = '@company';
             if (company != "") {
-                if (company == "TAM") {
-                    $("#_company").val("TAM");
-                    $('#_company').attr('disabled', true);
+                if (company == "TAM" || company == "VELOX") {
+                    //$("#_company").val("TAM");
+                    //$('#_company').attr('disabled', true);
+                    $("#_company option[value='TAC'], option[value='AAC'], option[value='OMP'], option[value='ALL']").remove();
                     $('#comTam').css('display', 'block');
                 }
             }
