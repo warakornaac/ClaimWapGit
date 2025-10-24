@@ -2105,6 +2105,7 @@
                 GetClimline(claimnokey, company, status, cusno, itemno, statdate, enddate, slmcod, statusrec, "0", stkgrp)
             }
             $("#_btnprint").click(function () {
+                var companyPrint = $("#_company").val();
                 var _user = $("#_uderlogin").val();
                 var _status = $("#_status").val();
                 var _statusclaimdis = $("#_statusclaimdisplay").val();
@@ -2150,7 +2151,7 @@
                             console.log(data);
                             if (data = "true") {
                                 //alert(company);
-                                var wi = window.open("../Report/frmRequestClaim.aspx?ClmNUM=" + btoa(strin) + "/" + btoa(company));
+                                var wi = window.open("../Report/frmRequestClaim.aspx?ClmNUM=" + btoa(strin) + "/" + btoa(companyPrint));
                                 wi.focus();
 
                                 dateafterprint()
@@ -2375,7 +2376,7 @@
                                     SubmithtmlPage += '<td><span class="fa fa-refresh gi-4x" style="color: red;"title="ตรวจสอบใหม่"></span></td>';
                                 }
                                 //TAM
-                                if (company == 'TAM') {
+                                if (company == 'TAM' || company == 'VELOX') {
                                     //SM
                                     if (PM_PROCESS_STATUS == "3") { //pm ตรวจสอบใหม่
                                         SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: Brown;" title="PM ตรวจสอบใหม่"></span></td>';
@@ -2535,7 +2536,7 @@
                                     SubmithtmlPage += '<td>' + data.Getdata[i].val.CLM_QTY_REJECT + '</td>';
                                     //SubmithtmlPage += '<td>' + data.Getdata[i].val.CLM_PERFORMTEXT + '</td>';
                                     if (cktyp == "1") {
-                                        if (company == 'TAM') {
+                                        if (company == 'TAM' || company == 'VELOX') {
                                             SubmithtmlPage += '<td>' + data.Getdata[i].val.CLM_PERFORMTEXT + '</td>';
                                         } else {
                                             SubmithtmlPage += '<td>' + data.Getdata[i].val.CLM_PERFORMTEXT + "/<br>" + data.Getdata[i].val.Print_statusCN + '</td>';
@@ -2601,7 +2602,7 @@
                                         SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;"></span></td>';
                                     }
                                     //TAM
-                                    if (company == 'TAM') {
+                                    if (company == 'TAM' || company == 'VELOX') {
                                         //SM
                                         if (CLM_STATUS == "7") {
                                             SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;"></span></td>';
@@ -2737,7 +2738,7 @@
                                         SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;"></span></td>';
                                     }
                                     //TAM
-                                    if (company == 'TAM') {
+                                    if (company == 'TAM' || company == 'VELOX') {
                                         if (CLM_STATUS == "7") {
                                             SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;"></span></td>';
                                             SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;"></span></td>';
@@ -3426,7 +3427,7 @@
                             $("#_pmnewpn").attr("disabled", "disabled");
                             /*=======Saleman TAM =========*/
                             if (company != "0" || company != "") {
-                                if (company != "TAM") {
+                                if (company != "TAM" && company != "VELOX") {
                                     $("#divMainSaleman").css('display', 'none');
                                     $("#divMainGm").css('display', 'none');
                                 } else {
@@ -3583,35 +3584,35 @@
                                 for (var i = 0; i < resultObj.length; i++) {
                                     var str = resultObj[i].val.IMAGE_NO;
                                     var res = str.substring(0, 3);
-                                    //if (res != "TEC") {
-                                    //    SubmithtmlPage = '<div class="col-sm-3">';
-                                    //    SubmithtmlPage += '<img src="' + resultObj[i].val.PATH + '"  class="img-responsive img-thumbnail" id="myImg">';
-                                    //    SubmithtmlPage += '</div>';
-                                    //    $('#boximage').append(SubmithtmlPage);
-                                    //    // HTMLbuilder = HTMLbuilder + imgHtml;
-                                    //}
                                     if (res != "TEC") {
-                                        var imagePath = resultObj[i].val.PATH;
-                                        //format png
-                                        if (true) {
-                                            fetch(imagePath)
-                                                .then(response => response.blob())
-                                                .then(blob => heic2any({ blob, toType: "image/png" }))
-                                                .then(conversionResult => {
-                                                    var url = URL.createObjectURL(conversionResult);
-                                                    SubmithtmlPage = '<div class="col-sm-3">';
-                                                    SubmithtmlPage += '<img src="' + url + '" class="img-responsive img-thumbnail" id="myImg">';
-                                                    SubmithtmlPage += '</div>';
-                                                    $('#boximage').append(SubmithtmlPage);
-                                                })
-                                                .catch(error => console.error(error));
-                                        } else {
-                                            SubmithtmlPage = '<div class="col-sm-3">';
-                                            SubmithtmlPage += '<img src="' + imagePath + '" class="img-responsive img-thumbnail" id="myImg">';
-                                            SubmithtmlPage += '</div>';
-                                            $('#boximage').append(SubmithtmlPage);
-                                        }
+                                        SubmithtmlPage = '<div class="col-sm-3">';
+                                        SubmithtmlPage += '<img src="' + resultObj[i].val.PATH + '"  class="img-responsive img-thumbnail" id="myImg">';
+                                        SubmithtmlPage += '</div>';
+                                        $('#boximage').append(SubmithtmlPage);
+                                        // HTMLbuilder = HTMLbuilder + imgHtml;
                                     }
+                                    //if (res != "TEC") {
+                                    //    var imagePath = resultObj[i].val.PATH;
+                                    //    //format png
+                                    //    if (true) {
+                                    //        fetch(imagePath)
+                                    //            .then(response => response.blob())
+                                    //            .then(blob => heic2any({ blob, toType: "image/png" }))
+                                    //            .then(conversionResult => {
+                                    //                var url = URL.createObjectURL(conversionResult);
+                                    //                SubmithtmlPage = '<div class="col-sm-3">';
+                                    //                SubmithtmlPage += '<img src="' + url + '" class="img-responsive img-thumbnail" id="myImg">';
+                                    //                SubmithtmlPage += '</div>';
+                                    //                $('#boximage').append(SubmithtmlPage);
+                                    //            })
+                                    //            .catch(error => console.error(error));
+                                    //    } else {
+                                    //        SubmithtmlPage = '<div class="col-sm-3">';
+                                    //        SubmithtmlPage += '<img src="' + imagePath + '" class="img-responsive img-thumbnail" id="myImg">';
+                                    //        SubmithtmlPage += '</div>';
+                                    //        $('#boximage').append(SubmithtmlPage);
+                                    //    }
+                                    //}
                                 }
                             } else {
 

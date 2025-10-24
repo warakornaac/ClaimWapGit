@@ -857,8 +857,8 @@ namespace ClaimWap.Models
             ImageFiles model = null;
             //var root = @"..\..\e-Warranty_test\UploadedImage\";
             //path claim std
-            //var root = @"..\ImgUpload\";
-            var root = @"C:\Claim\ImgUpload\";
+            var root = @"..\ImgUpload\";
+            //var root = @"C:\Claim\ImgUpload\";
             var command = new SqlCommand("P_GetPathImage", Connection);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@inCim_No", inCLM_ID);
@@ -875,11 +875,11 @@ namespace ClaimWap.Models
                 model.IMAGE_NAME = dr["IMAGE_NAME"].ToString();
                 //check path std, ewarranty
                 if (string.IsNullOrEmpty(flagClaimBat)) {
-                    //model.PATH = Path.Combine(root, dr["IMAGE_NAME"].ToString());
+                    model.PATH = Path.Combine(root, dr["IMAGE_NAME"].ToString());
                     //model.PATH = "C:\Claim\ImgUpload\" + dr["IMAGE_NAME"].ToString();
                     //model.PATH = Path.Combine("C:\\Claim\\ImgUpload\\", dr["IMAGE_NAME"].ToString());
-                    //model.PATH = @"C:\Claim\ImgUpload\"+ dr["IMAGE_NAME"].ToString();
-                    model.PATH = "https://car-images.bauersecure.com/pagefiles/90541/1040x0/best_supercar_052.jpg?scale=down";
+                    //model.PATH = @"C:\Claim\ImgUpload\" + dr["IMAGE_NAME"].ToString();
+                    //model.PATH = "https://car-images.bauersecure.com/pagefiles/90541/1040x0/best_supercar_052.jpg?scale=down";
 
                 }
                 else { 

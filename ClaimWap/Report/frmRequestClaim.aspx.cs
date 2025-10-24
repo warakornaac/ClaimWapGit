@@ -62,6 +62,8 @@ namespace ClaimWap
                     if (clmCompany == "TAM")
                     {
                         fileReport = "~/Report/rptRequestClaimTam.rdlc";
+                    } else if (clmCompany == "VELOX") { 
+                        fileReport = "~/Report/rptRequestClaimVelox.rdlc";
                     }
                 }
 

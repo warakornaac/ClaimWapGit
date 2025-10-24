@@ -2268,6 +2268,7 @@
     <EmbeddedResource Include="Report\rptReceiveproductRT.rdlc" />
     <EmbeddedResource Include="Report\rptReceiveproductTam.rdlc" />
     <EmbeddedResource Include="Report\rptRequestClaimTam.rdlc" />
+    <EmbeddedResource Include="Report\rptRequestClaimVelox.rdlc" />
     <EmbeddedResource Include="Report\rptRequestClaimWH.rdlc" />
     <EmbeddedResource Include="Report\rptRequestpickupRT.rdlc" />
     <EmbeddedResource Include="Report\rptRequestConfirmRT.rdlc" />

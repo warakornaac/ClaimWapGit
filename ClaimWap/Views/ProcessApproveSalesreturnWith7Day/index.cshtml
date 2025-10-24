@@ -1,0 +1,2054 @@
+﻿@{
+    ViewBag.Title = "Approve";
+    Layout = "~/Views/Shared/_LayoutindexRTMD.cshtml";
+    var user = ViewBag.UserId;
+    var usertype = ViewBag.UserType;
+}
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Process Claim Document</title>
+    <link href="~/Content/css/sb-admin-A.css" rel="stylesheet" />
+
+    <link href="~/Scripts/JSautocomplete/jquery-ui.css" rel="stylesheet" />
+    <script src="~/Scripts/JSautocomplete/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/JSautocomplete/jquery-ui.js"></script>
+    <script src="~/Content/fixed-table-master/fixed-table.js"></script>
+    <link href="~/Content/fixed-table-master/fixed-table.css" rel="stylesheet" />
+
+    <style>
+        #myImg {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            #myImg:hover {
+                opacity: 0.7;
+            }
+
+        /* The Modal (background) */
+        .modalx {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+        /* Modal Content (Image) */
+        .modal-contentx {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        /* Caption of Modal Image (Image Text) - Same Width as the Image */
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+        }
+
+        /* Add Animation - Zoom in the Modal */
+        .modal-content, #caption {
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top: 56px;
+            right: 20px;
+            color: #f1f1f1;
+            font-size: 57px;
+            font-weight: bold;
+            /* transition: 0.3s; */
+            left: 1656px;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #bbb;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .preserveLineBreaks {
+            white-space: pre-line; /*or pre-wrap*/
+        }
+
+        input[type="file"] {
+            display: block;
+        }
+
+        input[type="text"] {
+            /*background: border-box border-box;*/
+            color: blue;
+        }
+
+        input[type="date"] {
+            /*background: border-box border-box;*/
+            color: blue;
+        }
+
+        input[type="checkbox"] {
+            width: 35px;
+            zoom: 2;
+            padding: 2px;
+            -webkit-appearance: checkbox;
+        }
+
+        .imageThumb {
+            max-height: 75px;
+            border: 2px solid;
+            padding: 1px;
+            cursor: pointer;
+        }
+
+        .pip1 {
+            display: inline-block;
+            margin: 10px 10px 0 0;
+        }
+
+        .remove1 {
+            display: block;
+            background: #444;
+            border: 1px solid black;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            .remove1:hover {
+                background: white;
+                color: black;
+            }
+
+        .pip2 {
+            display: inline-block;
+            margin: 10px 10px 0 0;
+        }
+
+        .remove2 {
+            display: block;
+            background: #444;
+            border: 1px solid black;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            .remove2:hover {
+                background: white;
+                color: black;
+            }
+
+        .pip3 {
+            display: inline-block;
+            margin: 10px 10px 0 0;
+        }
+
+        .remove3 {
+            display: block;
+            background: #444;
+            border: 1px solid black;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            .remove3:hover {
+                background: white;
+                color: black;
+            }
+
+        .pip4 {
+            display: inline-block;
+            margin: 10px 10px 0 0;
+        }
+
+        .remove4 {
+            display: block;
+            background: #444;
+            border: 1px solid black;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            .remove4:hover {
+                background: white;
+                color: black;
+            }
+
+        .gi-4x {
+            font-size: 2em;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg" style=" max-width: 1200px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Invoice History</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" @*style="overflow-x:scroll" *@>
+                    <table id="_tbinvoicehiscx">
+                        <thead>
+                            <tr>
+                                <th style=" min-width: 115px; height: 60px; border: 1px solid #222;">Invoice No</th>
+                                <th style=" min-width: 85px; height: 60px; border: 1px solid #222;">Invoice Date</th>
+                                <th style=" min-width: 80px; height: 60px; border: 1px solid #222;">Item No.</th>
+                                <th style=" min-width: 200px; height: 60px; border: 1px solid #222;">Description</th>
+                                <th style=" min-width: 80px; height: 60px; border: 1px solid #222;">UOM</th>
+                                <th style=" min-width: 80px; height: 60px; border: 1px solid #222;">Stock<br />Group</th>
+                                <th style=" min-width: 80px; height: 60px; border: 1px solid #222;">Qty</th>
+                                <th style=" min-width: 80px; height: 60px; border: 1px solid #222;">Unit Price</th>
+                                <th style=" min-width: 80px; height: 60px; border: 1px solid #222;">Line <br />Amount</th>
+                                <th style=" min-width: 80px; height: 60px; border: 1px solid #222;">Line <br />Discount %</th>
+                                <th style=" min-width: 80px; height: 60px; border: 1px solid #222;">Line <br />discount Amount</th>
+                                <th style=" min-width: 80px; height: 60px; border: 1px solid #222;">Amount</th>
+                                <th style=" min-width: 80px; height: 60px; border: 1px solid #222;">Sale Man</th>
+                                <th style=" min-width: 80px; height: 60px; border: 1px solid #222;">Customer</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModalimage" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Image</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" style="overflow-x:scroll">
+                    <table id="_tbimage">
+                        <thead>
+                            <tr>
+                                <th style="min-width: 645px;height: 60px;border: 1px solid #222;text-align: center;">Image</th>
+                                <th style="min-width: 134px;height: 60px;border: 1px solid #222;text-align: center;">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModalWarning" role="dialog">
+        <div class=" modal-dialog" role="document">
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="modal" aria-label=" close"><span aria-hidden="true">&times;</span></button>
+                <strong>Warning!</strong>
+                <div class="modal-body">
+                    <div id="textAlertWarning">Some text in the modal.</div>
+                </div>
+                <div class="modal-footer" style="clear: both;">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modalsuccess -->
+    <div class="modal fade" id="myModalSucces" role="dialog">
+        <div class="modal-dialog">
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="modal" aria-label=" close"><span aria-hidden="true">&times;</span></button>
+                <strong>Succes</strong>
+                <div class="modal-body">
+                    <div id="textAlertSucces">Save success</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="card mb-12">
+        <div class="card-header" style="background-color: #0077f796; font-weight: bold;">
+            <i class="fa fa-table"></i> Approve Sales Return By Management <li id="clickmeheader" class="fa fa-fw fa-angle-down" style="font-size:larger;font-weight:bold"></li>
+        </div>
+        <div class="card-body" id="myDIVheader">
+
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-user"></i> Product Manager:</span>
+                            <span>
+                                <select class="bar" id="_PM"></select>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="group" style=" margin-bottom: 22px;">
+                            <span> <i class="fa fa-user"></i> Company:</span>
+                            <select class="bar" id="_company">
+                                <option value="0" disabled>Choose option</option>
+                                <option value="TAC">TAC</option>
+                                <option value="AAC">AAC</option>
+                                <option value="OMP">OMP</option>
+                                <option value="ALL" selected>ALL</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-pencil"></i>Sales Manager Request start date:</span>
+                            <span><input type="date" data-date-format="dd/mm/yy" id="_statdate"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-pencil"></i>Sales Manager Request end date:</span>
+                            <span><input type="date" data-date-format="dd/mm/yy" id="_enddate"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-pencil"></i>Stk Group.:</span>
+                            <span><select id="_stkgrp"></select></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-pencil"></i>Customer Request start date:</span>
+                            <span><input type="date" data-date-format="dd/mm/yy" id="_statdatecus"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-pencil"></i>Customer Request end date:</span>
+                            <span><input type="date" data-date-format="dd/mm/yy" id="_enddatecus"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-pencil"></i>Status.:</span>
+                            <span>
+                                <select id="_status" style="font-size: 16px;padding: 8px 0px 0px 2px;display: block;border: none;border-bottom: 1px solid #1b1919;width: 217px;"></select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-pencil"></i>Item No.:</span>
+                            <span><input type="text" required id="_itemnosearch"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 10px;">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span>
+                                <i class="fa fa-pencil"></i>Search No.:
+                            </span>
+                            <input class="form-control" type="text" id="searchclaimno">
+
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="_btnsearchclaimno">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-8 text-center">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-success" id="_btnsearch">Search</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="card-header" style="background-color: #5f9ea04f;">
+            @*<li id="clickmeheaderselect" style="font-size:larger;font-weight:bold"></li>*@
+            &nbsp;
+        </div>
+        <div class="card-body" id="myDIVheader">
+            <div class="row">
+                <div class="col-md-3" style="text-align:center">
+                    <div class="input-group">
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <form role="form">
+                                    <div class="form-group">
+                                        <div class="input-group ">
+
+                                            <span class="input-group-addon" style="padding: 0px;"><input id="checkboxAll" type="checkbox"> </span>
+                                            <span class="input-group-btn">
+                                                <button type="button" id="btncheck" class="btn btn-info btn-block "><span class="glyphicon glyphicon-check"></span>เลือกรายการทั้งหมด</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3" style="text-align:center">
+                    <div class="form-group">
+                        <textarea class="form-control" id="remakemdall" placeholder="หมายเหตุ"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-3" style="text-align:center">
+                    <div class="form-group">
+                        <button type="button" class="btn btn-warning btn-large btnapproval" cak="2" style="width: 234px;">ไม่อนุมัติ</button>
+                    </div>
+                </div>
+                <div class="col-md-3" style="text-align:center">
+                    <div class=" form-group">
+
+                        <input type="button" class="btn btn-success btn-large btnapproval" cak="1" style="width: 234px;" value="อนุมัติคืนสินค้า">
+
+                    </div>
+                </div>
+            </div>
+            <div id="fixed-table-container-2" class="fixed-table-container" style="z-index:1">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="height: 51px;">line no</th>
+                            <th>Select</th>
+                            <th>Ref No.</th>
+                            <th>สถานะ<br />คืนสินค้า.</th>
+                            <th>Customer.</th>
+                            <th>Sales Man.</th>
+                            <th>Invoice No <br />/Invoice Date</th>
+                            <th>Item No.</th>
+                            <th>Stock<br />Group</th>
+                            <th>Request Qty.</th>
+                            <th>Price</th>
+                            <th>Sales Manager <br />Request Date.</th>
+                            <th>Request<br /> Date</th>
+                            <th style="text-align:center">สาเหตุคืนสินค้า</th>
+                            <th>ดำเนินการ</th>
+                            <th style="text-align:center">สถานะ<br />รับสินค้า</th>
+                            <th>Sales<br /> Manager</th>
+                            <th>PM</th>
+                            <th>Management</th>
+                            <th>Admin</th>
+                            <th>CS</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card mb-12">
+            <div class="card-header">
+                <i class="fa fa-table"></i>รายละเอียดสินค้า  <li id="clickme" class="fa fa-fw fa-angle-down" style="font-size:larger;font-weight:bold"></li>
+            </div>
+            <div class="card-body" id="myDIV">
+                <div class="col-md-12">
+                    <div><span id="Nospankey" style="color: blue;text-decoration: underline;font-weight: bold"></span> </div>
+                    <div><span id="subNospan" style="color: blue;text-decoration: underline;font-weight: bold"></span> </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Customer Code:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_cusno"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Customer name:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_cusname"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Request by:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="requestby"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> SlmCod.:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="slmcod"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> SlmName:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="sslmnam"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Request Date:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="requestdate"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Item No.:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_itemno"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Description:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_description"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Uom:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_uom"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Invoice No.:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_invoiceno"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-calendar"></i> Invoice Date:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_psdate"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Invoice Qty:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_invoiceqty"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Line amount:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_invoicelineamt"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Line Discount %:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_invoicelinedis"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Line discount Amount:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_invoicelinedisamt"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Amount:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_amt"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> Stock Group:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_stkgup"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="display:none">
+                            <div class="form-group">
+                                <span> <i class="fa fa-clock-o"></i> ระยะการใช้งานY/M/D/hh::</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_workda"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+
+                            </div>
+                        </div>
+                        <div class="col-md-3" style="display:none">
+                            <div lass="form-group">
+                                <span> <i class="fa fa-pencil"></i> Type.:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_foc"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-header">
+                <i class="fa fa-table"></i>สาเหตุการคืนสินค้า <li id="clickme4" class="fa fa-fw fa-angle-down" style="font-size:larger;font-weight:bold"></li>
+            </div>
+            <div class="col-md-12" id="myDIV4" style="display:block">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class=" col-md-4">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i>จำนวนสินค้าที่คืน:</span>
+                                <span style="color: #dc3545; text-decoration: underline; font-weight: bold" id="_claimqty"></span>
+                            </div>
+                        </div>
+                        <div class=" col-md-4">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i>มูลค่าที่คืนสินค้า.:</span>
+                                <span style="color: #dc3545; text-decoration: underline; font-weight: bold" id="_amtreturn"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> สาเหตุคืนสินค้า:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="causeclaim"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> ดำเนินการ:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_proceedto"></span>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> สถานะรับของเคลม:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_statusclaim"></span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span class="fa fa-image">Video By Sales:</span>
+                                    <div class="py-4" id="appvideosales">
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span class="fa fa-image">Image By Sales:</span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="boximage"> </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-header">
+                <i class="fa fa-table"></i>Supper Manager Approval <li id="clickme3" class="fa fa-fw fa-angle-down" style="font-size:larger;font-weight:bold"></li>
+            </div>
+            <div class="col-md-12" id="myDIV3" style="display:block">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-sort-down"></i>สถานะอนุมัติคืนสินค้า</span>
+                            <span>
+                                <select class="bar" id="_suptstus" disabled="disabled"></select>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-calendar"></i> วันที่อนุมัติ:</span>
+                            <span>
+                                <input type="text" id="_pmdatesup" disabled="disabled" />
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <span><textarea class="form-control" rows="6" cols="100" id="remakesup" placeholder="หมายเหตุ" disabled="disabled"></textarea></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*product approve*@
+            <div class="card-header">
+                <i class="fa fa-table"></i>Product Manager Approval <li id="clickme2" class="fa fa-fw fa-angle-down" style="font-size:larger;font-weight:bold"></li>
+            </div>
+            <div class="col-md-12" id="myDIV2" style="display:block">
+                <div class="row">
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-sort-down"></i>Status</span>
+                            <span>
+                                <select class="bar" id="_pmtstus" disabled></select>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-calendar"></i> วันที่ PM พิจารณา:</span>
+                            <span>
+                                <input type="text" id="_pmdate" disabled />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+
+                            <span><textarea class="form-control" rows="6" cols="100" id="remakepm" placeholder="หมายเหตุ" disabled></textarea></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*md approve*@
+        <div class="card-header">
+            <i class="fa fa-table"></i>Management Approval <li id="clickme2" class="fa fa-fw fa-angle-down" style="font-size:larger;font-weight:bold"></li>
+        </div>
+            <div class="col-md-12" id="myDIV2" style="display:block">
+                <div class="row">
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-sort-down"></i>Status</span>
+                            <span>
+                                <select class="bar" id="_mdtstus"></select>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-calendar"></i> วันที่ MD พิจารณา:</span>
+                            <span>
+                                <input type="text" id="_mddate" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                        </div>
+                    </div>
+                </div>
+                <div class="row"> </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <span><textarea class="form-control" rows="6" cols="100" id="remakemd" placeholder="หมายเหตุ"></textarea></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <button class="btn-info" id="_btnsaveapprove">บันทึกผล</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="myModalzoom" class="modalx" style="z-index: 11;">
+
+        <!-- The Close Button -->
+        @*<span class="close">&times;</span>*@
+
+        <!-- Modal Content (The Image) -->
+        <img class="modal-contentx" id="img01">
+        <div class="modal-contentx" id="img01" style="background-color: #191919;"><button class="btn btn-secondary" type="button" data-dismiss="modal" id="closeimg" style="margin-left: 91%;">Close</button></div>
+        <!-- Modal Caption (Image Text) -->
+        <div id="caption"></div>
+
+    </div>
+    <input type="text" hidden id="_hqty" />
+    <input type="text" hidden id="_cmnosub" />
+    <input type="hidden" id="_uderlogin" value="@user" />
+    <input type="hidden" id="_udertype" value="@usertype" />
+    <input type="hidden" id="_t1" />
+    <input type="hidden" id="_t2" />
+    <input type="hidden" id="_t3" />
+    <!-- Modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModalWarning" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content " id="ColorboxError">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="color:black;">Message Error</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="textAlertWarning">Some text in the modal.</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- EndModal -->
+
+    <script type="text/javascript">
+        $("#_itemnosearch").autocomplete({
+            selectFirst: true,
+            autoFocus: true,
+            timeout: 100000,
+            source: function (request, response) {
+                var param = {
+                    Name: $('#_itemnosearch').val(),
+                    XvalCompany: $('#_company').val()
+                };
+
+                $.ajax({
+                    url: '@Url.Action("GetdateStockCode", "GetdataCenter")',
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+                        response($.map(data.slice(0, 20), function (item) {
+                            return {
+                                value: item
+                            }
+                        }))
+                    },
+                    error: function (XMLhttpsRequest, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+
+            },
+            minLength: 2//minLength as 2, it means when ever user enter 2 character in TextBox the AutoComplete method will fire and get its source data.
+        });
+        $("#_pmnewpn").autocomplete({
+            selectFirst: true,
+            autoFocus: true,
+            timeout: 100000,
+            source: function (request, response) {
+                var param = {
+                    Name: $('#_pmnewpn').val(),
+                    XvalCompany: $('#_company').val()
+                };
+                $.ajax({
+                    url: '@Url.Action("GetdateStockCode", "GetdataCenter")',
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+                        response($.map(data.slice(0, 20), function (item) {
+                            return {
+                                value: item
+                            }
+                        }))
+                    },
+                    error: function (XMLhttpsRequest, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+
+
+            },
+
+            minLength: 2//minLength as 2, it means when ever user enter 2 character in TextBox the AutoComplete method will fire and get its source data.
+        });
+        $(document).ready(function () {
+            //disable input md
+            $("#_mdtstus").attr('disabled', true);
+            $("#_mddate").attr('disabled', true);
+            $("#remakemd").attr('disabled', true);
+            $("#_btnsaveapprove").css('display', 'none');
+
+            var udertype = $("#_udertype").val();
+            var Userlogin = $("#_uderlogin").val();
+            $('#Sccreateclaim').css("background-color", "");
+            $('#Createcfreezes').css("background-color", "");
+            $('#ProcessApproveSup').css("background-color", "");
+            $('#ProcessApproveRT').css("background-color", "rgb(9, 183, 9)");
+            $('#SrcCheckstatus_Sc').css("background-color", "");
+            $('#SrcInvoiceHistory_Sc').css("background-color", "");
+            if (udertype == "3") {
+                $.ajax({
+                    url: '@Url.Action("GetdataCountProcess", "GetdataCenter")',
+                    data: {
+                        Usertype: udertype,
+                        // Userlogin: Userlogin
+                        Userlogin: Userlogin
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(data)
+                        $("#tile").text(data.Getdata[0].val.Status)
+                        $("#countadmin").html("TAC: " + data.Getdata[0].val.CountAdmin + " &nbsp;&#9830;&nbsp; AAC: " + data.Getdata[1].val.CountAdmin);
+                        //$("#counttec1").text("TAC: " + data.Getdata[2].val.CountAdmin + " <----> AAC: " + data.Getdata[3].val.CountAdmin);
+                        $("#counttec1").css("display", "none");
+                    }
+                });
+            }
+            $.ajax({
+                url: '@Url.Action("Getdatastkgrp", "GetdataCenter")',
+                data: {
+                },
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+                    console.log(data)
+
+                    var select = $("#_stkgrp");
+                    select.children().remove();
+                    select.append($("<option>").val("ALL").text("ALL"));
+                    $(data).each(function (index, item) {
+
+                        select.append($("<option>").val(item.STKGRP).text(item.STKGRP + "/" + item.GRPNAM));
+                    });
+                }
+            });
+            function splitval(_val) {
+                var _splito = "";
+                _splito = _val.split('|');
+
+                return _splito[0];
+            }
+            function addCommas(nStr) {
+                nStr += '';
+                x = nStr.split('.');
+                x1 = x[0];
+                x2 = x.length > 1 ? '.' + x[1] : '';
+                var rgx = /(\d+)(\d{3})/;
+                while (rgx.test(x1)) {
+                    x1 = x1.replace(rgx, '$1' + ',' + '$2');
+                }
+                return x1 + x2;
+            }
+            function addDays(theDate, days) {
+                return new Date(theDate.getTime() + days * 24 * 60 * 60 * 1000);
+            }
+            var fixedTable2 = fixTable(document.getElementById('fixed-table-container-2'));
+            n = new Date();
+            y = n.getFullYear();
+            m = n.getMonth() + 1;
+            d = n.getDate();
+            if (d < 10) {
+                d = "0" + d;
+            }
+            if (m < 10) {
+                m = "0" + m;
+            }
+            $("#_clmdatetec").val(d + "/" + m + "/" + y);
+            $("#_pmdatesup").val(d + "/" + m + "/" + y);
+            $('#_pmdate').val(d + "/" + m + "/" + y);
+            $('#_mddate').val(d + "/" + m + "/" + y);
+            ///fa fa-calendar///
+            var today = new Date();
+
+            // getdate()
+            $.ajax({
+                url: '@Url.Action("GetdateStatusClm", "GetdataCenter")',
+                data: {
+                    Name: 19
+                },
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+
+                    var select = $("#_status");
+                    select.children().remove();
+                    select.append($("<option>").val("99").text("เลือก Status All"));
+                    $(data).each(function (index, item) {
+
+                        select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
+                    });
+                    $("#_status").val("0")
+                    //  var CUSCODt = $("#CUSCOD option:selected").text();
+                }
+            });
+            function getdate() {
+                var tt = document.getElementById('_clmdatetec').value;
+
+                var date = new Date(tt);
+                var newdate = new Date(date);
+
+                newdate.setDate(newdate.getDate() + 15);
+
+                var dd = newdate.getDate();
+                var mm = newdate.getMonth() + 1;
+                var y = newdate.getFullYear();
+
+                var someFormattedDate = d + '/' + m + '/' + y;
+                document.getElementById('_duedatetec').value = someFormattedDate;
+            }
+            function getstatusapprove() {
+                $.ajax({
+                    url: '@Url.Action("GetdateStatusClm", "GetdataCenter")',
+                    data: {
+                        Name: 19
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (data) {
+                        var select = $("#_suptstus");
+                        select.children().remove();
+                        select.append($("<option>").val("99").text("เลือกผลการอนุมัติคืนสินค้า"));
+                        $(data).each(function (index, item) {
+                            if (item.CODE != '0') {
+                                select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
+                            }
+                        });
+                        $("#_suptstus").val("99");
+                    }
+                });
+                $.ajax({
+                    url: '@Url.Action("GetdateStatusClm", "GetdataCenter")',
+                    data: {
+                        Name: 19
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (data) {
+                        var select = $("#_suptstus");
+                        select.children().remove();
+                        select.append($("<option>").val("99").text("เลือกผลการอนุมัติคืนสินค้า"));
+                        $(data).each(function (index, item) {
+                            if (item.CODE != '0') {
+                                select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
+                            }
+                        });
+                        $("#_suptstus").val("99");
+                    }
+                });
+                $.ajax({
+                    url: '@Url.Action("GetdateStatusClm", "GetdataCenter")',
+                    data: {
+                        Name: 19
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (data) {
+                        var select = $("#_status");
+                        select.children().remove();
+                        select.append($("<option>").val("99").text("เลือกผลการอนุมัติคืนสินค้า"));
+                        $(data).each(function (index, item) {
+                            select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
+                        });
+                        $("#_status").val("0")
+
+                    }
+                });
+            }
+            $.ajax({
+                url: '@Url.Action("GetdateStatusClm", "GetdataCenter")',
+                data: {
+                    Name: 28
+                },
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+
+                    var select = $("#_pmtstus");
+                    select.children().remove();
+                    select.append($("<option>").val("99").text("เลือกสถานะอนุมัติ"));
+                    $(data).each(function (index, item) {
+                        if (item.CODE != '0' && item.CODE != '3') {
+                            select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
+                        }
+                    });
+                    //  var CUSCODt = $("#CUSCOD option:selected").text();
+                }
+            });
+            //status md
+            $.ajax({
+                url: '@Url.Action("GetdateStatusClm", "GetdataCenter")',
+                data: {
+                    Name: 28
+                },
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+
+                    var select = $("#_mdtstus");
+                    select.children().remove();
+                    select.append($("<option>").val("99").text("เลือกสถานะอนุมัติ"));
+                    $(data).each(function (index, item) {
+                        if (item.CODE != '0' && item.CODE != '3') {
+                            select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
+                        }
+                    });
+                    //  var CUSCODt = $("#CUSCOD option:selected").text();
+                }
+            });
+            $.ajax({
+                url: '@Url.Action("GetdateStatusClm", "GetdataCenter")',
+                data: {
+                    Name: 19
+                },
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+                    var select = $("#_suptstus");
+                    select.children().remove();
+                    select.append($("<option>").val("99").text("เลือกผลการอนุมัติคืนสินค้า"));
+                    $(data).each(function (index, item) {
+                        if (item.CODE != '0') {
+                            select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
+                        }
+                    });
+                    $("#_suptstus").val("99");
+                }
+            });
+            CheckUsrClmStaff()
+            function CheckUsrClmStaff() {
+                var userlog = $("#_uderlogin").val();
+                $.ajax({
+                    url: '@Url.Action("CheckUsrClmStaff", "GetdataCenter")',
+                    data: {
+                        Name: userlog
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (data) {
+                        $("#_udertype").val(data.UsrClmStaff);
+                        var type = "3"
+                        if (type == "3") {
+                            $("#_status").val("0");
+                            var UserId = $("#_uderlogin").val();
+                            $.ajax({
+                                url: '@Url.Action("GetProductdata", "GetdataCenter")',
+                                data: {
+                                    UserId: UserId
+                                },
+                                type: "POST",
+                                dataType: "JSON",
+                                success: function (data) {
+                                    console.log(data)
+                                    var select = $("#_PM");
+                                    select.children().remove();
+                                     select.append($("<option>").val("").text("ALL"));
+                                    $(data).each(function (index, item) {
+                                        select.append($("<option>").val(item.PROD).text(item.PROD + "/" + item.PRODNAM));
+                                    });
+                                    var valpm = $("#_PM").val();
+                                    var valststus = $("#_status").val();
+                                    var valDoc = $("#searchclaimno").val();
+                                    var valcom = $("#_company").val();
+                                    var valstkgrp = $("#_stkgrp").val();
+                                    var valstatdate = $("#_statdate").val();
+                                    var valenddate = $("#_enddate").val();
+                                    var valstatdatecus = $("#_statdate").val();
+                                    var valenddatecus = $("#_enddate").val();
+                                    var itemno = $("#_itemnosearch").val();
+                                    if (itemno != "") {
+                                        itemno = splitval(itemno);
+                                    } else {
+                                        itemno = "";
+                                    }
+                                    Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp, valstatdate, valenddate, itemno, valstatdate, valenddate)
+                                }
+                            });
+                        }
+                    }
+                });
+
+            }
+            $("#clickmeheader").on("click", function (e) {
+
+                myFunctionheader();
+            });
+            function myFunctionheader() {
+                var x = document.getElementById("myDIVheader");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+            $("#clickme").on("click", function (e) {
+
+                myFunction();
+            });
+            function myFunction() {
+                var x = document.getElementById("myDIV");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+            $("#clickme1").on("click", function (e) {
+
+                myFunction1();
+            });
+            function myFunction1() {
+                var x = document.getElementById("myDIV1");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+            $("#clickme2").on("click", function (e) {
+
+                myFunction2();
+            });
+            function myFunction2() {
+                var x = document.getElementById("myDIV2");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+            $('#_itemnosearch').on("click", function (e) {
+                var com = $('#_company').val();
+                if (com == 'ALL') {
+                    alert("กรุณาเลือก Company ก่อนค้นหา item");
+                    $('#_itemnosearch').val("");
+                    return false;
+                }
+
+            });
+            $('#_itemnosearch').on("keyup", function (e) {
+                var com = $('#_company').val();
+                if (com == 'ALL') {
+                    alert("กรุณาเลือก Company ก่อนค้นหา item");
+                    $('#_itemnosearch').val("");
+                    return false;
+                }
+
+            });
+            $("#clickme3").on("click", function (e) {
+
+                myFunction3();
+            });
+            function myFunction3() {
+                var x = document.getElementById("myDIV3");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+            $("#clickme4").on("click", function (e) {
+
+                myFunction4();
+            });
+            $("#clickme5").on("click", function (e) {
+
+                myFunction5();
+            });
+            function myFunction5() {
+                var x = document.getElementById("myDIV5");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+            function myFunction4() {
+                var x = document.getElementById("myDIV4");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+            }
+
+            function splitval(_val) {
+                var _splito = "";
+                _splito = _val.split('|');
+
+                return _splito[0];
+            }
+            function lockcheck(ststus) {
+                if (ststus == "1") {
+                    // $('#checkboxAll').prop("checked", false);
+                    //$('table #checkbox').prop("checked", false);
+                    $('#checkboxAll').prop("disabled", true);
+                } else if (ststus == "2") {
+                    //$('#checkboxAll').prop("checked", false);
+                    //$('table #checkbox').prop("checked", false);
+                    $('#checkboxAll').prop("disabled", true);
+                    // $('table input[type=checkbox]').prop("disabled", true);
+                } else if (ststus == "0") {
+                    //$('#checkboxAll').prop("checked", false);
+                    //$('table #checkbox').prop("checked", false);
+                    $('#checkboxAll').prop("disabled", false);
+                    // $('table input[type=checkbox]').prop("disabled", true);
+                }
+            }
+            $("#_btnsearch").on("click", function () {
+                $('#checkboxAll').prop("checked", false);
+                $('#checkboxAll').prop("disabled", true);
+                var valpm = $("#_PM").val();
+                var valststus = $("#_status").val();
+                var valDoc = $("#searchclaimno").val();
+                var valcom = $("#_company").val();
+                //  GetClimtemp(claimnokey)
+                var valstkgrp = $("#_stkgrp").val();
+                var valstatdate = $("#_statdate").val();
+                var valenddate = $("#_enddate").val();
+                lockcheck(valststus);
+                var valstatdatecus = $("#_statdatecus").val();
+                var valenddatecus = $("#_enddatecus").val();
+                var itemno = $("#_itemnosearch").val();
+                if (itemno != "") {
+                    itemno = splitval(itemno);
+                } else {
+                    itemno = "";
+                }
+
+                Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp, valstatdate, valenddate, itemno, valstatdatecus, valenddatecus)
+            });
+            $("#_btnsearchclaimno").on("click", function () {
+                var valpm = $("#_PM").val();
+                var valststus = $("#_status").val();
+                var valDoc = $("#searchclaimno").val();
+                var valcom = $("#_company").val();
+                //  GetClimtemp(claimnokey)
+                var valstkgrp = $("#_stkgrp").val();
+                Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp)
+            });
+
+            $("#searchclaimno").on("keyup", function (e) {
+                //var claimnokey = $(this).val();
+                var valpm = $("#_PM").val();
+                var valststus = $("#_status").val();
+                var valDoc = $("#searchclaimno").val();
+                var valcom = $("#_company").val();
+                var valstkgrp = $("#_stkgrp").val();
+                var valstatdate = $("#_statdate").val();
+                var valenddate = $("#_enddate").val();
+                var valstatdatecus = $("#_statdatecus").val();
+                var valenddatecus = $("#_enddatecus").val();
+                var itemno = $("#_itemnosearch").val();
+                if (itemno != "") {
+                    itemno = splitval(itemno);
+                } else {
+                    itemno = "";
+                }
+
+                if (e.keyCode == 13) {
+                    Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp, valstatdate, valenddate, itemno, valstatdatecus, valenddatecus)
+                    //Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp)
+                    // GetClimtemp(claimnokey)
+                }
+            });
+
+            function Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp, valstatdate, valenddate, itemno, valstatdatecus, valenddatecus) {
+                $("#_mdtstus").val(99);
+                $("#remakemd").val('');
+                clearval()
+
+                if (valststus == null) {
+                    valststus = "0";
+                }
+                // alert(valststus)
+                var instatus = $('#_status').val();
+                $.ajax({
+                    url: '@Url.Action("GetClimdataMdRT", "GetdataCenter")',
+                    data: {
+                        inPM: valpm,
+                        inDOC: valDoc,
+                        inCOM: valcom,
+                        inSTATS: valststus,
+                        instkgrp: (valstkgrp == null) ? 'ALL' : valstkgrp,
+                        instatdate: valstatdate,
+                        inenddate: valenddate,
+                        instatdatecus: valstatdatecus,
+                        inenddatecus: valenddatecus,
+                        initem: itemno,
+                        inUserLogin: Userlogin
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(data)
+                        $('#fixed-table-container-2  tbody:last-child').html("");
+                        if (data.Getdata.length > 0) {
+                            for (var i = 0; i < data.Getdata.length; i++) {
+                                var stasmsup = data.Getdata[i].val.SMSUP_APPRV_STATUS;
+                                var stasmpm = data.Getdata[i].val.PM_APPRV_STATUS;
+                                var stachrck = data.Getdata[i].val.STMP_STATUS;
+                                var statusApproveMd = data.Getdata[i].val.MD_APPRV_STATUS;
+                                SubmithtmlPage = '<tr   fax="1" cmno="' + data.Getdata[i].val.STMP_ID + '"  foc="' + data.Getdata[i].val.STMP_ID_SUB + '" >';
+                                SubmithtmlPage += '<td style="color: blue;text-decoration: underline;font-weight: bold;cursor:pointer;" id="xxx" fax="1"  cmno="' + data.Getdata[i].val.STMP_ID + '" clmnoup="' + data.Getdata[i].val.STMP_ID_SUB + '"  cuscod="' + data.Getdata[i].val.CUSCOD + '"   cusnam="' + data.Getdata[i].val.CUSNAM + '"  slmcod="' + data.Getdata[i].val.SLMCOD + '"  slmnam ="' + data.Getdata[i].val.SLMNAM + '" company ="' + data.Getdata[i].val.STMP_COMPANY + '"  qty ="' + data.Getdata[i].val.STMP_REQQTY + '"  item ="' + data.Getdata[i].val.STKCOD + '"   PERFORMDESCRIPTION ="' + data.Getdata[i].val.PERFORMDESCRIPTION + '"  RCVSTATUSDESCRIPTION ="' + data.Getdata[i].val.RCVSTATUSDESCRIPTION + '">' + data.Getdata[i].val.STMP_ID_SUB + '</td>';
+                                if ((stasmpm == "0" || stasmpm == "1") && statusApproveMd == "0") {//pm approve
+                                    SubmithtmlPage += '<td><input id="checkbox" cmno="' + data.Getdata[i].val.STMP_ID + '" clmnoup="' + data.Getdata[i].val.STMP_ID_SUB + '"  class="chk" type="checkbox"  class="form-control input-lg" ></td>';
+                                } else if (stasmpm == "2") {
+                                    SubmithtmlPage += '<td></td>';
+                                } else if (stasmpm == "99") {
+                                    SubmithtmlPage += '<td></td>';
+                                } else {
+                                    SubmithtmlPage += '<td></td>';
+                                }
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.STMP_ID_SUB + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.Statisallbill + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.CUSCOD + "/<br>" + data.Getdata[i].val.CUSNAM + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.SLMCOD + "/<br>" + data.Getdata[i].val.SLMNAM + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.STMP_INVNO + "<br>" + data.Getdata[i].val.STMP_INVDATE + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.STKCOD + "<br>" + data.Getdata[i].val.STKDES + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.STKGRP + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.STMP_REQQTY + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.STMP_LineAMT + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.SMSUP_APPRV_DATE + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.STMP_RCVDATE + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.STMP_CAUSE + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.PERFORMDESCRIPTION + '</td>';
+                                SubmithtmlPage += '<td>' + data.Getdata[i].val.RCVSTATUSDESCRIPTION + '</td>';
+                                if (stachrck != "6") { //ไม่ยกเลิก
+                                    //Salemrg
+                                    if (stasmsup == "0") {
+                                        SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: #868e96;"></span></td>';
+                                    } else if (stasmsup == "1") {
+                                        SubmithtmlPage += '<td><span class="fa fa-check-circle gi-4x" style="color: #09b709;"title="อนุมัติเรียบร้อย"></span></td>';
+                                    } else if (stasmsup == "2") {
+                                        SubmithtmlPage += '<td><span class="fa fa-times-circle gi-4x" style="color: red;"title="ไม่อนุมัติ"></span></td>';
+                                    }
+                                    //pm
+                                    if (stachrck != "6") {
+                                        if (stasmpm == "0") {
+                                            SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color:#868e96;"></span></td>';
+                                        } else if (stasmpm == "1") {
+                                            SubmithtmlPage += '<td><span class="fa fa-check-circle gi-4x" style="color: #09b709;"title="อนุมัติเรียบร้อย"></span></td>';
+                                        } else if (stasmpm == "2") {
+                                            SubmithtmlPage += '<td><span class="fa fa-times-circle gi-4x" style="color: red;"title="ไม่อนุมัติ"></span></td>';
+                                        }
+                                    } else if (stachrck == "6") {
+                                        SubmithtmlPage += '<td><span class="fa fa-times-circle gi-4x" style="color: red;"title="ไม่อนุมัติ"></span></td>';
+                                    }
+                                    //md
+                                    if (stachrck != "6") {
+                                        if (statusApproveMd == "0") {
+                                            SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color:#868e96;"></span></td>';
+                                        } else if (statusApproveMd == "1") {
+                                            SubmithtmlPage += '<td><span class="fa fa-check-circle gi-4x" style="color: #09b709;"title="อนุมัติเรียบร้อย"></span></td>';
+                                        } else if (statusApproveMd == "2") {
+                                            SubmithtmlPage += '<td><span class="fa fa-times-circle gi-4x" style="color: red;"title="ไม่อนุมัติ"></span></td>';
+                                        }
+                                    } else if (stachrck == "6") {
+                                        SubmithtmlPage += '<td><span class="fa fa-times-circle gi-4x" style="color: red;"title="ไม่อนุมัติ"></span></td>';
+                                    }
+                                    //admin
+                                    if (stachrck == "1") {
+                                        SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: #868e96;"></span></td>';
+                                    } else if (stachrck == "2") {
+                                        SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: #868e96;"></span></td>';
+                                    } else if (stachrck == "3") {
+                                        SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: #868e96;"></span></td>';
+                                    } else if (stachrck == "4") {
+                                        SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: #868e96;"></span></td>';
+                                    } else if (stachrck == "5") {
+                                        SubmithtmlPage += '<td><span class="fa fa-check-circle gi-4x" style="color: #09b709;"title="อนุมัติเรียบร้อย"></span></td>';
+                                    } else if (stachrck == "6") {
+                                        SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;"></span></td>';
+                                    } else if (stachrck == "7") {
+                                    SubmithtmlPage += '<td><span class="fa fa-times-circle gi-4x" style="color: red;" title="ไม่อนุมัติ"></span></td>';
+                                }
+                                    //Cs
+                                    if (stachrck == "1") {
+                                        SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: #868e96;"></span></td>';
+                                    } else if (stachrck == "2") {
+                                        SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: #868e96;"></span></td>';
+                                    } else if (stachrck == "3") {
+                                        SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: #868e96;"></span></td>';
+                                    } else if (stachrck == "4") {
+                                        SubmithtmlPage += '<td></td>';
+                                    } else if (stachrck == "5") {
+                                        SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;"></span></td>';
+                                    } else if (stachrck == "6") {
+                                        SubmithtmlPage += '<td><span class="fa fa-times-circle gi-4x" style="color: red;"title="ไม่อนุมัติ"></span></td>';
+                                    }
+                                } else if (stachrck == "5") {
+                                    SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;"></span></td>';
+                                    SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;"></span></td>';
+                                    SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;"></span></td>';
+                                    SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;"></span></td>';
+                                }
+                                SubmithtmlPage += '</tr>';
+                                $('#fixed-table-container-2  tbody:last-child').append(SubmithtmlPage);
+                            }
+                        } else {
+                            var _status = $("#_status").find('option:selected').text();
+                            $("#textAlertWarning").empty();
+                            $("#textAlertWarning").text("ไม่มีรายการ  " + _status);
+                            $("#myModalWarning").modal();
+                            $("#myModalWarning").modal('hide');
+                            setTimeout(function () {
+                                $('#myModalWarning').modal('hide');
+                            }, 2000); // milliseconds
+                        }
+                        var fixedTable2 = fixTable(document.getElementById('fixed-table-container-2'));
+                    }
+                });
+            }
+
+            $("#myModalWarning").click(function () {
+                $('#myModalWarning').modal('hide');
+            })
+            function modal() {
+                $('#spinnerModal').modal('show');
+                setTimeout(function () {
+                    console.log('hejsan');
+                    $('#spinnerModal').modal('hide');
+                }, 3000);
+            }
+            //click เลขที่
+            $("table").on("click", "tr #xxx", function () {
+                clearval()
+                //var cusno = $("#_cusno").text();
+                var indoc = $(this).attr('cmno');
+                var indocsup = $(this).attr('clmnoup');
+                var incompany = $(this).attr('company');
+                var statussup = "";
+                $.ajax({
+                    url: '@Url.Action("Getsalesreturndetail", "GetdataCenter")',
+                    data: {
+                        indoc: indoc,
+                        indocsup: indocsup,
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(data.Getdata)
+                        if (data.Getdata.length > 0) {
+                            //  alert(data.Getdata[0].val.CUSCOD)
+                            $("#_cusno").text(data.Getdata[0].val.CUSCOD);
+                            $("#_cusname").text(data.Getdata[0].val.CUSNAM);
+                            $("#requestby").text(data.Getdata[0].val.STMP_REQUESTBY);
+                            $("#slmcod").text(data.Getdata[0].val.SLMCOD);
+                            $("#sslmnam").text(data.Getdata[0].val.SLMNAM);
+                            $("#requestdate").text(data.Getdata[0].val.STMP_REQUESTDATE);
+                            $("#_itemno").text(data.Getdata[0].val.STKCOD);
+                            $("#_description").text(data.Getdata[0].val.STKDES);
+                            $("#_uom").text(data.Getdata[0].val.STMP_UOM);
+                            $("#_claimqty").text(data.Getdata[0].val.STMP_REQQTY);
+                            $("#_invoiceno").text(data.Getdata[0].val.STMP_INVNO);
+                            $("#_workda").text("");//ระยะใช้งาน//
+                            $("#causeclaim").text(data.Getdata[0].val.STMP_CAUSE);//เหตุผลเคลม//
+                            $("#_proceedto").text(data.Getdata[0].val.PERFORMDESCRIPTION);//ดำเนินการ//
+                            $("#_statusclaim").text(data.Getdata[0].val.RCVSTATUSDESCRIPTION); //Status///
+                            $("#_claimnosub").text(data.Getdata[0].val.STMP_ID_SUB);
+                            $("#_produc").text(data.Getdata[0].val.PROD + '/' + data.Getdata[0].val.PRODNAM);
+                            statuspm = data.Getdata[0].val.PM_APPRV_STATUS;
+                            var statussup = data.Getdata[0].val.SMSUP_APPRV_STATUS;
+                            var statusmd = data.Getdata[0].val.MD_APPRV_STATUS;
+                            // alert(statussup);
+                            $("#_suptstus").val(statussup);
+                            if (statussup == "1") {
+                                //alert(statussup);
+                                $("#_pmdatesup").val(data.Getdata[0].val.SMSUP_APPRV_DATE);
+                                $("#remakesup").val(data.Getdata[0].val.SMSUP_REMARK);
+                                $("#_suptstus").val(statussup);
+                            } else if (statuspm == "0") {
+                               $("#_btnsaveapprove").css("display", "none");
+                            } else if (statuspm == "1" || statuspm == "2") {
+                               $("#_btnsaveapprove").css("display", "block");
+                            }
+                            if (statuspm != 0) {
+                                // $("#_pmtstus").val(data.Getdata[0].val.SMSUP_APPRV_STATUS)
+                                $("#_pmtstus").val(data.Getdata[0].val.PM_APPRV_STATUS);
+                                $("#_pmdate").val(data.Getdata[0].val.PM_APPRV_DATE);
+                                $("#remakepm").val(data.Getdata[0].val.PM_REMARK);
+                              //  $("#_btnsaveapprove").css("display", "none");
+                            }
+                            //md approve/not approve แล้ว
+                            if (statusmd != 0) {
+                                // $("#_pmtstus").val(data.Getdata[0].val.SMSUP_APPRV_STATUS)
+                                $("#_mdtstus").val(data.Getdata[0].val.MD_APPRV_STATUS);
+                                $("#_mddate").val(data.Getdata[0].val.MD_APPRV_DATE);
+                                $("#remakemd").val(data.Getdata[0].val.MD_REMARK);
+                                $("#_btnsaveapprove").css("display", "none");
+                            } else {
+                                $("#_mdtstus").attr('disabled', false);
+                                $("#_mddate").attr('disabled', false);
+                                $("#remakemd").attr('disabled', false);
+                                $("#_btnsaveapprove").css('display', 'block');
+                            }
+                            //if (statussup == "1") {
+                            //    $("#_btnsaveapprove").css("display", "block");
+                            //}
+                            $.ajax({
+                                url: '@Url.Action("Getdatahis_Date_2year", "GetdataCenter")',
+                                data: {
+                                    _cusno: data.Getdata[0].val.CUSCOD,
+                                    _itemno: data.Getdata[0].val.STKCOD,
+                                    _invoiceno: data.Getdata[0].val.STMP_INVNO,
+                                    _com: incompany,
+                                    _statdate: "",
+                                    _enddate: "",
+                                    _foc: ""
+                                },
+                                type: "POST",
+                                dataType: "JSON",
+                                success: function (data) {
+                                    console.log(data);
+                                    if (data.message == "true") {
+                                        $("#_itemno").text(data.Getdata[0].val.STKCOD);
+                                        $("#_description").text(data.Getdata[0].val.STKDES);
+                                        $("#_uom").text(data.Getdata[0].val.Uom);
+                                        $("#_invoiceno").text(data.Getdata[0].val.DOCNUM);
+                                        $("#_psdate").text(data.Getdata[0].val.PSTDAT);
+                                        $("#_invoiceqty").text(addCommas(data.Getdata[0].val.Qty));
+                                        $("#_invoicelineamt").text(addCommas(parseFloat(data.Getdata[0].val.Price).toFixed(2)));
+                                        $("#_invoicelinedis").text(addCommas(parseFloat(data.Getdata[0].val.DiscountPer).toFixed(2)));
+                                        $("#_invoicelinedisamt").text(addCommas(parseFloat(data.Getdata[0].val.DiscountAmt).toFixed(2)));
+                                        $("#_amt").text(addCommas(parseFloat(data.Getdata[0].val.Amt).toFixed(2)));
+                                        $("#_stkgup").text(data.Getdata[0].val.STKGRP);
+                                        $("#_foc").text("");
+                                        var qty = $("#_claimqty").text();
+                                        $("#_amtreturn").text(addCommas(parseInt(qty) * parseFloat(data.Getdata[0].val.Price)));
+                                        // $("#requestby").text(rcvby);
+                                        // $("#requestdate").text(rcvdate);
+                                    } else {
+                                        alert(data.message);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+
+                // modal()
+                $('#spinnerModal').modal('show');
+
+                var nokey = $(this).attr('cmno');
+                var nosubkey = $(this).attr('clmnoup');
+                $("#Nospankey").text(nokey);
+                $("#subNospan").text(nosubkey);
+                $('#appvideosales').html("");
+                $.ajax({
+                    url: '@Url.Action("GetfileVideoRT", "GetdataCenter")',
+                    data: {
+                        inCLM_ID: nokey,
+                        CLM_NO: nosubkey,
+                        Im_No: "01"
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (result) {
+                        console.log(result.videolist)
+                        if (result.videolist.length > 0) {
+                            $('#appvideosales').html("");
+                            for (var i = 0; i < result.videolist.length; i++) {
+                                SubmithtmlPage = '<video controls="controls" style="width: 600px; max-width: 100%;">';
+                                SubmithtmlPage += '<source src="' + result.videolist[0].FilePath + '.mp4" + " type="video/mp4" videomode="720p"/>';
+                                SubmithtmlPage += '</video>';
+                                $('#appvideosales').append(SubmithtmlPage);
+                                // HTMLbuilder = HTMLbuilder + imgHtml;
+                            }
+                        } else {
+
+                        }
+                    },
+                });
+
+                //Getimage//
+                $("#boximage").html("");
+                $.ajax({
+                    url: '@Url.Action("GetPathImageRT", "GetdataCenter")',
+                    data: {
+                        inCLM_ID: nokey,
+                        CLM_NO: nosubkey
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (result) {
+                        console.log(result);
+                        if (result.Getdata.length > 0) {
+                            //$("#myModalimage").modal();
+                            $('#boximage').html("");
+                            if (result.Getdata) {
+                                resultObj = eval(result.Getdata);
+                                var SubmithtmlPage = "";
+                                for (var i = 0; i < resultObj.length; i++) {
+                                    var str = resultObj[i].val.IMAGE_NO;
+                                    var res = str.substring(0, 3);
+                                    if (res != "TEC") {
+                                        SubmithtmlPage = '<div class="col-sm-3">';
+                                        SubmithtmlPage += '<img src="' + resultObj[i].val.PATH + '"  class="img-responsive img-thumbnail" id="myImg">';
+                                        SubmithtmlPage += '</div>';
+                                        $('#boximage').append(SubmithtmlPage);
+                                        // HTMLbuilder = HTMLbuilder + imgHtml;
+                                    }
+                                }
+                            } else {
+
+                                $("#myModalimage").modal();
+                            }
+                        }
+                    }
+                });
+
+                var checkno = $("#subNospan").text();
+                if (checkno != "") {
+                    //$("#_pmtstus").removeAttr('disabled');
+                   // $("#remakepm").removeAttr('disabled');
+                    setTimeout(function () {
+                        $('#spinnerModal').modal('hide');
+                    }, 1000);
+
+                } else {
+                    alert("กรุณาเลือกรายการที่จะ อนุมัติ");
+                    clearval();
+                }
+                // $('#spinnerModal').modal('hide');
+            });
+            $(document).on('click', '#myImg', function () {
+                var modal = document.getElementById('myModalzoom');
+                var img = document.getElementById('myImg');
+                var modalImg = document.getElementById("img01");
+                var captionText = document.getElementById("caption");
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                captionText.innerHTML = this.alt;
+            });
+            $(document).on('click', '.close', function () {
+                var modal = document.getElementById('myModalzoom');
+                modal.style.display = "none";
+            });
+            $(document).on('click', '#closeimg', function () {
+                var modal = document.getElementById('myModalzoom');
+                modal.style.display = "none";
+            });
+            $(document).on('click', '#myModalzoom div', function () {
+                var modal = document.getElementById('myModalzoom');
+                modal.style.display = "none";
+            });
+
+            $('#checkboxAll').click(function (event) {  //on click
+                if (this.checked) { // check select status
+                    $('.chk').each(function () { //loop through each checkbox
+                        this.checked = true;
+
+                    });
+                } else {
+                    $('.chk').each(function () { //loop through each checkbox
+                        this.checked = false; //deselect all checkboxes with class "chk"
+
+                    });
+                }
+            });
+
+            $("table").on("click", "tr #checkbox", function () {
+
+                var indoc = $(this).attr('cmno');
+                var indocsup = $(this).attr('clmnoup');
+                $('#checkboxAll').prop("checked", false);
+                //alert(indoc + '////' + indocsup)
+
+            });
+            //approve checkbox//
+            $(".btnapproval").click(function () {
+                var data = [];
+                var supdate = $("#_mddate").val(); //วันที่PM พิจารณา
+                var status = $(this).attr('cak'); //สถานะอนุมัติ
+                var remake = $("#remakemdall").val();
+                var userlogin = $("#_uderlogin").val();
+                $('table tr').find('input[type="checkbox"]:checked').each(function () {
+                    var indoc = $(this).attr('cmno');
+                    var indocsup = $(this).attr('clmnoup');
+                    var ItemList = {
+                        indoc: indoc,
+                        indocsup: indocsup,
+                        insertdate: supdate,
+                        supstus: status,
+                        remake: remake,
+                        userlogin: userlogin
+                    };
+                    data.push(ItemList);
+                    console.log(data);
+
+                });
+                if (data.length == 0) {
+                    $("#textAlertWarning").empty();
+                    $("#textAlertWarning").text("ยังไม่ได้เลือกรายการอนุมัติ กรุณาเลือกรายการที่ต้องการอนุมัติ");
+                    $("#myModalWarning").modal(); return false;
+                }
+                var DataSend = JSON.stringify(data);
+                console.log(DataSend);
+
+                $.ajax({
+                    url: '@Url.Action("SaveProcessSalesreturnDetailMdAll", "ProcessApproveSalesreturnMd")',
+                    data: {
+                        data: DataSend,
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.message == "true") {
+                            //  waitingDialog.hide();
+                            $("#textAlertSucces").empty();
+                            $("#textAlertSucces").text("บันทึกข้อมูลสำเร็จ");
+                            $("#myModalSucces").modal();
+                            //location.reload();
+                            $('#checkboxAll').prop("disabled", false);
+                            $("#remakemdall").val("");
+                            $("#myModalSucces").click(function () {
+                                var valpm = $("#_PM").val();
+                                var valststus = $("#_status").val();
+                                var valDoc = $("#searchclaimno").val();
+                                var valcom = $("#_company").val();
+                                var valstkgrp = $("#_stkgrp").val();
+                                var valstatdate = $("#_statdate").val();
+                                var valenddate = $("#_enddate").val();
+                                var valstatdatecus = $("#_statdate").val();
+                                var valenddatecus = $("#_enddate").val();
+                                var itemno = $("#_itemnosearch").val();
+
+                                if (itemno != "") {
+                                    itemno = splitval(itemno);
+                                } else {
+                                    itemno = "";
+                                }
+                                Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp, valstatdate, valenddate, itemno, valstatdatecus, valenddatecus)
+                                $("#_status").val("0");
+                                // Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp)
+                                // $("table tr #xxx").click();
+                            });
+                        } else {
+                            //  waitingDialog.hide();
+                            $("#textAlertWarning").empty();
+                            $("#textAlertWarning").text(data.message);
+                            $("#myModalWarning").modal(); return false;
+                        }
+                    }
+                });
+            });
+            //ปุ่มบันทึกผล
+            $("#_btnsaveapprove").click(function () {
+                var nokey = $("#Nospankey").text();
+                var nosubkey = $("#subNospan").text();
+                var pm = $("#_PM").val();  // Product Manager
+                var pmdate = $("#_mddate").val(); //วันที่PM พิจารณา
+                var pmtstus = $("#_mdtstus").val(); //สถานะอนุมัติ
+                var pmremake = $("#remakemd").val();
+                var userlogin = $("#_uderlogin").val();
+                if (pmtstus == "99") {
+                    $("#textAlertWarning").empty();
+                    $("#textAlertWarning").text("เลือกผลการอนุมัติคืนสินค้า");
+                    $("#myModalWarning").modal(); return false;
+                }
+                $.ajax({
+                    url: '@Url.Action("SaveProcessClaimDetailMd", "ProcessApproveSalesreturnMd")',
+                    data: {
+                        aj_REQ_NO: nokey,
+                        aj_CLM_NO_SUB: nosubkey,
+                        aj_MD_NAME: userlogin,
+                        aj_MD_APPRV_STATUS: pmtstus,
+                        aj_MD_REMARK: pmremake,
+                        aj_MD_APPRV_DATE: pmdate,
+                        aj_userlogin: userlogin,
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.message == "true") {
+                            //  waitingDialog.hide();
+                            $("#textAlertSucces").empty();
+                            $("#textAlertSucces").text("บันทึกข้อมูลสำเร็จ");
+                            $("#myModalSucces").modal();
+                            //location.reload();
+                            $("#myModalSucces").click(function () {
+                                var valpm = $("#_PM").val();
+                                var valststus = $("#_status").val();
+                                var valDoc = $("#searchclaimno").val();
+                                var valcom = $("#_company").val();
+                                var valstkgrp = $("#_stkgrp").val();
+                                var valstatdate = $("#_statdate").val();
+                                var valenddate = $("#_enddate").val();
+                                var valstatdatecus = $("#_statdate").val();
+                                var valenddatecus = $("#_enddate").val();
+                                var itemno = $("#_itemnosearch").val();
+
+                                if (itemno != "") {
+                                    itemno = splitval(itemno);
+                                } else {
+                                    itemno = "";
+                                }
+
+                                Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp, valstatdate, valenddate, itemno, valstatdatecus, valenddatecus)
+                                $("#_status").val("0");
+                                // Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp)
+                                // $("table tr #xxx").click();
+                            });
+                        } else {
+                            //  waitingDialog.hide();
+                            $("#textAlertWarning").empty();
+                            $("#textAlertWarning").text(data.message);
+                            $("#myModalWarning").modal(); return false;
+                        }
+                    }
+                });
+            });
+            function clearval() {
+                $("#Nospankey").text("");
+                $("#subNospan").text("");
+                $("#_cusno").text("");
+                $("#_cusname").text("");
+                $("#requestby").text("");
+                $("#slmcod").text("");
+                $("#sslmnam").text("");
+                $("#requestdate").text("");
+                $("#_itemno").text("");
+                $("#_description").text("");
+                $("#_uom").text("");
+                $("#_invoiceno").text("");
+                $("#_psdate").text("");
+                $("#_invoiceqty").text("");
+                $("#_invoicelineamt").text("");
+                $("#_invoicelinedis").text("");
+                $("#_invoicelinedisamt").text("");
+                $("#_foc").text("");
+                $("#_stkgup").text("");
+                $("#_workda").text("");
+                $("#_claimqty").text("");
+                $("#causeclaim").text("");
+                $("#_proceedto").text("");
+                $("#_statusclaim").text("");
+
+                $('#appvideosales').html("");
+                $('#appvideotech').html("");
+                $("#boximage").html("");
+                $("#boximagetechnic").html("");
+
+                $("#causeclaim").val("");
+                $("#_proceedto").val("0");
+                $("#_statusclaim").val("2");
+
+                // $("#_status").val("0");
+                $("#_pmdate").attr("disabled", "disabled");
+                $("#_pmtstus").attr("disabled", "disabled");
+                $("#remakepm").attr("disabled", "disabled");
+                $("#_pmnewpn").attr("disabled", "disabled");
+                //$("#_btnsaveapprove").css("display", "none");
+                //$("#_pmdate").val("");
+                $("#_pmtstus").val("99");
+                //$("#_pmnewpn").val("");
+                $("#remakepm").val("");
+
+            }
+        });
+
+    </script>
+</body>
+</html>

@@ -2646,7 +2646,7 @@
                                         SubmithtmlPage += '<td><span class="fa fa-refresh gi-4x" style="color: red;"title="ตรวจสอบใหม่"></span></td>';
                                     }
                                     //TAM
-                                    if (company == 'TAM') {
+                                    if (company == 'TAM' || company == 'VELOX') {
                                         //SM
                                         if (PM_PROCESS_STATUS == "3") { //pm ตรวจสอบใหม่
                                             SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: Brown;" title="PM ตรวจสอบใหม่"></span></td>';
@@ -3462,53 +3462,20 @@
                                     resultObj = eval(result.Getdata);
                                     var str = resultObj[i].val.IMAGE_NO;
                                     var res = str.substring(0, 3);
-                                    var imagePath = 'https://pngimg.com/uploads/mercedes/mercedes_PNG80171.png';//resultObj[i].val.PATH;
-                                    //formatepng
-
-                                    if (true) {
-                                        console.log("true1")
-                                        fetch(imagePath)
-                                            .then(response => response.blob())
-                                           // .then(blob => heic2any({ blob, toType: "image/png" }))
-                                            .then(conversionResult => {
-                                                var url = 'https://pngimg.com/uploads/mercedes/mercedes_PNG80171.png'//URL.createObjectURL(conversionResult);
-
-                                                if (res != "TEC") {
-                                                    console.log("true2")
-                                                    SubmithtmlPage = '<div class="col-sm-3">';
-                                                    SubmithtmlPage += '<img src="' + url + '" class="img-responsive img-thumbnail" id="myImg">';
-                                                    SubmithtmlPage += '</div>';
-                                                    $('#boximage').append(SubmithtmlPage);
-                                                } else if (res == "TEC") {
-                                                    console.log("true3")
-
-                                                    var markup = "<tr id='" + resultObj[i].val.IMAGE_ID + "'> <td><img src='" + url + "' id='myImg' style='width: 30%'></td>\
-                                        <td style='vertical-align: middle;'>\
-                                        <button type='button' style='float: right;' class='delimagsalsccess' faxdel=2 ic=" + resultObj[i].val.IMAGE_ID + " name=" + resultObj[i].val.IMAGE_NAME + " remoimage=" + resultObj[i].val.IMAGE_ID + " img=" + resultObj[i].val.IMAGE_NAME + " >Cancel</button></td>\
-                                        </tr>";
-                                                    $("#FilesList tbody").append(markup);
-                                                }
-                                            })
-                                            .catch(error => console.error(error));
-                                    } else {
-
-                                        if (res != "TEC") {
-                                            console.log("true4")
-
-                                            SubmithtmlPage = '<div class="col-sm-3">';
-                                            SubmithtmlPage += '<img src="' + imagePath + '" class="img-responsive img-thumbnail" id="myImg">';
-                                            SubmithtmlPage += '</div>';
-                                            $('#boximage').append(SubmithtmlPage);
-                                        } else if (res == "TEC") {
-                                            console.log("true5")
-
-                                            var markup = "<tr id='" + resultObj[i].val.IMAGE_ID + "'> <td><img src='" + imagePath + "' id='myImg' style='width: 30%'></td>\
-                                <td style='vertical-align: middle;'>\
-                                <button type='button' style='float: right;' class='delimagsalsccess' faxdel=2 ic=" + resultObj[i].val.IMAGE_ID + " name=" + resultObj[i].val.IMAGE_NAME + " remoimage=" + resultObj[i].val.IMAGE_ID + " img=" + resultObj[i].val.IMAGE_NAME + " >Cancel</button></td>\
-                                </tr>";
-                                            $("#FilesList tbody").append(markup);
-                                        }
+                                    if (res != "TEC") {
+                                        SubmithtmlPage = '<div class="col-sm-3">';
+                                        SubmithtmlPage += '<img src="' + resultObj[i].val.PATH + '"  class="img-responsive img-thumbnail" id="myImg">';
+                                        SubmithtmlPage += '</div>';
+                                        $('#boximage').append(SubmithtmlPage);
+                                    } else if (res == "TEC") {
+                                        var markup = "<tr id='" + resultObj[i].val.IMAGE_ID + "'> <td><img src='" + resultObj[i].val.PATH + "' id='myImg' style='width: 30%'></td>\
+                                          <td style='vertical-align: middle;'>\
+                                         <button type='button' style='float: right;' class='delimagsalsccess'  faxdel=2 ic=" + resultObj[i].val.IMAGE_ID + " name=" + resultObj[i].val.IMAGE_NAME + " remoimage=" + resultObj[i].val.IMAGE_ID + " img=" + resultObj[i].val.IMAGE_NAME + " >Cancel</button></td>\
+                                          </tr>";
+                                        $("#FilesList tbody").append(markup);
                                     }
+                                    //var sfilename = resultObj[i].val.IMAGE_NAME;
+                                    //formdata.append(sfilename, resultObj[i]);
                                 }
 
                                 chkatchtbl();
@@ -4397,7 +4364,7 @@
                         if (result != "") {
                             alert(result);
                             $("#FilesList tr .delimagsal").trigger("click");
-                            $("#_tbclmline tr #xxx").trigger("click");
+                            $("#_tbclmline tr #" + inCim_NoSub).trigger("click");
 
                         }
                     },
