@@ -44,15 +44,15 @@ namespace ClaimWap.Controllers
             {
                 string User = Session["UserID"].ToString();
                 string UserType = Session["UserType"].ToString();
-               
-                   
-                    ViewBag.UserId = User;
-                    ViewBag.UserType = UserType;
-               
-                
+
+
+                ViewBag.UserId = User;
+                ViewBag.UserType = UserType;
+
+
 
             }
-           
+
             return View();
 
         }
@@ -136,13 +136,13 @@ namespace ClaimWap.Controllers
         //            }
         //        }
 
-                
+
         //        Connection.Close();
         //    }
         //    catch (COMException ex)
         //    {
-                
-              
+
+
         //    }
 
 
@@ -243,7 +243,7 @@ namespace ClaimWap.Controllers
                 {
                     if (IsValid(User.Usre, User.Password))
                     {
-                      
+
                         this.Session["UsrGrpspecial"] = 0;
                         FormsAuthentication.SetAuthCookie(User.Usre, false);
                         return RedirectToAction("LogIn", "Account");
@@ -306,7 +306,9 @@ namespace ClaimWap.Controllers
                 Connection.Open();
                 this.Session["UserID"] = User.Usre;
                 this.Session["UserPassword"] = User.Password;
-                SqlCommand cmd = new SqlCommand("select * From UsrGrp_special where UsrID =N'" + User.Usre + "' and [dbo].F_decrypt([Password])='" + User.Password + "' and  [LoginFail] <> 3", Connection);
+                SqlCommand cmd = new SqlCommand("select * From UsrGrp_special where UsrID = @inUser and [dbo].F_decrypt([Password])= @inPassword and  [LoginFail] <> 3", Connection);
+                cmd.Parameters.AddWithValue("@inUser", User.Usre);
+                cmd.Parameters.AddWithValue("@inPassword", User.Password);
                 SqlDataReader rev = cmd.ExecuteReader();
                 while (rev.Read())
                 {
@@ -378,9 +380,9 @@ namespace ClaimWap.Controllers
 
         }
 
-        public JsonResult Checkpassword(string textold, string UsrID)       
+        public JsonResult Checkpassword(string textold, string UsrID)
         {
-             string message = string.Empty;
+            string message = string.Empty;
             string no = string.Empty;
             var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
             SqlConnection Connection = new SqlConnection(connectionString);
@@ -424,7 +426,7 @@ namespace ClaimWap.Controllers
             try
             {
                 Connection.Open();
-                
+
                 var command = new SqlCommand("P_requestpassword", Connection);
                 command.CommandType = CommandType.StoredProcedure;
 
@@ -433,12 +435,12 @@ namespace ClaimWap.Controllers
                 returnValuedoc.Direction = System.Data.ParameterDirection.Output;
                 command.Parameters.Add(returnValuedoc);
 
-                 
+
 
                 command.ExecuteNonQuery();
                 message = returnValuedoc.Value.ToString();
                 command.Dispose();
-               // message = "true";
+                // message = "true";
 
             }
             catch (Exception ex)
