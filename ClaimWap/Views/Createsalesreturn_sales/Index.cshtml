@@ -276,6 +276,7 @@
                                 <option value="TAC" selected="">TAC</option>
                                 <option value="AAC">AAC</option>
                                 <option value="OMP">OMP</option>
+                                <option value="AGS">AGS</option>
                                 <!-- <option value="ALL">ALL</option>-->
 
                             </select>
@@ -2062,6 +2063,8 @@
                             Gendoc = 'RTA';
                         } else if (Com == "OMP") {
                             Gendoc = 'RTO';
+                        } else if (Com == "AGS") {
+                            Gendoc = 'RTAG';
                         }
                         $.ajax({
                             url: '@Url.Action("Gendocno", "Createsalesreturn_sales")',

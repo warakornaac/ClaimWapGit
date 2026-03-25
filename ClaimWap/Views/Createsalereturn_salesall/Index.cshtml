@@ -819,7 +819,7 @@
                     //console.log("chkremqty = " + chkremqty);
                     $("#_slmcod").val(data.Getdata[0].val.SLMCOD);
                     if (chkremqty > 0) {
-                        SubmithtmlPage = '<tr fax="2" invno="' + data.Getdata[i].val.DOCNUM + '" invqty="' + data.Getdata[i].val.Qty + '"  invdat="' + data.Getdata[i].val.PSTDAT + '"  netprice="' + data.Getdata[i].val.NetAmt + '" stkcod="' + data.Getdata[i].val.STKCOD + '" stkdes="' + data.Getdata[i].val.STKDES + '" uom="' + data.Getdata[i].val.Uom + '" reqty="' + data.Getdata[i].val.QTY_Remaining + '" cuscod="' + data.Getdata[i].val.PEOPLE + '" foc="' + data.Getdata[i].val.FOC + '">';
+                        SubmithtmlPage = '<tr fax="2" invno="' + data.Getdata[i].val.DOCNUM + '" invqty="' + data.Getdata[i].val.Qty + '"  invdat="' + data.Getdata[i].val.PSTDAT + '"  netprice="' + data.Getdata[i].val.Net_Price + '" stkcod="' + data.Getdata[i].val.STKCOD + '" stkdes="' + data.Getdata[i].val.STKDES + '" uom="' + data.Getdata[i].val.Uom + '" reqty="' + data.Getdata[i].val.QTY_Remaining + '" cuscod="' + data.Getdata[i].val.PEOPLE + '" foc="' + data.Getdata[i].val.FOC + '">';
                         //SubmithtmlPage += '<td><button type="reset" id="delclmtemp" style="min-width: 50px;" >Delete</td>';
                         SubmithtmlPage += '<td>' + (No + i) + '</td>';
                         SubmithtmlPage += '<td>' + data.Getdata[i].val.STKCOD + '</td>';
@@ -1138,6 +1138,8 @@
                     Gendoc = 'RTA';
                 } else if (Com == "OMP") {
                     Gendoc = 'RTO';
+                } else if (Com == "AGS") {
+                    Gendoc = 'RTAG';
                 }
                 var xcause = $("#causeclaim").val();
               

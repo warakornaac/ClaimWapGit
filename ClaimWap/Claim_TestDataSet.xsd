@@ -79,7 +79,7 @@
   <xs:element name="Claim_TestDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="Claim_TestDataSet" msprop:Generator_UserDSName="Claim_TestDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="P_GetReqClaim_ByDoc" msprop:Generator_TableClassName="P_GetReqClaim_ByDocDataTable" msprop:Generator_TableVarName="tableP_GetReqClaim_ByDoc" msprop:Generator_TablePropName="P_GetReqClaim_ByDoc" msprop:Generator_RowDeletingName="P_GetReqClaim_ByDocRowDeleting" msprop:Generator_RowChangingName="P_GetReqClaim_ByDocRowChanging" msprop:Generator_RowEvHandlerName="P_GetReqClaim_ByDocRowChangeEventHandler" msprop:Generator_RowDeletedName="P_GetReqClaim_ByDocRowDeleted" msprop:Generator_UserTableName="P_GetReqClaim_ByDoc" msprop:Generator_RowChangedName="P_GetReqClaim_ByDocRowChanged" msprop:Generator_RowEvArgName="P_GetReqClaim_ByDocRowChangeEvent" msprop:Generator_RowClassName="P_GetReqClaim_ByDocRow">
+        <xs:element name="P_GetReqClaim_ByDoc" msprop:Generator_TableClassName="P_GetReqClaim_ByDocDataTable" msprop:Generator_TableVarName="tableP_GetReqClaim_ByDoc" msprop:Generator_RowChangedName="P_GetReqClaim_ByDocRowChanged" msprop:Generator_TablePropName="P_GetReqClaim_ByDoc" msprop:Generator_RowDeletingName="P_GetReqClaim_ByDocRowDeleting" msprop:Generator_RowChangingName="P_GetReqClaim_ByDocRowChanging" msprop:Generator_RowEvHandlerName="P_GetReqClaim_ByDocRowChangeEventHandler" msprop:Generator_RowDeletedName="P_GetReqClaim_ByDocRowDeleted" msprop:Generator_RowClassName="P_GetReqClaim_ByDocRow" msprop:Generator_UserTableName="P_GetReqClaim_ByDoc" msprop:Generator_RowEvArgName="P_GetReqClaim_ByDocRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="REQ_ID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnREQ_ID" msprop:Generator_ColumnPropNameInRow="REQ_ID" msprop:Generator_ColumnPropNameInTable="REQ_IDColumn" msprop:Generator_UserColumnName="REQ_ID" type="xs:int" minOccurs="0" />
@@ -325,6 +325,8 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="REQ_NO_BARCODE" msprop:Generator_ColumnVarNameInTable="columnREQ_NO_BARCODE" msprop:Generator_ColumnPropNameInRow="REQ_NO_BARCODE" msprop:Generator_ColumnPropNameInTable="REQ_NO_BARCODEColumn" msprop:Generator_UserColumnName="REQ_NO_BARCODE" type="xs:string" minOccurs="0" />
+              <xs:element name="RoutingCode" msprop:Generator_ColumnVarNameInTable="columnRoutingCode" msprop:Generator_ColumnPropNameInRow="RoutingCode" msprop:Generator_ColumnPropNameInTable="RoutingCodeColumn" msprop:Generator_UserColumnName="RoutingCode" type="xs:string" minOccurs="0" />
               <xs:element name="CLM_QtyUnit" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnCLM_QtyUnit" msprop:Generator_ColumnPropNameInRow="CLM_QtyUnit" msprop:Generator_ColumnPropNameInTable="CLM_QtyUnitColumn" msprop:Generator_UserColumnName="CLM_QtyUnit" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">

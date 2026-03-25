@@ -369,6 +369,10 @@ namespace ClaimWap {
             
             private global::System.Data.DataColumn columnShipName;
             
+            private global::System.Data.DataColumn columnREQ_NO_BARCODE;
+            
+            private global::System.Data.DataColumn columnRoutingCode;
+            
             private global::System.Data.DataColumn columnCLM_QtyUnit;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -766,6 +770,22 @@ namespace ClaimWap {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn REQ_NO_BARCODEColumn {
+                get {
+                    return this.columnREQ_NO_BARCODE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn RoutingCodeColumn {
+                get {
+                    return this.columnRoutingCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public global::System.Data.DataColumn CLM_QtyUnitColumn {
                 get {
                     return this.columnCLM_QtyUnit;
@@ -854,6 +874,8 @@ namespace ClaimWap {
                         int CLM_QtyShip, 
                         string Shipcontact, 
                         string ShipName, 
+                        string REQ_NO_BARCODE, 
+                        string RoutingCode, 
                         string CLM_QtyUnit) {
                 P_GetReqClaim_ByDocRow rowP_GetReqClaim_ByDocRow = ((P_GetReqClaim_ByDocRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
@@ -902,6 +924,8 @@ namespace ClaimWap {
                         CLM_QtyShip,
                         Shipcontact,
                         ShipName,
+                        REQ_NO_BARCODE,
+                        RoutingCode,
                         CLM_QtyUnit};
                 rowP_GetReqClaim_ByDocRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowP_GetReqClaim_ByDocRow);
@@ -970,6 +994,8 @@ namespace ClaimWap {
                 this.columnCLM_QtyShip = base.Columns["CLM_QtyShip"];
                 this.columnShipcontact = base.Columns["Shipcontact"];
                 this.columnShipName = base.Columns["ShipName"];
+                this.columnREQ_NO_BARCODE = base.Columns["REQ_NO_BARCODE"];
+                this.columnRoutingCode = base.Columns["RoutingCode"];
                 this.columnCLM_QtyUnit = base.Columns["CLM_QtyUnit"];
             }
             
@@ -1066,6 +1092,10 @@ namespace ClaimWap {
                 base.Columns.Add(this.columnShipcontact);
                 this.columnShipName = new global::System.Data.DataColumn("ShipName", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnShipName);
+                this.columnREQ_NO_BARCODE = new global::System.Data.DataColumn("REQ_NO_BARCODE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnREQ_NO_BARCODE);
+                this.columnRoutingCode = new global::System.Data.DataColumn("RoutingCode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRoutingCode);
                 this.columnCLM_QtyUnit = new global::System.Data.DataColumn("CLM_QtyUnit", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCLM_QtyUnit);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
@@ -1977,6 +2007,38 @@ namespace ClaimWap {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string REQ_NO_BARCODE {
+                get {
+                    try {
+                        return ((string)(this[this.tableP_GetReqClaim_ByDoc.REQ_NO_BARCODEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'REQ_NO_BARCODE\' in table \'P_GetReqClaim_ByDoc\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableP_GetReqClaim_ByDoc.REQ_NO_BARCODEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string RoutingCode {
+                get {
+                    try {
+                        return ((string)(this[this.tableP_GetReqClaim_ByDoc.RoutingCodeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'RoutingCode\' in table \'P_GetReqClaim_ByDoc\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableP_GetReqClaim_ByDoc.RoutingCodeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public string CLM_QtyUnit {
                 get {
                     try {
@@ -2529,6 +2591,30 @@ namespace ClaimWap {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetShipNameNull() {
                 this[this.tableP_GetReqClaim_ByDoc.ShipNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsREQ_NO_BARCODENull() {
+                return this.IsNull(this.tableP_GetReqClaim_ByDoc.REQ_NO_BARCODEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetREQ_NO_BARCODENull() {
+                this[this.tableP_GetReqClaim_ByDoc.REQ_NO_BARCODEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsRoutingCodeNull() {
+                return this.IsNull(this.tableP_GetReqClaim_ByDoc.RoutingCodeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetRoutingCodeNull() {
+                this[this.tableP_GetReqClaim_ByDoc.RoutingCodeColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

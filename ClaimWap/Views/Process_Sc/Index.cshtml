@@ -442,6 +442,7 @@
                                 <option value="TAC" selected>TAC</option>
                                 <option value="AAC">AAC</option>
                                 <option value="OMP">OMP</option>
+                                <option value="AGS">AGS</option>
                                 <option value="TAM">TAM</option>
                                 <option value="VELOX">VELOX</option>
                                 <option value="ALL">ALL</option>
@@ -2851,7 +2852,7 @@
                             LoadingHide();
                         },
                         success: function (data) {
-                            // console.log(data);
+                            console.log("Getdata.length = " + data.Getdata.length);
                             if (data.Getdata.length > 0) {
                                 //จำนวนเคลมทั้งหมด
                                 var clm_qty = data.Getdata[0].val.CLM_QTY;

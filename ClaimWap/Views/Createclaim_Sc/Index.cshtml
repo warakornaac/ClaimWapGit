@@ -629,6 +629,7 @@
                                 <option value="TAC" selected>TAC</option>
                                 <option value="AAC">AAC</option>
                                 <option value="OMP">OMP</option>
+                                <option value="AGS">AGS</option>
                                 <option value="TAM">TAM</option>
                                 <option value="VELOX">VELOX</option>
                                 <!-- <option value="ALL">ALL</option>-->
@@ -1244,7 +1245,7 @@
                     if (company == "TAM" || company == "VELOX") {
                         //$("#_company").val(company);
                         //$('#_company').attr('disabled', true);
-                        $("#_company option[value='TAC'], option[value='AAC'], option[value='OMP']").remove();
+                        $("#_company option[value='AGS'], option[value='TAC'], option[value='AAC'], option[value='OMP']").remove();
                         $('#divFieldClaimNote').css('display', 'block');
                         //ยี่ห้อรถ
                         $('#_vemac').css('border-bottom', 'none');
@@ -3954,6 +3955,8 @@
                                 Gendoc = 'CMM';
                             } else if (Com == "VELOX") {
                                 Gendoc = 'CMV';
+                            } else if (Com == "AGS") {
+                                Gendoc = 'CMAG';
                             }
                             //gen เลขเคลม
                             $.ajax({

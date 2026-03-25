@@ -8,7 +8,6 @@ using System.Web.Mvc;
 using ClaimWap.Models;
 using System.Data;
 using ClaimWap.Controllers;
-using ClaimWap.Controllers;
 using System.IO;
 using System.Net;
 using System.Web.Script.Serialization;
@@ -215,21 +214,21 @@ namespace ClaimWap.Controllers
             SqlConnection Connection = new SqlConnection(connectionString);
             var command = new SqlCommand("P_Search_ProcessCheckStstusClaim", Connection);
             command.CommandType = CommandType.StoredProcedure;
-               
-                 command.Parameters.AddWithValue("@inDOC", inCLM_ID);
-	             command.Parameters.AddWithValue("@inDOCSUB" ,"");
-                 command.Parameters.AddWithValue("@inCOM", incompany);
-                 command.Parameters.AddWithValue("@inCUS", incusno);
-                 command.Parameters.AddWithValue("@inSLMCOD", insales);
-                 command.Parameters.AddWithValue("@inSTKCOD", initemno);
-                 command.Parameters.AddWithValue("@inSTATS", instatus);
-                 command.Parameters.AddWithValue("@inSTATSREC", instatusrec);
-                 command.Parameters.AddWithValue("@inRequeststartdate", instatdate);
-                 command.Parameters.AddWithValue("@inRequestenddate", inenddate);
-                 command.Parameters.AddWithValue("@instatusclaimafter", "0");
-                 command.Parameters.AddWithValue("@instkgrp", instkgrp);
-                 command.Parameters.AddWithValue("@inproceed", proceedtofter);
-                 command.Parameters.AddWithValue("@inprint", statusprint);
+            command.CommandTimeout = 150; // 2.30 นาที    
+            command.Parameters.AddWithValue("@inDOC", inCLM_ID);
+	        command.Parameters.AddWithValue("@inDOCSUB" ,"");
+            command.Parameters.AddWithValue("@inCOM", incompany);
+            command.Parameters.AddWithValue("@inCUS", incusno);
+            command.Parameters.AddWithValue("@inSLMCOD", insales);
+            command.Parameters.AddWithValue("@inSTKCOD", initemno);
+            command.Parameters.AddWithValue("@inSTATS", instatus);
+            command.Parameters.AddWithValue("@inSTATSREC", instatusrec);
+            command.Parameters.AddWithValue("@inRequeststartdate", instatdate);
+            command.Parameters.AddWithValue("@inRequestenddate", inenddate);
+            command.Parameters.AddWithValue("@instatusclaimafter", "0");
+            command.Parameters.AddWithValue("@instkgrp", instkgrp);
+            command.Parameters.AddWithValue("@inproceed", proceedtofter);
+            command.Parameters.AddWithValue("@inprint", statusprint);
             Connection.Open();
             SqlDataReader dr = command.ExecuteReader();
             while (dr.Read())

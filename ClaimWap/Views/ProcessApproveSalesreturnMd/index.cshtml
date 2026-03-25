@@ -319,6 +319,7 @@
                                 <option value="0" disabled>Choose option</option>
                                 <option value="TAC">TAC</option>
                                 <option value="AAC">AAC</option>
+                                <option value="AGS">AGS</option>
                                 <option value="OMP">OMP</option>
                                 <option value="ALL" selected>ALL</option>
                             </select>
@@ -1856,7 +1857,12 @@
 
             });
             //approve checkbox//
+            var isSubmitting = false;
             $(".btnapproval").click(function () {
+                if (isSubmitting) return;
+                isSubmitting = true;
+                var btn = $(this);
+                btn.prop("disabled", true);
                 var data = [];
                 var supdate = $("#_mddate").val(); //วันที่PM พิจารณา
                 var status = $(this).attr('cak'); //สถานะอนุมัติ
@@ -1930,6 +1936,13 @@
                             $("#textAlertWarning").text(data.message);
                             $("#myModalWarning").modal(); return false;
                         }
+                    },
+                    error: function () {
+                        alert("เกิดข้อผิดพลาด");
+                    },
+                    complete: function () {
+                        isSubmitting = false;
+                        btn.prop("disabled", false);
                     }
                 });
             });
