@@ -13,15 +13,23 @@ namespace ClaimWap.Controllers
 
         public ActionResult Index()
         {
-            if (Session["UserID"] == null && Session["UserPassword"] == null)
+            // Redirect if either credential is missing
+            if (Session["UserID"] == null || Session["UserPassword"] == null)
             {
                 return RedirectToAction("LogIn", "Account");
             }
             else
             {
-                string User = Session["UserID"].ToString();
-                string UserType = Session["UserType"].ToString();
-                string Company = Session["company"].ToString();
+                string User = Convert.ToString(Session["UserID"]);
+                string UserType = Convert.ToString(Session["UserType"]);
+                string Company = Convert.ToString(Session["company"]);
+
+                // If UserType is still empty/null, redirect to login (or handle appropriately)
+                if (string.IsNullOrEmpty(UserType))
+                {
+                    return RedirectToAction("LogIn", "Account");
+                }
+
                 if (UserType == "3") //PM//
                 {
                     if (User != "paxte")
@@ -32,29 +40,15 @@ namespace ClaimWap.Controllers
                     {
                         return RedirectToAction("Index", "ProcessApprove_WHDM_MD");
                     }
-                    ViewBag.UserId = User;
-                    ViewBag.UserType = UserType;
                 }
                 else if (UserType == "8" || UserType == "9") //PM//
                 {
                     return RedirectToAction("Index", "Disposal");
-                    ViewBag.UserId = User;
-                    ViewBag.UserType = UserType;
                 }
-                //else if (UserType == "10") //WH//
-                //{
-                //    return RedirectToAction("Index", "CheckstatusRt");
-                //    ViewBag.UserId = User;
-                //    ViewBag.UserType = UserType;
-                //}
-                // else
-                // {
-                // return RedirectToAction("Index", "Checkstatus_Sc");
+
                 ViewBag.UserId = User;
                 ViewBag.UserType = UserType;
                 ViewBag.Company = Company;
-                //}
-
             }
             return View();
         }
