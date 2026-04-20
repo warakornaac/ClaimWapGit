@@ -203,7 +203,18 @@ namespace ClaimWap.Controllers
                     rev.Close();
                     rev.Dispose();
                     cmd.Dispose();
-
+                    if (!string.IsNullOrEmpty(User.Usre))
+                    {
+                        using (SqlCommand cmdAD = new SqlCommand("SELECT Department FROM v_ADUser WHERE LogInName = @uid", Connection))
+                        {
+                            cmdAD.Parameters.AddWithValue("@uid", User.Usre);
+                            object adDept = cmdAD.ExecuteScalar();
+                            if (adDept != null && adDept != DBNull.Value)
+                            {
+                                this.Session["Department"] = adDept.ToString();
+                            }
+                        }
+                    }
                     // Safely parse the database value. Avoid Convert.ToInt32 which throws on bad format.
                     int parsedDays;
                     if (int.TryParse(dateexpire, NumberStyles.Integer, CultureInfo.InvariantCulture, out parsedDays))

@@ -28,13 +28,14 @@
     </section>
     <div class="text-center">
         <h4>Welcome to TRU AAC Service System </h4>
-        @if (usertype == "1")
+        @if (this.Session["Department"] != null &&
+     this.Session["Department"].ToString() == "MIS")
         {
             <a href="~/ManageUser/Index" class="btn btn-outline-info btn-sm" style="border-radius: 30px;">
                 Manage User
             </a>
         }
-        </div>
+    </div>
     <section class="after-loop">
         <div class="container">
             <div class="row">
