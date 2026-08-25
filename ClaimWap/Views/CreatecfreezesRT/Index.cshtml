@@ -204,6 +204,7 @@
                                     <option value="TAC" selected>TAC</option>
                                     <option value="AAC">AAC</option>
                                     <option value="OMP">OMP</option>
+                                    <option value="AGS">AGS</option>
                                     <option value="ALL">ALL</option>
                                 </select>
                             </span>
@@ -428,36 +429,19 @@
                     var _tpy = $("#_udertype").val();
                     var select = $("#slmcod");
                     select.children().remove();
-                    if (_tpy == "4") {
-                        select.append($("<option>").val("").text("เลือก Sales Man"));
-                        $(data).each(function (index, item) {
-                            select.append($("<option>").val(item.SLMCOD).text(item.SLMCOD + "/" + item.SLMNAM));
-                        });
-                        var slmcod = $("#slmcod").val();
+                    if (_tpy === "4" || _tpy === "1" || _tpy === "2" || _tpy === "5" || _tpy === "10") {
+                        var defaultValue = _tpy === "4" ? "" : "ALL";
+                        var defaultText = _tpy === "4" ? "เลือก Sales Man" : "ALL";
 
-                    } else if (_tpy == "1") {
-                        select.append($("<option>").val("ALL").text("ALL"));
-                        $(data).each(function (index, item) {
-                            select.append($("<option>").val(item.SLMCOD).text(item.SLMCOD + "/" + item.SLMNAM));
-                        });
-                        var slmcod = $("#slmcod").val();
+                        select.append($("<option>").val(defaultValue).text(defaultText));
 
-                    }
-                    else if (_tpy == "2") {
-                        select.append($("<option>").val("ALL").text("ALL"));
                         $(data).each(function (index, item) {
-                            select.append($("<option>").val(item.SLMCOD).text(item.SLMCOD + "/" + item.SLMNAM));
+                            select.append(
+                                $("<option>").val(item.SLMCOD).text(item.SLMCOD + "/" + item.SLMNAM)
+                            );
                         });
-                        var slmcod = $("#slmcod").val();
 
-                    }
-                    else if (_tpy == "5") {
-                        select.append($("<option>").val("ALL").text("ALL"));
-                        $(data).each(function (index, item) {
-                            select.append($("<option>").val(item.SLMCOD).text(item.SLMCOD + "/" + item.SLMNAM));
-                        });
                         var slmcod = $("#slmcod").val();
-
                     }
 
                 }

@@ -11,7 +11,9 @@ using System.Data.SqlClient;
 using System.Data;
 using Microsoft.Reporting.WebForms;
 using System.Text.RegularExpressions;
-
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
 
 namespace ClaimWap
 {
@@ -44,6 +46,7 @@ namespace ClaimWap
             string item = string.Empty;
             string cusre = string.Empty;
             string cmsib = string.Empty;
+            string rtno = string.Empty;
            // Doc = "RTA20010002,RTT20010009,RTT20010011";
             DataSet ds1 = new DataSet();
             string conString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
@@ -68,8 +71,9 @@ namespace ClaimWap
                      slm = dr["SLMCOD"].ToString() + '-' + dr["SLMNAM"].ToString();
                      item = dr["STKCOD"].ToString() + '-' + dr["STKDES"].ToString();
                      cmsib = dr["STMP_ID_SUB"].ToString();
-                 }
-                 dr.Close();
+                    rtno = dr["STMP_ID"].ToString();
+                }
+                dr.Close();
                  dr.Dispose();
                  cmd.Dispose();
                  con.Close();
@@ -112,27 +116,64 @@ namespace ClaimWap
             out streams,
             out warnings);
 
-            ////clear the response stream and write the bytes to the outputstream
-            //set content-disposition to “attachment” so that user is prompted to take an action
-            //on the file (open or save)
-            Response.Buffer = true;
-            Response.Clear();
-            Response.ContentType = mimeType;
-            Response.AddHeader("content-disposition", "attachment; filename=RequestRT-" + cmsib +"-"+ Cus + "-" + slm +"." + fileNameExtension);
+            //
+            // โหลดฟอนต์จากไฟล์
+            string fontPath = Server.MapPath("~/Fonts/C39P60DlTt.ttf");
+            BaseFont barcodeFont = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
-            Response.BinaryWrite(renderedBytes);
+            // อ่าน PDF ที่สร้างจาก RDLC แล้วฝังฟอนต์ใหม่
+            using (MemoryStream ms = new MemoryStream())
+            {
+                PdfReader reader = new PdfReader(renderedBytes);
+                using (PdfStamper stamper = new PdfStamper(reader, ms))
+                {
+                    int n = reader.NumberOfPages;
+                    for (int i = 1; i <= n; i++)
+                    {
+                        PdfContentByte cb = stamper.GetOverContent(i);
+                        cb.BeginText();
+                        cb.SetFontAndSize(barcodeFont, 28);
+                        cb.ShowTextAligned(Element.ALIGN_LEFT, "*" + rtno + "*", 471, 745, 0);
+                        cb.EndText();
+                    }
+                }
 
+                renderedBytes = ms.ToArray();
+                reader.Close();
+            }
 
-           // string path = (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)) + @"\Downloads\rptRequestClaim" + ".pdf";
-            string path = (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)) + @"\Downloads\RequestRT-" + cmsib +"-"+Cus + "-" + slm +".pdf";
-            //WebClient client = new WebClient();
-            // Byte[] buffer = client.DownloadData(path);
-            System.IO.File.Delete(path);
+            // สร้าง MemoryStream สำหรับรวม PDF
+            using (MemoryStream outputPdf = new MemoryStream())
+            {
+                Document document = new Document();
+                PdfCopy writer = new PdfCopy(document, outputPdf);
+                document.Open();
 
+                PdfReader readerCheck = new PdfReader(renderedBytes);
+                int totalPages = readerCheck.NumberOfPages;
+                readerCheck.Close();
 
-            Response.End();
+                for (int page = 1; page <= totalPages; page++)
+                {
+                    for (int copy = 1; copy <= 4; copy++)
+                    {
+                        using (PdfReader reader = new PdfReader(renderedBytes))
+                        {
+                            writer.AddPage(writer.GetImportedPage(reader, page));
+                        }
+                    }
+                }
 
+                document.Close();
+                byte[] finalPdf = outputPdf.ToArray();
 
+                Response.Clear();
+                Response.ContentType = "application/pdf";
+                Response.AddHeader("content-disposition",
+                    "attachment; filename=RequestRT-" + cmsib + "-" + Cus + "-" + slm + "." + fileNameExtension);
+                Response.BinaryWrite(finalPdf);
+                Response.End();
+            }
         }
     }
 }

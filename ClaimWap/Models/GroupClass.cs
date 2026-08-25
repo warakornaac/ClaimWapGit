@@ -805,16 +805,18 @@ namespace ClaimWap.Models
         public string Remake_Admin { get; set; }
         public string STMP_REASON_WH { get; set; }
     }
+
     public class SalesreturnDetailList
     {
         public SalesreturnDetail val { get; set; }
 
     }
+
     public class ClimeListDetail
     {
         public ClimeDetail val { get; set; }
-
     }
+
     // Class Image Files 
     public class ImageFiles
     {
@@ -825,11 +827,12 @@ namespace ClaimWap.Models
        public string IMAGE_NAME{ get; set; }
        public string PATH { get; set; }
     }
+
     public class ImageFilesListDetail
     {
         public ImageFiles val { get; set; }
-
     }
+
     public class LoginUserViewModel
     {
         [Required]
@@ -837,7 +840,6 @@ namespace ClaimWap.Models
         [StringLength(150)]
         [Display(Name = "User: ")]
         public string Usre { get; set; }
-
 
         [Required]
         [DataType(DataType.Password)]
@@ -852,11 +854,12 @@ namespace ClaimWap.Models
         public string PROD { get; set; }
         public string PRODNAM { get; set; }
     }
+
     public class PmListGetdata
     {
         public Pm val { get; set; }
-
     }
+
     public class itemimg
     {
         public string Img { get; set; }
@@ -864,16 +867,18 @@ namespace ClaimWap.Models
         public string Cim_No { get; set; }
         public string Im_No { get; set; }
     }
+
     public class TechLo
     {
         public string DefineCode { get; set; }
         public string Location { get; set; }
     }
+
     public class TecListGetdata
     {
         public TechLo val { get; set; }
-
     }
+
      public class Item_Detail
     {
         public string Company { get; set; }
@@ -886,12 +891,13 @@ namespace ClaimWap.Models
         public string GRPNAM { get; set; }
         public string PROD { get; set; }
         public string PRODNAM { get; set; }
-      }
+     }
+
      public class Item_DetailGetdata
      {
          public Item_Detail val { get; set; }
-
      }
+
     public class Receive_SupplierGetdata
     {
         public string CLM_NO_Supplier { get; set; }
@@ -942,13 +948,11 @@ namespace ClaimWap.Models
         public string LastRATEinv { get; set; }
         public string Cur_Sup { get; set; }
     }
+
     public class ListGetdataReceive_Supplier
     {
         public Receive_SupplierGetdata val { get; set; }
-
     }
-
-
     public class ClimedataRt
     {
         public string STMP_ID { get; set; }
@@ -984,6 +988,20 @@ namespace ClaimWap.Models
     public class ClimeRttempListDetail
     {
         public ClimedataRt val { get; set; }
+    }
 
+    public class UsrGrp
+    {
+        [Key]
+        public int ID { get; set; }
+        public string company { get; set; }
+        public string UsrID { get; set; }
+        public string Department { get; set; }
+        public string Email { get; set; }
+        public string SLMCOD { get; set; }
+        public int UsrTyp { get; set; }
+        public int ISApprover { get; set; }
+        public int UsrClmStaff { get; set; }
+        public int Usermail { get; set; }
     }
 }

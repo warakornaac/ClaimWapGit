@@ -329,6 +329,7 @@
                                 <option value="TAC">TAC</option>
                                 <option value="AAC">AAC</option>
                                 <option value="OMP">OMP</option>
+                                <option value="AGS">AGS</option>
                                 <option value="ALL" selected>ALL</option>
                             </select>
                         </div>
@@ -2029,86 +2030,98 @@
 
             });
         //approve ok//
-            $(".btnapproval").click(function () {
+        var isSubmitting = false;
+        $(".btnapproval").click(function () {
+            if (isSubmitting) return;
+            isSubmitting = true;
+            var btn = $(this);
+            btn.prop("disabled", true);
 
-                var data = [];
-                var supdate = $("#_pmdate").val(); //วันที่PM พิจารณา
-                var status = $(this).attr('cak');//สถานะอนุมัติ
-                var remake = $("#remakepmall").val();
-                var userlogin = $("#_uderlogin").val();
-                $('table tr').find('input[type="checkbox"]:checked').each(function () {
-                    var indoc = $(this).attr('cmno');
-                    var indocsup = $(this).attr('clmnoup');
-                    var ItemList = {
-                        indoc: indoc,
-                        indocsup: indocsup,
-                        insertdate: supdate,
-                        supstus: status,
-                        remake: remake,
-                        userlogin: userlogin
-                    };
+            var data = [];
+            var supdate = $("#_pmdate").val(); //วันที่PM พิจารณา
+            var status = $(this).attr('cak');//สถานะอนุมัติ
+            var remake = $("#remakepmall").val();
+            var userlogin = $("#_uderlogin").val();
+            $('table tr').find('input[type="checkbox"]:checked').each(function () {
+                var indoc = $(this).attr('cmno');
+                var indocsup = $(this).attr('clmnoup');
+                var ItemList = {
+                    indoc: indoc,
+                    indocsup: indocsup,
+                    insertdate: supdate,
+                    supstus: status,
+                    remake: remake,
+                    userlogin: userlogin
+                };
 
-                    data.push(ItemList);
-                    console.log(data);
+                data.push(ItemList);
+                console.log(data);
 
-                });
-                if (data.length == 0) {
-                    $("#textAlertWarning").empty();
-                    $("#textAlertWarning").text("ยังไม่ได้เลือกรายการอนุมัติ กรุณาเลือกรายการที่ต้องการอนุมัติ");
-                    $("#myModalWarning").modal(); return false;
-                }
-                var DataSend = JSON.stringify(data);
-                console.log(DataSend);
-
-                $.ajax({
-                    url: '@Url.Action("SaveProcessSalesreturnDetailPMAll", "ProcessApproveRT")',
-                    data: {
-                        data: DataSend,
-
-                    },
-                    type: "POST",
-                    dataType: "JSON",
-                    success: function (data) {
-                        console.log(data);
-                        if (data.message == "true") {
-                            //  waitingDialog.hide();
-                            $("#textAlertSucces").empty();
-                            $("#textAlertSucces").text("บันทึกข้อมูลสำเร็จ");
-                            $("#myModalSucces").modal();
-                            //location.reload();
-                            $('#checkboxAll').prop("disabled", false);
-                            $("#remakepmall").val("");
-                            $("#myModalSucces").click(function () {
-                                var valpm = $("#_PM").val();
-                                var valststus = $("#_status").val();
-                                var valDoc = $("#searchclaimno").val();
-                                var valcom = $("#_company").val();
-                                var valstkgrp = $("#_stkgrp").val();
-                                var valstatdate = $("#_statdate").val();
-                                var valenddate = $("#_enddate").val();
-                                var valstatdatecus = $("#_statdate").val();
-                                var valenddatecus = $("#_enddate").val();
-                                var itemno = $("#_itemnosearch").val();
-
-                                if (itemno != "") {
-                                    itemno = splitval(itemno);
-                                } else {
-                                    itemno = "";
-                                }
-                                Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp, valstatdate, valenddate, itemno, valstatdatecus, valenddatecus)
-                                $("#_status").val("0");
-                                // Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp)
-                                // $("table tr #xxx").click();
-                            });
-                        } else {
-                            //  waitingDialog.hide();
-                            $("#textAlertWarning").empty();
-                            $("#textAlertWarning").text(data.message);
-                            $("#myModalWarning").modal(); return false;
-                        }
-                    }
-                });
             });
+            if (data.length == 0) {
+                $("#textAlertWarning").empty();
+                $("#textAlertWarning").text("ยังไม่ได้เลือกรายการอนุมัติ กรุณาเลือกรายการที่ต้องการอนุมัติ");
+                $("#myModalWarning").modal(); return false;
+            }
+            var DataSend = JSON.stringify(data);
+            console.log(DataSend);
+
+            $.ajax({
+                url: '@Url.Action("SaveProcessSalesreturnDetailPMAll", "ProcessApproveRT")',
+                data: {
+                    data: DataSend,
+
+                },
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+                    console.log(data);
+                    if (data.message == "true") {
+                        //  waitingDialog.hide();
+                        $("#textAlertSucces").empty();
+                        $("#textAlertSucces").text("บันทึกข้อมูลสำเร็จ");
+                        $("#myModalSucces").modal();
+                        //location.reload();
+                        $('#checkboxAll').prop("disabled", false);
+                        $("#remakepmall").val("");
+                        $("#myModalSucces").click(function () {
+                            var valpm = $("#_PM").val();
+                            var valststus = $("#_status").val();
+                            var valDoc = $("#searchclaimno").val();
+                            var valcom = $("#_company").val();
+                            var valstkgrp = $("#_stkgrp").val();
+                            var valstatdate = $("#_statdate").val();
+                            var valenddate = $("#_enddate").val();
+                            var valstatdatecus = $("#_statdate").val();
+                            var valenddatecus = $("#_enddate").val();
+                            var itemno = $("#_itemnosearch").val();
+
+                            if (itemno != "") {
+                                itemno = splitval(itemno);
+                            } else {
+                                itemno = "";
+                            }
+                            Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp, valstatdate, valenddate, itemno, valstatdatecus, valenddatecus)
+                            $("#_status").val("0");
+                            // Getclmimpm(valpm, valststus, valDoc, valcom, valstkgrp)
+                            // $("table tr #xxx").click();
+                        });
+                    } else {
+                        //  waitingDialog.hide();
+                        $("#textAlertWarning").empty();
+                        $("#textAlertWarning").text(data.message);
+                        $("#myModalWarning").modal(); return false;
+                    }
+                },
+                error: function () {
+                    alert("เกิดข้อผิดพลาด");
+                },
+                complete: function () {
+                    isSubmitting = false;
+                    btn.prop("disabled", false);
+                }
+            });
+        });
 
         $("#_btnsaveapprove").click(function () {
             var nokey = $("#Nospankey").text();
