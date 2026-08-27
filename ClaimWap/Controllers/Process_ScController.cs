@@ -106,6 +106,45 @@ namespace ClaimWap.Controllers
 
             return Json(new { message, subno }, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult saveProcessAfterRejected(string aj_REQ_NO, string aj_CLM_NO_SUB, string aj_ANLYS_AFTERPROCESS)
+        {
+            string message = string.Empty;
+            string subno = string.Empty;
+            string genStatus = string.Empty;
+            var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
+            SqlConnection Connection = new SqlConnection(connectionString);
+            try
+            {
+                Connection.Open();
+                var command = new SqlCommand("P_Process_AfterReject_Claim", Connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@inCLM_ID", aj_REQ_NO);
+            command.Parameters.AddWithValue("@inCLM_SUB", aj_CLM_NO_SUB);
+            command.Parameters.AddWithValue("@inRemark", aj_ANLYS_AFTERPROCESS);
+            command.Parameters.AddWithValue("@inusrlogin", User.Identity.Name);
+
+                SqlParameter returnValuedoc = new SqlParameter("@outGenstatus", SqlDbType.NVarChar, 100);
+                returnValuedoc.Direction = System.Data.ParameterDirection.Output;
+                command.Parameters.Add(returnValuedoc);
+
+                command.ExecuteNonQuery();
+                subno = returnValuedoc.Value.ToString();
+                command.Dispose();
+                genStatus = returnValuedoc.Value?.ToString() ?? "N";
+                message = genStatus == "Y" ? "true" : "false";
+
+            }
+            catch (Exception ex)
+            {
+                genStatus = "N";
+                message = ex.Message;
+            }
+
+
+            Connection.Close();
+
+            return Json(new { message, genStatus }, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult SaveProcessClaimDetailPM(string aj_REQ_NO, string aj_CLM_NO_SUB, string aj_PM_NAME,string aj_PM_APPRV_STATUS,string aj_PM_REMARK,string aj_PM_APPRV_DATE,string aj_PM_Replacement)
         {
             string message = string.Empty;

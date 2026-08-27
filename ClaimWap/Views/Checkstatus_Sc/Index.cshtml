@@ -35,6 +35,17 @@
             transition: 0.3s;
         }
 
+        /* Action area is placed with the claim-detail fields, below the claim reason. */
+        #div_sale_process {
+            gap: 10px;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-left: 4px solid #17a2b8;
+            border-radius: 4px;
+        }
+
             #myImg:hover {
                 opacity: 0.7;
             }
@@ -542,6 +553,17 @@
                                     <p id="textclaimno_sub" style="font-weight: 400;"></p>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group d-flex align-items-center flex-wrap" id="div_sale_process" hidden>
+                                    <span class="mb-0" style="font-weight:600;"><i class="fa fa-pencil"></i> เลือกวิธีจัดการสินค้า:</span>
+                                    <select id="select_saleman_process" class="form-control" style="width:auto; min-width:180px;">
+                                        <option >เลือกดำเนินงาน</option>
+                                        <option value="ต้องการให้ทำลาย">ต้องการให้ทำลาย</option>
+                                        <option value="คืนสินค้ากลับ">คืนสินค้ากลับ</option>
+                                    </select>
+                                    <button class="btn btn-info" id="_btnsavesalecondition">บันทึกผลการพิจารณา/Submit</button>
+                                </div>
+                            </div>
                         </div>
                         <div><span id="Nospankey" style="color: blue;text-decoration: underline;font-weight: bold"></span> </div>
                         <div><span id="subNospan" style="color: blue;text-decoration: underline;font-weight: bold"></span> </div>
@@ -696,13 +718,14 @@
                                     <span style="color: blue;text-decoration: underline;font-weight: bold" id="_weqty"></span>
                                 </div>
                             </div>
+
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <span> <i class="fa fa-pencil"></i> สาเหตุการ Claim:</span>
                                     <span style="color: blue;text-decoration: underline;font-weight: bold" id="causeclaim"></span>
                                 </div>
                             </div>
-
+   
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
@@ -1590,6 +1613,7 @@
     <input type="hidden" id="_udertype" value="@usertype" />
 
     <script type="text/javascript">
+        var isSLM='';
         $("#_itemno").autocomplete({
             selectFirst: true,
             autoFocus: true,
@@ -1671,6 +1695,7 @@
             var udertype = $("#_udertype").val();
             var Userlogin = $("#_uderlogin").val();
             //alert(udertype);
+           
             if (udertype == "4") {
                 $.ajax({
                     url: '@Url.Action("GetdataCountProcess", "GetdataCenter")',
@@ -3342,6 +3367,17 @@
                             var weVal = data.Getdata[0].val.WE_Qty;
                             $("#_wrqty").text(wrVal);
                             $("#_weqty").text(weVal);
+                            //$("#_uder").text(weVal);
+                            if ($("#_udertype").val() == "4" && data.Getdata[0].val.PM_APPRV_STATUS == "2") {
+                                //ARMARM
+
+                                $("#div_sale_process").prop("hidden", false);
+                            }
+                            else {
+                                $("#div_sale_process").prop("hidden", true);
+
+                            }
+
 
                             if (wrVal > 0 || weVal > 0) {
                                 $("#wrwe_qty_row").prop("hidden", false);
@@ -3763,6 +3799,41 @@
             $(document).on('click', '#myModalzoom div', function () {
                 var modal = document.getElementById('myModalzoom');
                 modal.style.display = "none";
+            });
+            $("#_btnsavesalecondition").on("click", function () {
+                var req_no = $("#textclaimno").text();
+                var clm_no_sub = $("#textclaimno_sub").text();
+                var afterprocess = $("#select_saleman_process").val();
+
+                if ($("#select_saleman_process").prop("selectedIndex") == 0) {
+                    $("#textAlertWarningmes").empty();
+                    $("#textAlertWarningmes").text("กรุณาเลือกวิธีจัดการสินค้า");
+                    $("#myModalWarning").modal();
+                    return false;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("saveProcessAfterRejected", "Process_Sc")',
+                    data: {
+                        aj_REQ_NO: req_no,
+                        aj_CLM_NO_SUB: clm_no_sub,
+                        aj_ANLYS_AFTERPROCESS: afterprocess
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.message == "true") {
+                            $("#textAlertSucces").empty();
+                            $("#textAlertSucces").text("บันทึกวิธีจัดการสินค้าสำเร็จ");
+                            $("#myModalSucces").modal();
+                        } else {
+                            $("#textAlertWarningmes").empty();
+                            $("#textAlertWarningmes").text(data.message);
+                            $("#myModalWarning").modal();
+                        }
+                    }
+                });
             });
             $("#_updateafterprodate").on("click", function () {
                 var data = new Array();
