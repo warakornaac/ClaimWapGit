@@ -649,6 +649,10 @@ namespace ClaimWap.Models
 
                 public string Requestdatecus { get; set; }
                 public string CLM_CLAIMNOTE { get; set; }
+
+                public string WR_Qty { get; set; }
+                public string WE_Qty { get; set; }
+
     }
     public class Salesreturnsupper
     {

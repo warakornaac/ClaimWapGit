@@ -625,6 +625,18 @@
                             <span style="color: blue;text-decoration: underline;font-weight: bold" id="_claimqty_reject"></span>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-pencil"></i> WR_Qty:</span>
+                            <span style="color: blue;text-decoration: underline;font-weight: bold" id="_wrqty"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-pencil"></i> WE_Qty:</span>
+                            <span style="color: blue;text-decoration: underline;font-weight: bold" id="_weqty"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
 
@@ -1146,6 +1158,34 @@
                                 <input type="number" id="tec2_clm_qty_reject" value="0" disabled />
                             </span>
                         </div>
+                    </div>
+
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row" id="wrwe_qty_row" hidden>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span> <i class="fa fa-check-circle"></i> WR Qty.:</span>
+                                    <span>
+                                        <input type="number" id="tec2_clm_qty_wr" disabled />
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span> <i class="fa fa-check-circle"></i> We Qty.:</span>
+                                    <span>
+                                        <input type="number" id="tec2_clm_qty_we" disabled />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+
                     </div>
                 </div>
                 <div class="row">
@@ -2480,6 +2520,22 @@
                                 $("#tec2_clm_qty").val(data.Getdata[0].val.CLM_QTY_ORG);
                                 $("#tec2_clm_qty_pass").val(data.Getdata[0].val.CLM_QTY_PASS);
                                 $("#tec2_clm_qty_reject").val(data.Getdata[0].val.CLM_QTY_REJECT);
+
+                                var wrVal = data.Getdata[0].val.WR_Qty;
+                                var weVal = data.Getdata[0].val.WE_Qty;
+                                $("#_wrqty").text(wrVal);
+                                $("#_weqty").text(weVal);
+
+                                if (wrVal > 0 || weVal > 0) {
+                                    $("#wrwe_qty_row").prop("hidden", false);
+                                    $("#tec2_clm_qty_wr").val(wrVal);
+                                    $("#tec2_clm_qty_we").val(weVal);
+                                }
+                                else {
+                                    $("#wrwe_qty_row").prop("hidden", true);
+
+                                }
+
                                 ///ตรวจสอบรับสินค้าเคลม////
                                 var today = new Date();
                                 var _cktype = $("#_udertype").val();
