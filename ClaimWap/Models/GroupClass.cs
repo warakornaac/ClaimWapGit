@@ -539,6 +539,8 @@ namespace ClaimWap.Models
 			    public string TECH2_NAME{ get; set; }
 			    public string TECH2_ANLYS_STATUS{ get; set; }
 			    public string TECH2_REMARK{ get; set; }
+			    public string TECH2_ProblemCategory { get; set; }
+			    public string TECH2_ProblemCategoryDetail { get; set; }
 			    public string TECH2_ANLYS_DATE{ get; set; }
 			    public string TECH2_PROCESS_STATUS{ get; set; }
 			    public string PM_NAME { get; set; }

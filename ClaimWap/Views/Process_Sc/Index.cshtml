@@ -1249,19 +1249,30 @@
                                 <form>
                                     <input type="checkbox" name="vehicle" value="5" style="zoom: 2.5;margin-left: -10px;" id="e">Handing Damage<br>
                                     <input type="checkbox" name="vehicle" value="6" style="zoom: 2.5;margin-left: -10px;" checked id="f">Other<br>
-
                                 </form>
-
                             </div>
                         </div>
                         <div style="border-bottom: 1px solid rgba(0,0,0,.125); "></div>
                     </div>
                     <div class="row">
-
                         <div class="col-md-6">
                             <div class="form-group">
-
                                 <span><textarea rows="6" cols="10" id="remaketec2" placeholder="หมายเหตุ/TECH2 comment" style="width: 100%;"></textarea></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <span><i class="fa fa-pencil"></i>สาเหตุการ Claim/Problem Category:</span>
+                                <span><select class="bar" id="problemCategory_tech2"></select></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <span><textarea rows="6" cols="10" id="problemCategoryDetail_tech2" placeholder="รายละเอียด อาการ ลักษณะของปัญหา/Problem Details" style="width: 100%;"></textarea></span>
                             </div>
                         </div>
                     </div>
@@ -1708,6 +1719,8 @@
                             $("#remaketec2").attr("disabled", "disabled");   //หมายเหตุ
                             $("#tec2_clm_qty_pass").attr("disabled", "disabled");   //เคลมได้
                             $("#tec2_clm_qty_reject").attr("disabled", "disabled");   //เคลมไม่ได้
+                            $("#problemCategory_tech2").attr("disabled", "disabled");   //สถานะ
+                            $("#problemCategoryDetail_tech2").attr("disabled", "disabled");   //สถานะ
                             $("#_btnsaveconsider").attr("disabled", "disabled");
 
                             $("#_PM").attr("disabled", "disabled");  // Product Manager
@@ -1736,6 +1749,8 @@
                             $("#remaketec2").removeAttr('disabled');   //หมายเหตุ
                             $("#tec2_clm_qty_pass").removeAttr("disabled");   //เคลมได้
                             $("#tec2_clm_qty_reject").removeAttr("disabled");   //เคลมไม่ได้
+                            $("#problemCategory_tech2").removeAttr("disabled");   //สถานะ
+                            $("#problemCategoryDetail_tech2").removeAttr("disabled");   //สถานะ
                             $("#_btnsaveconsider").removeAttr('disabled');
 
                             $("#_PM").attr("disabled", "disabled");  // Product Manager
@@ -1843,6 +1858,8 @@
                             $("#remaketec2").attr("disabled", "disabled");   //หมายเหตุ
                             $("#tec2_clm_qty_pass").attr("disabled", "disabled");   //เคลมได้
                             $("#tec2_clm_qty_reject").attr("disabled", "disabled");   //เคลมไม่ได้
+                            $("#problemCategory_tech2").attr("disabled", "disabled");   //สถานะ
+                            $("#problemCategoryDetail_tech2").attr("disabled", "disabled");   //สถานะ
                             $("#_btnsaveconsider").attr("disabled", "disabled");
 
 
@@ -2017,6 +2034,22 @@
                         select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
                     });
                     //  var CUSCODt = $("#CUSCOD option:selected").text();
+                }
+            });
+            //ดึงสาเหตุ tech2
+                $.ajax({
+                url: '@Url.Action("GetdateStatusClm", "GetdataCenter")',
+                data: {
+                    Name: 39
+                },
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+                    var select = $("#problemCategory_tech2");
+                    select.children().remove();
+                    $(data).each(function (index, item) {
+                        select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
+                    });
                 }
             });
 
@@ -2418,7 +2451,10 @@
                     $("#_name2tec").val(_ckuser); //รับรองการตรวจสอบโดย
                     $("#_appdatetec").val(today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2));  //วันที่เทคนิคพิจารณา
                     $("#_apprvststus").val("0"); // สถานะ
+                    $("#problemCategory_tech2").val("0"); // สถานะสาเหตุ
                     $("#remaketec2").val("");   //หมายเหตุ
+                    $("#problemCategory_tech2").val("0"); // สถานะ
+                    $("#problemCategoryDetail_tech2").val(""); // สถานะ
                 } else {
                     //tap วิเคราะห์//
                     $("#_shelfloctec").val("0");//Shelf Location
@@ -2448,6 +2484,8 @@
                     $("#_appdatetec").val(today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2));  //วันที่เทคนิคพิจารณา
                     $("#_apprvststus").val("0"); // สถานะ
                     $("#remaketec2").val("");   //หมายเหตุ
+                    $("#problemCategory_tech2").val("0"); // สถานะ
+                    $("#problemCategoryDetail_tech2").val(""); // สถานะ
                     // }
 
                     //  if (_cktype == "3") {
@@ -3200,6 +3238,8 @@
                                     $("#_name2tec").val(data.Getdata[0].val.TECH2_NAME); //รับรองการตรวจสอบโดย
                                     $("#_appdatetec").val(data.Getdata[0].val.TECH2_ANLYS_DATE);  //วันที่เทคนิคพิจารณา
                                     $("#_apprvststus").val(data.Getdata[0].val.TECH2_ANLYS_STATUS); // สถานะ
+                                    $("#problemCategory_tech2").val(data.Getdata[0].val.TECH2_ProblemCategory); // สถานะสาเหตุ
+                                    $("#problemCategoryDetail_tech2").val(data.Getdata[0].val.TECH2_ProblemCategoryDetail); // สถานะสาเหตุรายละเอียด
                                     $("#remaketec2").val(data.Getdata[0].val.TECH2_REMARK);   //หมายเหตุ
                                     //console.log('_cktype = ' + _cktype + '_PMProststus =  ' + _PMProststus);
                                     if (_PMProststus == "0") {// if PM<>Approve
@@ -3247,6 +3287,8 @@
                                         $("#_appdatetec").val(today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2));  //วันที่เทคนิคพิจารณา
                                         $("#_apprvststus").val("0"); // สถานะ
                                         $("#remaketec2").val("");   //หมายเหตุ
+                                        $("#problemCategory_tech2").val("0"); // สถานะ
+                                        $("#problemCategoryDetail_tech2").val("");   //หมายเหตุรายละเอียด
                                     } else {
 
                                         $("#_btnsavete1").css("display", "block");
@@ -3261,6 +3303,8 @@
                                         $("#_appdatetec").val(today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2));  //วันที่เทคนิคพิจารณา
                                         $("#_apprvststus").val("0"); // สถานะ
                                         $("#remaketec2").val("");   //หมายเหตุ
+                                        $("#problemCategory_tech2").val("0"); // สถานะ
+                                        $("#problemCategoryDetail_tech2").val("");   //หมายเหตุรายละเอียด
                                     }
 
                                 }
@@ -5160,6 +5204,8 @@
                 var qty_pass_org = $("#tec2_clm_qty_org").val();   //จำนวนเคลมทั้งหมด
                 var qty_pass = $("#tec2_clm_qty_pass").val();      //จำนวนเคลมได้
                 var qty_reject = $("#tec2_clm_qty_reject").val();  //จำนวนเคลมไม่ได้
+                var problemCategory_tech2 = $("#problemCategory_tech2").val();  //สาเหตุ
+                var problemCategoryDetail_tech2 = $("#problemCategoryDetail_tech2").val();  //สาเหตุเพิ่มเติม
                 var sumQty = 0;
 
                 var favorite = [];
@@ -5219,6 +5265,8 @@
                         aj_TECH2_QTY_ORG: qty_pass_org,
                         aj_TECH2_QTY_PASS: qty_pass,
                         aj_TECH2_QTY_REJECT: qty_reject,
+                        aj_TECH2_problemCategory: problemCategory_tech2,
+                        aj_TECH2_QTY_problemCategoryDetail: problemCategoryDetail_tech2,
                     },
                     type: "POST",
                     dataType: "JSON",

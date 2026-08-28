@@ -51,6 +51,7 @@ namespace ClaimWap
             string item = string.Empty;
             string cmsib = string.Empty;
             string cmno = string.Empty;
+            List<string> cmnoList = new List<string>();
 
             DataSet ds1 = new DataSet();
             string conString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
@@ -85,6 +86,11 @@ namespace ClaimWap
                     item = dr["STKCOD"].ToString() + '-' + dr["STKDES"].ToString();
                     cmsib = dr["CLM_NO_SUB"].ToString();
                     cmno = dr["REQ_NO"].ToString();
+                    string reqNo = dr["REQ_NO"].ToString();
+                    if (!string.IsNullOrEmpty(reqNo) && !cmnoList.Contains(reqNo))
+                    {
+                        cmnoList.Add(reqNo);
+                    }
                 }
                 dr.Close();
                 cmd.Dispose();
@@ -132,19 +138,46 @@ namespace ClaimWap
             BaseFont barcodeFont = BaseFont.CreateFont(fontPath, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
             // อ่าน PDF ที่สร้างจาก RDLC แล้วฝังฟอนต์ใหม่
+            //using (MemoryStream ms = new MemoryStream())
+            //{
+            //    PdfReader reader = new PdfReader(renderedBytes);
+            //    using (PdfStamper stamper = new PdfStamper(reader, ms))
+            //    {
+            //        int n = reader.NumberOfPages;
+            //        for (int i = 1; i <= n; i++)
+            //        {
+            //            PdfContentByte cb = stamper.GetOverContent(i);
+            //            cb.BeginText();
+            //            cb.SetFontAndSize(barcodeFont, 28);
+            //            cb.ShowTextAligned(Element.ALIGN_LEFT, "*" + cmno + "*", 461, 742, 0);
+            //            //cb.ShowTextAligned(Element.ALIGN_LEFT, "*"+ cmsib + "*", 448, 742, 0); 
+            //            cb.EndText();
+            //        }
+            //    }
+
+            //    renderedBytes = ms.ToArray();
+            //    reader.Close();
+            //}
             using (MemoryStream ms = new MemoryStream())
             {
                 PdfReader reader = new PdfReader(renderedBytes);
                 using (PdfStamper stamper = new PdfStamper(reader, ms))
                 {
                     int n = reader.NumberOfPages;
+
                     for (int i = 1; i <= n; i++)
                     {
                         PdfContentByte cb = stamper.GetOverContent(i);
                         cb.BeginText();
                         cb.SetFontAndSize(barcodeFont, 28);
-                        cb.ShowTextAligned(Element.ALIGN_LEFT, "*" + cmno + "*", 461, 742, 0);
-                        //cb.ShowTextAligned(Element.ALIGN_LEFT, "*"+ cmsib + "*", 448, 742, 0); 
+
+                        // หน้า 1 = cmnoList[0], หน้า 2 = cmnoList[1], ...
+                        if (i - 1 < cmnoList.Count)
+                        {
+                            string currentReqNo = cmnoList[i - 1];
+                            cb.ShowTextAligned(Element.ALIGN_LEFT, "*" + currentReqNo + "*", 461, 742, 0);
+                        }
+
                         cb.EndText();
                     }
                 }
