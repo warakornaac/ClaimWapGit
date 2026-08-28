@@ -1581,7 +1581,7 @@ namespace ClaimWap.Models
                 model.CLM_CLAIMNOTE = dr["CLM_ClaimNote"].ToString();
                 model.WR_Qty = dr["WR_Qty"] == DBNull.Value ? "" : dr["WR_Qty"].ToString();
                 model.WE_Qty = dr["WE_Qty"] == DBNull.Value ? "" : dr["WE_Qty"].ToString();
-
+                model.SLM_Remark = dr["SLM_Remark"] == DBNull.Value ? "" : dr["SLM_Remark"].ToString();
                 Getdata.Add(new ClimeListDetail { val = model });
             }
             dr.Close();
