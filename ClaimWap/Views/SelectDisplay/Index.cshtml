@@ -7,6 +7,7 @@
 <html>
 <head>
     <link href="~/Content/css/style-theme.css" rel="stylesheet" />
+
 </head>
 
 <body @*oncontextmenu="return false"*@>
@@ -27,9 +28,14 @@
     </section>
     <div class="text-center">
         <h4>Welcome to TRU AAC Service System </h4>
-
+        @if (this.Session["Department"] != null &&
+     this.Session["Department"].ToString() == "MIS")
+        {
+            <a href="~/ManageUser/Index" class="btn btn-outline-info btn-sm" style="border-radius: 30px;">
+                Manage User
+            </a>
+        }
     </div>
-
     <section class="after-loop">
         <div class="container">
             <div class="row">

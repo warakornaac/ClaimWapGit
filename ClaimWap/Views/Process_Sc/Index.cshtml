@@ -534,6 +534,10 @@
                 <div class="card-body" id="myDIV">
                     <div><span id="Nospankey" style="color: blue;text-decoration: underline;font-weight: bold"></span> </div>
                     <div><span id="subNospan" style="color: blue;text-decoration: underline;font-weight: bold"></span> </div>
+                    <input type="hidden" id="org_wr"/>
+                    <input type="hidden"id="org_we"/>
+                    <input type="hidden"id="accept_wr"/>
+                    <input type="hidden"id="accept_we"/>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -680,6 +684,18 @@
                             <div class="form-group">
                                 <span> <i class="fa fa-pencil"></i> Reference No.	:</span>
                                 <span style="color: blue;text-decoration: underline;font-weight: bold" id="claim_note"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> WR_Qty:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_wrqty"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> WE_Qty:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_weqty"></span>
                             </div>
                         </div>
                     </div>
@@ -929,9 +945,9 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 @*<span> <i class="fa fa-calendar"></i> วันที่ตรวจสอบ:</span>
-                                                    <span>
-                                        <input type="date" data-date-format="dd/mm/yy" id="_datechecktec" />
-                                    </span>*@
+                                                <span>
+                                    <input type="date" data-date-format="dd/mm/yy" id="_datechecktec" />
+                                </span>*@
                             </div>
                         </div>
                     </div>
@@ -945,14 +961,14 @@
                     </div>
 
                     @*<div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <button class="btn-info" id="_btnsavete1">บัททึกการตรวจสอบ</button>
-                                </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <button class="btn-info" id="_btnsavete1">บัททึกการตรวจสอบ</button>
                             </div>
+                        </div>
 
 
-                        </div>*@
+                    </div>*@
                 </div>
 
 
@@ -1014,6 +1030,7 @@
                                 <span> <i class="fa fa-pencil"></i> สถานะการวิเคราะห์/Warranty claim type:</span>
                                 <span>
                                     <select class="bar" id="_anlysstatustec1"></select>
+                                    <span id="showWrWe" hidden>จำนวน WR: <span id="spanWr" style="font-weight: bold;color: blue;"></span> จำนวน WE: <span id="spanWe" style="font-weight: bold;color: blue;"></span></span>
                                 </span>
                             </div>
                         </div>
@@ -1064,11 +1081,11 @@
                             </div>
                         </div>
                         @*<div class="col-md-4">
-                                <div class="form-group">
+                            <div class="form-group">
 
-                                    <button class="btn-info" id="_btnsavereturn" style="display: block;">บันทึก</button>
-                                </div>
-                            </div>*@
+                                <button class="btn-info" id="_btnsavereturn" style="display: block;">บันทึก</button>
+                            </div>
+                        </div>*@
                     </div>
                     <hr>
                     <div class="row">
@@ -1135,9 +1152,9 @@
                     <div class="col-xs-6">
 
                         @*<input type='file' id="FileUpload3" accept="image/*" /><span id="ststus3" style="color: brown; font-size: larger;"></span>
-                            <input type='file' id="FileUpload4" accept="image/*" /><span id="ststus4" style="color: brown; font-size: larger;"></span>
-                            <input type="button" id="btnUpload3" value="Upload Files" style="display:none" />
-                            <input type="button" id="btnUpload4" value="Upload Files" style="display:none" />*@
+                        <input type='file' id="FileUpload4" accept="image/*" /><span id="ststus4" style="color: brown; font-size: larger;"></span>
+                        <input type="button" id="btnUpload3" value="Upload Files" style="display:none" />
+                        <input type="button" id="btnUpload4" value="Upload Files" style="display:none" />*@
 
                     </div>
                     <br>
@@ -1218,6 +1235,33 @@
                                     <input type="number" id="tec2_clm_qty_reject" value="0" onkeyup="tech2ChekQty()" style="border-bottom: 5px solid #b33c0f;" />
                                 </span>
                             </div>
+                        </div>
+                        <div class="col-md-4">
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row" id="wrwe_qty_row" hidden>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span> <i class="fa fa-check-circle"></i> WR Qty.:</span>
+                                    <span>
+                                        <input type="number" id="tec2_clm_qty_wr" value="0" onkeyup="" style="border-bottom: 5px solid #b33c0f;" />
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <span> <i class="fa fa-check-circle"></i> We Qty.:</span>
+                                    <span>
+                                        <input type="number" id="tec2_clm_qty_we" value="0" onkeyup="" style="border-bottom: 5px solid #b33c0f;" />
+                                    </span>
+                                </div>
+                            </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-4">
+
                         </div>
                     </div>
                     <span><i class="fa fa-pencil"></i>Warranty Claim Type</span><br />
@@ -1463,10 +1507,72 @@
 
             </div>
         </div>
+        @*ARM 26082026*@
+        <!-- Modal -->
+        <div class="modal fade" id="weWrModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            กำหนดค่า WR / WE
+                        </h5>
+
+                        <button type="button"
+                                class="close"
+                                data-dismiss="modal">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        
+                        <div class="form-group">
+                            <span >
+                                WR:
+                            </span>
+
+                            <input type="text"
+                                   id="txtWR"
+                                   class="form-control"
+                                   placeholder="กรอกค่า WR">
+                        </div>
+
+                        <div class="form-group">
+                            <span >
+                                WE:
+                            </span>
+
+                            <input type="text"
+                                   id="txtWE"
+                                   class="form-control"
+                                   placeholder="กรอกค่า WE">
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button"
+                                class="btn btn-secondary"
+                                data-dismiss="modal">
+                            ยกเลิก
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-primary"
+                                id="btnSaveWeWr">
+                            บันทึก
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- EndModal -->
     <script type="text/javascript">
+        let tech1_anys_status;
         async function tech2ChekQty() {
             var qty_all = 0, qty_pass = 0, qty_reject = 0, qty_sum = 0;
             var tec2_clm_qty_org = $("#tec2_clm_qty_org").val();//ยอดทั้งหมด
@@ -1493,6 +1599,14 @@
                 tec2_clm_qty = tec2_clm_qty;
             } else {
                 tec2_clm_qty = tec2_clm_qty_org;
+            }
+
+            if (tec2_clm_qty_pass != 0 || tec2_clm_qty_pass != '') {
+                $("#wrwe_qty_row").prop("hidden", false);
+            }
+            else {
+                $("#wrwe_qty_row").prop("hidden", true);
+
             }
 
             console.log('tec2_clm_qty = ' + tec2_clm_qty);
@@ -1548,6 +1662,76 @@
 
             minLength: 2//minLength as 2, it means when ever user enter 2 character in TextBox the AutoComplete method will fire and get its source data.
         });
+        //ARM 26082026
+        $("#tec2_clm_qty_pass").focusout(function () {
+            //$(this).css("background-color", "#FFFFFF");
+            var tec2_clm_qty_pass = $(this).val();//ยอดที่เคลมได้
+            if (tec2_clm_qty_pass > 0) {
+                $("#wrwe_qty_row").prop("hidden", false);
+            }
+            else {
+                $("#wrwe_qty_row").prop("hidden", true);
+            }
+        });
+        $(document).ready(function () {
+            var tec2_clm_qty_pass = $("#tec2_clm_qty_pass").val();//ยอดที่เคลมได้
+            if (tec2_clm_qty_pass > 0) {
+                $("#wrwe_qty_row").prop("hidden", false);
+            }
+            else {
+                $("#wrwe_qty_row").prop("hidden", true);
+            }
+
+            $('#tec2_clm_qty_wr').on('input', function () {
+                var qty_req = parseFloat($('#tec2_clm_qty_pass').val()) || 0;
+
+                let we = parseFloat($(this).val()) || 0;
+
+                if (qty_req - we < 0) {
+
+                    alert('ไม่สามารถใส่เกินจำนวน ' + qty_req + ' ได้');
+
+                    $(this).val(qty_req);
+                    $('#tec2_clm_qty_we').val(0);
+
+                    return;
+                }
+
+                $('#tec2_clm_qty_we').val(qty_req - we);
+            });
+
+
+            $('#tec2_clm_qty_we').on('input', function () {
+                var qty_req = parseFloat($('#tec2_clm_qty_pass').val()) || 0;
+                
+                let wr = parseFloat($(this).val()) || 0;
+
+                if (qty_req - wr < 0) {
+
+                    alert('ไม่สามารถใส่เกินจำนวน ' + qty_req + ' ได้');
+
+                    $(this).val(qty_req);
+                    $('#tec2_clm_qty_wr').val(0);
+
+                    return;
+                }
+
+                $('#tec2_clm_qty_wr').val(qty_req - wr);
+            });
+
+
+        });
+
+        $('#btnSaveWeWr').click(function () {
+            let wrval = $('#txtWR').val()||0;
+            let weval = $('#txtWE').val()||0;
+
+            $('#spanWr').text(wrval);
+            $('#spanWe').text(weval);
+            $('#showWrWe').removeAttr('hidden')
+            $('#weWrModal').modal('hide');
+            
+        });
             $(document).ready(function () {
             //ถ้าเป็น TAM -> company = TAM
             var company = '@company';
@@ -1562,6 +1746,8 @@
                     }
                 }
             });
+
+
 
             function addCommas(nStr) {
                 nStr += '';
@@ -1721,6 +1907,8 @@
                             $("#tec2_clm_qty_reject").attr("disabled", "disabled");   //เคลมไม่ได้
                             $("#problemCategory_tech2").attr("disabled", "disabled");   //สถานะ
                             $("#problemCategoryDetail_tech2").attr("disabled", "disabled");   //สถานะ
+                            $("#tec2_clm_qty_wr").attr("disabled", "disabled");   //กำหนด WR
+                            $("#tec2_clm_qty_we").attr("disabled", "disabled");   //กำหนด WE
                             $("#_btnsaveconsider").attr("disabled", "disabled");
 
                             $("#_PM").attr("disabled", "disabled");  // Product Manager
@@ -1728,6 +1916,7 @@
                             $("#_pmtstus").attr("disabled", "disabled"); //สถานะอนุมัติ
                             $("#remakepm").attr("disabled", "disabled");
                             $("#_pmnewpn").attr("disabled", "disabled");
+
 
                             $("#_btnsaveapprove").attr("disabled", "disabled");
                             $("#_btnsavecheck").removeAttr('disabled');
@@ -1860,6 +2049,8 @@
                             $("#tec2_clm_qty_reject").attr("disabled", "disabled");   //เคลมไม่ได้
                             $("#problemCategory_tech2").attr("disabled", "disabled");   //สถานะ
                             $("#problemCategoryDetail_tech2").attr("disabled", "disabled");   //สถานะ
+                            $("#tec2_clm_qty_wr").attr("disabled", "disabled");   //กำหนด WR
+                            $("#tec2_clm_qty_we").attr("disabled", "disabled");   //กำหนด WE
                             $("#_btnsaveconsider").attr("disabled", "disabled");
 
 
@@ -2758,6 +2949,16 @@
                     $("#e").attr('checked', false);
                     $("#f").attr('checked', true);
                 }
+
+                // //ARM 25082026
+                // if (_val == "5") {
+                //     $('#weWrModal').modal('show');
+                // }
+                // if (_val != "5") {
+                //     $('#showWrWe').attr('hidden', true);
+                //     $('#txtWR').val('');
+                //     $('#txtWE').val('');
+                // }
             });
             $('#_anlysafterprotec1').change(function () {
                 var _val = $(this).val();
@@ -2982,6 +3183,22 @@
                                     $("#_admintec").val(data.Getdata[0].val.CLM_ADMIN);//Admin:
                                     $("#causeclaimtec").val(data.Getdata[0].val.CLM_REMARK);//หมายเหตุการรับเคลม
 
+                                    //ARM 25082026
+                                    $("#org_wr").val(data.Getdata[0].val.WR_Qty || 0);
+                                    $("#org_we").val(data.Getdata[0].val.WE_Qty || 0);
+                                    $("#_wrqty").text(data.Getdata[0].val.WR_Qty);
+                                    $("#_weqty").text(data.Getdata[0].val.WE_Qty);
+                                    tech1_anys_status = data.Getdata[0].val.TEC_ANLYS_STATUS;
+
+                                    if (data.Getdata[0].val.WR_Qty > 0 || data.Getdata[0].val.WE_Qty > 0 ) {
+                                        //tech1_anys_status = data.Getdata[0].val.TEC_ANLYS_STATUS;
+                                        if (tech1_anys_status == "5") {
+                                            $("#wrwe_qty_row").prop("hidden",false)
+                                        }
+                                        $("#tec2_clm_qty_wr").val(data.Getdata[0].val.WR_Qty);
+                                        $("#tec2_clm_qty_we").val(data.Getdata[0].val.WE_Qty);
+                                    }
+                                    //ARM 25082026
 
                                     var shelf = data.Getdata[0].val.CLM_SHELF_LOCATION;
                                     $("#_shelfloctec").val(shelf);//Shelf Location
@@ -4037,6 +4254,10 @@
                 var month = $("#_workmonth").val();
                 var day = $("#_workday").val();
                 var time = $("#_worktime").val();
+
+
+                var wrVal = $('#txtWR').val();
+                var weVal = $('#txtWR').val();
                 if (year == null) {
                     year = "0";
                 }
@@ -5203,6 +5424,8 @@
                 var remaketec2 = $("#remaketec2").val();   //หมายเหตุ
                 var qty_pass_org = $("#tec2_clm_qty_org").val();   //จำนวนเคลมทั้งหมด
                 var qty_pass = $("#tec2_clm_qty_pass").val();      //จำนวนเคลมได้
+                var qty_wr = $("#tec2_clm_qty_wr").val();      //จำนวนWR
+                var qty_we = $("#tec2_clm_qty_we").val();      //จำนวนWE
                 var qty_reject = $("#tec2_clm_qty_reject").val();  //จำนวนเคลมไม่ได้
                 var problemCategory_tech2 = $("#problemCategory_tech2").val();  //สาเหตุ
                 var problemCategoryDetail_tech2 = $("#problemCategoryDetail_tech2").val();  //สาเหตุเพิ่มเติม
@@ -5238,6 +5461,14 @@
                 //รวมจำนวนที่เคลมได้, เคลมไม่ได้
                 if (qty_pass != "" || qty_reject != "") {
                     sumQty = Number(qty_pass) + Number(qty_reject);
+                    if (tech1_anys_status == "5") {
+                        var sumwrwe = (Number(qty_wr) + Number(qty_we))
+                        if (sumwrwe != sumQty) {
+                            $("#textAlertWarning").empty();
+                            $("#textAlertWarning").text("กรุณากรอกจำนวน WR และ WE/Please fill the amount WR and WE number");
+                            $("#myModalWarning").modal(); return false;
+                        }
+                    }
                 }
                 if (qty_pass == "" && qty_reject == "") {
                     $("#textAlertWarning").empty();
@@ -5267,6 +5498,9 @@
                         aj_TECH2_QTY_REJECT: qty_reject,
                         aj_TECH2_problemCategory: problemCategory_tech2,
                         aj_TECH2_QTY_problemCategoryDetail: problemCategoryDetail_tech2,
+                        aj_TECH2_QTY_WR: qty_wr,
+                        aj_TECH2_QTY_WE: qty_we
+
                     },
                     type: "POST",
                     dataType: "JSON",

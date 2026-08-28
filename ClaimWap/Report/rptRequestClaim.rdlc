@@ -6,25 +6,25 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.22505in</Width>
+              <Width>1.5in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.18731in</Width>
+              <Width>1.25in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.60099in</Width>
+              <Width>2.4in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.04765in</Width>
+              <Width>1.05in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.80677in</Width>
+              <Width>0.8in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.46151in</Width>
+              <Width>0.46in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.70827in</Width>
+              <Width>0.55in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -240,9 +240,10 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Fields!REQ_NO.Value</Value>
-                                  <Style>
-                                    <FontSize>8pt</FontSize>
-                                  </Style>
+									<Style>
+										<FontSize>16pt</FontSize>
+										<FontWeight>Bold</FontWeight>
+									</Style>
                                 </TextRun>
                               </TextRuns>
                               <Style>
@@ -378,8 +379,26 @@
                                 </TextRun>
                                 <TextRun>
                                   <Value>=Fields!CUSCOD.Value</Value>
-                                  <Style />
+									<Style>
+										<FontWeight>Bold</FontWeight>
+										<FontSize>15pt</FontSize>
+									</Style>
                                 </TextRun>
+								<TextRun>
+									<Value xml:space="preserve"> </Value>
+									<Style />
+								</TextRun>
+								<TextRun>
+									<Value xml:space="preserve"> </Value>
+									<Style />
+								</TextRun>
+								<TextRun>
+									<Value>=Fields!CLM_Ship_Code.Value</Value>
+									<Style>
+										<FontWeight>Bold</FontWeight>
+										<FontSize>15pt</FontSize>
+									</Style>
+								</TextRun>
                               </TextRuns>
                               <Style />
                             </Paragraph>
@@ -397,7 +416,7 @@
                           <Top>0.24542in</Top>
                           <Left>0.04506in</Left>
                           <Height>0.24306in</Height>
-                          <Width>2.23958in</Width>
+                          <Width>3.2in</Width>
                           <ZIndex>1</ZIndex>
                           <Style>
                             <Border>
@@ -1391,7 +1410,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!CLM_NO_SUB.Value</Value>
-                              <Style />
+								<Style>
+									<FontSize>12.5pt</FontSize>
+									<FontWeight>Bold</FontWeight>
+								</Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1420,7 +1442,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!STKCOD.Value</Value>
-                              <Style />
+								<Style>
+									<FontSize>12.5pt</FontSize>
+									<FontWeight>Bold</FontWeight>
+								</Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1731,7 +1756,7 @@
         </TablixRowHierarchy>
         <DataSetName>DataSet1</DataSetName>
         <Top>0.08025in</Top>
-        <Left>0.13952in</Left>
+        <Left>0.12in</Left>
         <Height>3.82035in</Height>
         <Width>8.03755in</Width>
         <Style>

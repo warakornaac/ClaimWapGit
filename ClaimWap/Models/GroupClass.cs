@@ -509,148 +509,152 @@ namespace ClaimWap.Models
         public Climedata val { get; set; }
 
     }
-    public class  ClimeDetail
+    public class ClimeDetail
     {
-                public string CLM_ADMIN { get; set; }
-                public string CLM_SHELF_LOCATION{ get; set; }
-                public string CLM_RCVSTATUS { get; set; }
-                public string CLM_QTY_ORG { get; set; }
-                public string CLM_QTY { get; set; }
-                public string CLM_QTY_PASS { get; set; }
-                public string CLM_QTY_REJECT { get; set; }
-                public string CLM_REQQTY { get; set; } 
-                public string CLM_REMARK{ get; set; }
-                public string CLM_RCVDATE { get; set; }
-                public string CLM_RCVBY { get; set; }
-                public string CLM_UOM{ get; set; }
-                public string CLM_DUEDATE{ get; set; }
-                public string CLM_DATE{ get; set; }
-                public string Technician{ get; set; }
-			    public string STKGRP{ get; set; }
-			    public string TECH1_NAME{ get; set; }
-                public string TECH1_ANLYS_DATE{ get; set; }
-                public string CLM_PERFORM{ get; set; }
-                public string ADMIN_ANLYS_STATUS { get; set; }
-                public string TECH1_ANLYS_STATUS{ get; set; }
-                public string ANLYS_AFTERPROCESS{ get; set; }
-                public string SCRAP_DATE{ get; set; }
-                public string TECH1_ANLYS_RESULT{ get; set; }
-			    public string TECH1_PROCESS_STATUS{ get; set; }		 
-			    public string TECH2_NAME{ get; set; }
-			    public string TECH2_ANLYS_STATUS{ get; set; }
-			    public string TECH2_REMARK{ get; set; }
-			    public string TECH2_ProblemCategory { get; set; }
-			    public string TECH2_ProblemCategoryDetail { get; set; }
-			    public string TECH2_ANLYS_DATE{ get; set; }
-			    public string TECH2_PROCESS_STATUS{ get; set; }
-			    public string PM_NAME { get; set; }
-			    public string PM_APPRV_DATE{ get; set; }
-			    public string PM_APPRV_STATUS{ get; set; } 
-			    public string PM_PROCESS_STATUS{ get; set; }
-			    public string PM_Replacement{ get; set; }
-			    public string PM_REMARK { get; set; }
-			    public string CLM_STATUS{ get; set; }
-                public string CLM_UPDATE_DATE{ get; set; }
-                public string CLM_UPDATE_BY { get; set; }
-                public string Customer { get; set; }
-                public string CLM_FRMSUP_STATUS { get; set; }
-                public string REQ_NO  { get; set; }
-                public string CLM_NO_SUB { get; set; }
-                public string REQ_DATE { get; set; }
-                public string STKCOD { get; set; }
-                public string STKDES { get; set; }
-                public string CLM_INVNO { get; set; }
-                public string STATUSTEXT { get; set; }
-                public string CLM_PERFORMTEXT { get; set; }
-                public string ANLYS_AFTERPROCESSTEXT { get; set; }
-                public string CLM_FRMSUP_DATE{ get; set; }
-                public string CLM_FRMSUP_NO { get; set; }
-                public string CLM_NO { get; set; }
-                public string SLMCOD { get; set; }
-                public string FCLM_QTY { get; set; }
-                public string CLM_Machine{ get; set; }
-                public string CLM_Model{ get; set; }
-                public string CLM_ModelYear{ get; set; }
-                public string CLM_EngineCode{ get; set; }
-                public string CLM_ChassisNo{ get; set; }
-                public string CLM_InjecPump{ get; set; }
-                public string CLM_TypeProduct{ get; set; }
-                public string CLM_WarrantyNo{ get; set; }
-                public string CLM_Milage{ get; set; }
-                public string CLM_DateDamage{ get; set; }
-                public string CLM_BatchCode { get; set; }
-                public string CLM_COMPANY { get; set; }
-                public string CLM_CAUSE { get; set; }
-                public string CLM_USEDAY { get; set; }
-                public string PERFORMDESCRIPTION { get; set; }
-                public string RCVSTATUSDESCRIPTION { get; set; }
-                public string PROD { get; set; }
-                public string CUSNAM { get; set; }
-                public string SLMNAM { get; set; }
-                public string TechnicianName { get; set; }
-                public string CLM_FOC { get; set; }
-                public string CS_No { get; set; }
-                public string Log_No { get; set; }
-                public string ClmtypeTech { get; set; }
-                public string Clmtype { get; set; }
-                public string Process_Tech{ get; set; }
-                public string Process_PM{ get; set; }  
-		        public string TEC_ANLYS_STATUS{ get; set; }
-                public string TEC_PROCESS_STATUS{ get; set; }
-                public string TEC_ANLYS_AFTERPROCESS{ get; set; }
-                public string PM_ANLYS_STATUS{ get; set; }
-                public string PM_PROCESS_STATUS_ANLYS { get; set; }
-                public string PM_ANLYS_AFTERPROCESS { get; set; }
+        public string CLM_ADMIN { get; set; }
+        public string CLM_SHELF_LOCATION{ get; set; }
+        public string CLM_RCVSTATUS { get; set; }
+        public string CLM_QTY_ORG { get; set; }
+        public string CLM_QTY { get; set; }
+        public string CLM_QTY_PASS { get; set; }
+        public string CLM_QTY_REJECT { get; set; }
+        public string CLM_REQQTY { get; set; } 
+        public string CLM_REMARK{ get; set; }
+        public string CLM_RCVDATE { get; set; }
+        public string CLM_RCVBY { get; set; }
+        public string CLM_UOM{ get; set; }
+        public string CLM_DUEDATE{ get; set; }
+        public string CLM_DATE{ get; set; }
+        public string Technician{ get; set; }
+		public string STKGRP{ get; set; }
+		public string TECH1_NAME{ get; set; }
+        public string TECH1_ANLYS_DATE{ get; set; }
+        public string CLM_PERFORM{ get; set; }
+        public string ADMIN_ANLYS_STATUS { get; set; }
+        public string TECH1_ANLYS_STATUS{ get; set; }
+        public string ANLYS_AFTERPROCESS{ get; set; }
+        public string SCRAP_DATE{ get; set; }
+        public string TECH1_ANLYS_RESULT{ get; set; }
+		public string TECH1_PROCESS_STATUS{ get; set; }		 
+		public string TECH2_NAME{ get; set; }
+		public string TECH2_ANLYS_STATUS{ get; set; }
+		public string TECH2_REMARK{ get; set; }
+		public string TECH2_ProblemCategory { get; set; }
+		public string TECH2_ProblemCategoryDetail { get; set; }
+		public string TECH2_ANLYS_DATE{ get; set; }
+		public string TECH2_PROCESS_STATUS{ get; set; }
+		public string PM_NAME { get; set; }
+		public string PM_APPRV_DATE{ get; set; }
+		public string PM_APPRV_STATUS{ get; set; } 
+		public string PM_PROCESS_STATUS{ get; set; }
+		public string PM_Replacement{ get; set; }
+		public string PM_REMARK { get; set; }
+		public string CLM_STATUS{ get; set; }
+        public string CLM_UPDATE_DATE{ get; set; }
+        public string CLM_UPDATE_BY { get; set; }
+        public string Customer { get; set; }
+        public string CLM_FRMSUP_STATUS { get; set; }
+        public string REQ_NO  { get; set; }
+        public string CLM_NO_SUB { get; set; }
+        public string REQ_DATE { get; set; }
+        public string STKCOD { get; set; }
+        public string STKDES { get; set; }
+        public string CLM_INVNO { get; set; }
+        public string STATUSTEXT { get; set; }
+        public string CLM_PERFORMTEXT { get; set; }
+        public string ANLYS_AFTERPROCESSTEXT { get; set; }
+        public string CLM_FRMSUP_DATE{ get; set; }
+        public string CLM_FRMSUP_NO { get; set; }
+        public string CLM_NO { get; set; }
+        public string SLMCOD { get; set; }
+        public string FCLM_QTY { get; set; }
+        public string CLM_Machine{ get; set; }
+        public string CLM_Model{ get; set; }
+        public string CLM_ModelYear{ get; set; }
+        public string CLM_EngineCode{ get; set; }
+        public string CLM_ChassisNo{ get; set; }
+        public string CLM_InjecPump{ get; set; }
+        public string CLM_TypeProduct{ get; set; }
+        public string CLM_WarrantyNo{ get; set; }
+        public string CLM_Milage{ get; set; }
+        public string CLM_DateDamage{ get; set; }
+        public string CLM_BatchCode { get; set; }
+        public string CLM_COMPANY { get; set; }
+        public string CLM_CAUSE { get; set; }
+        public string CLM_USEDAY { get; set; }
+        public string PERFORMDESCRIPTION { get; set; }
+        public string RCVSTATUSDESCRIPTION { get; set; }
+        public string PROD { get; set; }
+        public string CUSNAM { get; set; }
+        public string SLMNAM { get; set; }
+        public string TechnicianName { get; set; }
+        public string CLM_FOC { get; set; }
+        public string CS_No { get; set; }
+        public string Log_No { get; set; }
+        public string ClmtypeTech { get; set; }
+        public string Clmtype { get; set; }
+        public string Process_Tech{ get; set; }
+        public string Process_PM{ get; set; }  
+		public string TEC_ANLYS_STATUS{ get; set; }
+        public string TEC_PROCESS_STATUS{ get; set; }
+        public string TEC_ANLYS_AFTERPROCESS{ get; set; }
+        public string PM_ANLYS_STATUS{ get; set; }
+        public string PM_PROCESS_STATUS_ANLYS { get; set; }
+        public string PM_ANLYS_AFTERPROCESS { get; set; }
 
-                public string SM_NAME { get; set; }
-                public string SM_APPRV_DATE { get; set; }
-                public string SM_PROCESS_STATUS { get; set; }
-                public string SM_REMARK { get; set; }
-                public string SM_ANLYS_STATUS { get; set; }
+        public string SM_NAME { get; set; }
+        public string SM_APPRV_DATE { get; set; }
+        public string SM_PROCESS_STATUS { get; set; }
+        public string SM_REMARK { get; set; }
+        public string SM_ANLYS_STATUS { get; set; }
 
-                public string GM_NAME { get; set; }
-                public string GM_APPRV_DATE { get; set; }
-                public string GM_PROCESS_STATUS { get; set; }
-                public string GM_REMARK { get; set; }
+        public string GM_NAME { get; set; }
+        public string GM_APPRV_DATE { get; set; }
+        public string GM_PROCESS_STATUS { get; set; }
+        public string GM_REMARK { get; set; }
 
-                public string Print_statusCN { get; set; }
-                public string F_BtnApp { get; set; }
-                public string IF_InvoiceNo { get; set; }
-                public string CLM_Installdate { get; set; }
-                public string CLM_Contact { get; set; }
-                public string CLM_ContactTel { get; set; }
-                public string VENDOR { get; set; }
-                public string VENDORNAME { get; set; }
-                public string UNIT_COST { get; set; }
-                public string DEPCOD { get; set; }
-                public string AMOUNT { get; set; }
-                public string ClaimType { get; set; }
-                public string Endprocessdate { get; set; }
-                public string Sec { get; set; }
-                public string InvoiceSupplier { get; set; }
-                public string InvoiceDateSupplier { get; set; }
-                public string Lastqtyinv { get; set; }
-                public string Lastcurinv { get; set; }
-                public string Lastunitcostinv { get; set; }
-                public string LastAmountinv { get; set; }
-                public string LastRATEinv { get; set; }
-                public string Cmstyp { get; set; }
-                public string CLM_COMMENT { get; set; }
+        public string Print_statusCN { get; set; }
+        public string F_BtnApp { get; set; }
+        public string IF_InvoiceNo { get; set; }
+        public string CLM_Installdate { get; set; }
+        public string CLM_Contact { get; set; }
+        public string CLM_ContactTel { get; set; }
+        public string VENDOR { get; set; }
+        public string VENDORNAME { get; set; }
+        public string UNIT_COST { get; set; }
+        public string DEPCOD { get; set; }
+        public string AMOUNT { get; set; }
+        public string ClaimType { get; set; }
+        public string Endprocessdate { get; set; }
+        public string Sec { get; set; }
+        public string InvoiceSupplier { get; set; }
+        public string InvoiceDateSupplier { get; set; }
+        public string Lastqtyinv { get; set; }
+        public string Lastcurinv { get; set; }
+        public string Lastunitcostinv { get; set; }
+        public string LastAmountinv { get; set; }
+        public string LastRATEinv { get; set; }
+        public string Cmstyp { get; set; }
+        public string CLM_COMMENT { get; set; }
 
-                public string CLM_ID { get; set; }
+        public string CLM_ID { get; set; }
 
-                public string CUSCOD { get; set; }
+        public string CUSCOD { get; set; }
 
-                public string CLM_INVDATE { get; set; }
+        public string CLM_INVDATE { get; set; }
 
-                public string CLM_Ref { get; set; }
+        public string CLM_Ref { get; set; }
 
-                public string TECH1ANLYSSTATUDESCRIPTION { get; set; }
+        public string TECH1ANLYSSTATUDESCRIPTION { get; set; }
 
-                public string Requestdate { get; set; }
+        public string Requestdate { get; set; }
 
-                public string Requestdatecus { get; set; }
-                public string CLM_CLAIMNOTE { get; set; }
+        public string Requestdatecus { get; set; }
+        public string CLM_CLAIMNOTE { get; set; }
+
+        public string WR_Qty { get; set; }
+        public string WE_Qty { get; set; }
+        public string SLM_Remark { get; set; }
     }
     public class Salesreturnsupper
     {
@@ -807,16 +811,18 @@ namespace ClaimWap.Models
         public string Remake_Admin { get; set; }
         public string STMP_REASON_WH { get; set; }
     }
+
     public class SalesreturnDetailList
     {
         public SalesreturnDetail val { get; set; }
 
     }
+
     public class ClimeListDetail
     {
         public ClimeDetail val { get; set; }
-
     }
+
     // Class Image Files 
     public class ImageFiles
     {
@@ -827,11 +833,12 @@ namespace ClaimWap.Models
        public string IMAGE_NAME{ get; set; }
        public string PATH { get; set; }
     }
+
     public class ImageFilesListDetail
     {
         public ImageFiles val { get; set; }
-
     }
+
     public class LoginUserViewModel
     {
         [Required]
@@ -839,7 +846,6 @@ namespace ClaimWap.Models
         [StringLength(150)]
         [Display(Name = "User: ")]
         public string Usre { get; set; }
-
 
         [Required]
         [DataType(DataType.Password)]
@@ -854,11 +860,12 @@ namespace ClaimWap.Models
         public string PROD { get; set; }
         public string PRODNAM { get; set; }
     }
+
     public class PmListGetdata
     {
         public Pm val { get; set; }
-
     }
+
     public class itemimg
     {
         public string Img { get; set; }
@@ -866,16 +873,18 @@ namespace ClaimWap.Models
         public string Cim_No { get; set; }
         public string Im_No { get; set; }
     }
+
     public class TechLo
     {
         public string DefineCode { get; set; }
         public string Location { get; set; }
     }
+
     public class TecListGetdata
     {
         public TechLo val { get; set; }
-
     }
+
      public class Item_Detail
     {
         public string Company { get; set; }
@@ -888,12 +897,13 @@ namespace ClaimWap.Models
         public string GRPNAM { get; set; }
         public string PROD { get; set; }
         public string PRODNAM { get; set; }
-      }
+     }
+
      public class Item_DetailGetdata
      {
          public Item_Detail val { get; set; }
-
      }
+
     public class Receive_SupplierGetdata
     {
         public string CLM_NO_Supplier { get; set; }
@@ -944,13 +954,11 @@ namespace ClaimWap.Models
         public string LastRATEinv { get; set; }
         public string Cur_Sup { get; set; }
     }
+
     public class ListGetdataReceive_Supplier
     {
         public Receive_SupplierGetdata val { get; set; }
-
     }
-
-
     public class ClimedataRt
     {
         public string STMP_ID { get; set; }
@@ -986,6 +994,20 @@ namespace ClaimWap.Models
     public class ClimeRttempListDetail
     {
         public ClimedataRt val { get; set; }
+    }
 
+    public class UsrGrp
+    {
+        [Key]
+        public int ID { get; set; }
+        public string company { get; set; }
+        public string UsrID { get; set; }
+        public string Department { get; set; }
+        public string Email { get; set; }
+        public string SLMCOD { get; set; }
+        public int UsrTyp { get; set; }
+        public int ISApprover { get; set; }
+        public int UsrClmStaff { get; set; }
+        public int Usermail { get; set; }
     }
 }

@@ -39,33 +39,33 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>1.23503in</Width>
+              <Width>1.4in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.19729in</Width>
+              <Width>1.4in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.9763in</Width>
+              <Width>2in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.05763in</Width>
+              <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.81675in</Width>
+              <Width>0.8in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.47149in</Width>
+              <Width>0.5in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>0.6875in</Width>
+              <Width>0.5in</Width>
             </TablixColumn>
-            <TablixColumn>
-              <Width>0.71557in</Width>
-            </TablixColumn>
+			<TablixColumn>
+			   <Width>0.5in</Width>
+			</TablixColumn>
           </TablixColumns>
           <TablixRows>
             <TablixRow>
-              <Height>1.09977in</Height>
+              <Height>0.2in</Height>
               <TablixCells>
                 <TablixCell>
                   <CellContents>
@@ -118,7 +118,7 @@
                                   <Value>a</Value>
                                   <Style>
                                     <FontFamily>webdings</FontFamily>
-                                    <FontSize>20pt</FontSize>
+                                    <FontSize>28pt</FontSize>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -244,7 +244,8 @@
                                 <TextRun>
                                   <Value>=Fields!STMP_ID.Value</Value>
                                   <Style>
-                                    <FontSize>8pt</FontSize>
+                                    <FontSize>17pt</FontSize>
+									<FontWeight>Bold</FontWeight>
                                   </Style>
                                 </TextRun>
                               </TextRuns>
@@ -254,9 +255,9 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox10</rd:DefaultName>
-                          <Top>0.89409in</Top>
-                          <Left>6.05318in</Left>
-                          <Height>0.20568in</Height>
+                          <Top>0.84in</Top>
+                          <Left>6in</Left>
+                          <Height>0.18in</Height>
                           <Width>2.05453in</Width>
                           <ZIndex>6</ZIndex>
                           <Style>
@@ -364,56 +365,62 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <Textbox Name="Textbox36">
-                          <CanGrow>true</CanGrow>
-                          <KeepTogether>true</KeepTogether>
-                          <Paragraphs>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value>ลูกค้า/Customer:</Value>
-                                  <Style>
-                                    <FontWeight>Bold</FontWeight>
-                                  </Style>
-                                </TextRun>
-                                <TextRun>
-                                  <Value xml:space="preserve"> </Value>
-                                  <Style />
-                                </TextRun>
-                                <TextRun>
-                                  <Value>=Fields!CUSCOD.Value</Value>
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                            <Paragraph>
-                              <TextRuns>
-                                <TextRun>
-                                  <Value />
-                                  <Style />
-                                </TextRun>
-                              </TextRuns>
-                              <Style />
-                            </Paragraph>
-                          </Paragraphs>
-                          <rd:DefaultName>Textbox10</rd:DefaultName>
-                          <Top>0.24542in</Top>
-                          <Left>0.04506in</Left>
-                          <Height>0.24306in</Height>
-                          <Width>2.23958in</Width>
-                          <ZIndex>1</ZIndex>
-                          <Style>
-                            <Border>
-                              <Style>None</Style>
-                            </Border>
-                            <PaddingLeft>2pt</PaddingLeft>
-                            <PaddingRight>2pt</PaddingRight>
-                            <PaddingTop>2pt</PaddingTop>
-                            <PaddingBottom>2pt</PaddingBottom>
-                          </Style>
-                        </Textbox>
-                        <Textbox Name="Textbox37">
+						  <Textbox Name="Textbox36">
+							  <CanGrow>true</CanGrow>
+							  <KeepTogether>true</KeepTogether>
+							  <Paragraphs>
+								  <Paragraph>
+									  <TextRuns>
+										  <TextRun>
+											  <Value>ลูกค้า/Customer: </Value>
+											  <Style>
+												  <FontWeight>Bold</FontWeight>
+												  <FontSize>10pt</FontSize>
+											  </Style>
+										  </TextRun>
+										  <TextRun>
+											  <Value>=Fields!CUSCOD.Value</Value>
+											  <Style>
+												  <FontWeight>Bold</FontWeight>
+												  <FontSize>15pt</FontSize>
+											  </Style>
+										  </TextRun>
+										  <TextRun>
+											  <Value xml:space="preserve"> </Value>
+											  <Style />
+										  </TextRun>
+										  <TextRun>
+											  <Value xml:space="preserve"> </Value>
+											  <Style />
+										  </TextRun>
+										  <TextRun>
+											  <Value>=Fields!Ship_Code.Value</Value>
+											  <Style>
+												  <FontWeight>Bold</FontWeight>
+												  <FontSize>15pt</FontSize>
+											  </Style>
+										  </TextRun>
+									  </TextRuns>
+									  <Style />
+								  </Paragraph>
+							  </Paragraphs>
+							  <rd:DefaultName>Textbox10</rd:DefaultName>
+							  <Top>0.23in</Top>
+							  <Left>0.04506in</Left>
+							  <Height>0.35in</Height>
+							  <Width>4in</Width>
+							  <ZIndex>1</ZIndex>
+							  <Style>
+								  <Border>
+									  <Style>None</Style>
+								  </Border>
+								  <PaddingLeft>2pt</PaddingLeft>
+								  <PaddingRight>2pt</PaddingRight>
+								  <PaddingTop>2pt</PaddingTop>
+								  <PaddingBottom>2pt</PaddingBottom>
+							  </Style>
+						  </Textbox>                        
+						  <Textbox Name="Textbox37">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
                           <Paragraphs>
@@ -869,7 +876,7 @@
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox10</rd:DefaultName>
-                          <Top>0.04806in</Top>
+                          <Top>0.04in</Top>
                           <Left>0.04506in</Left>
                           <Height>0.19736in</Height>
                           <Width>2.04416in</Width>
@@ -1354,7 +1361,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!STMP_ID_SUB.Value</Value>
-                              <Style />
+								<Style>
+									<FontSize>12pt</FontSize>
+									<FontWeight>Bold</FontWeight>
+								</Style>
                             </TextRun>
                           </TextRuns>
                           <Style />
@@ -1383,7 +1393,10 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!STKCOD.Value</Value>
-                              <Style />
+								<Style>
+									<FontSize>12pt</FontSize>
+									<FontWeight>Bold</FontWeight>
+								</Style>
                             </TextRun>
                           </TextRuns>
                           <Style />

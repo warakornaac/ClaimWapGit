@@ -59,8 +59,7 @@ namespace ClaimWap.Controllers
             }
             return View();
         }
-
-        public JsonResult SaveProcessClaimDetailTec2(string clamtyp, string aj_REQ_NO, string aj_CLM_NO_SUB, string aj_TECH2_NAME, string aj_TECH2_APPRV_STATUS, string aj_TECH2_REMARK, string aj_TECH2_APPRV_DATE, string aj_TECH2_QTY_ORG, string aj_TECH2_QTY_PASS, string aj_TECH2_QTY_REJECT, string aj_TECH2_problemCategory, string aj_TECH2_QTY_problemCategoryDetail)
+        public JsonResult SaveProcessClaimDetailTec2(string clamtyp, string aj_REQ_NO, string aj_CLM_NO_SUB, string aj_TECH2_NAME, string aj_TECH2_APPRV_STATUS, string aj_TECH2_REMARK, string aj_TECH2_APPRV_DATE, string aj_TECH2_QTY_ORG, string aj_TECH2_QTY_PASS, string aj_TECH2_QTY_REJECT, string aj_TECH2_problemCategory, string aj_TECH2_QTY_problemCategoryDetail, string aj_TECH2_QTY_WR, string aj_TECH2_QTY_WE)
         {
             string message = string.Empty;
             string subno = string.Empty;
@@ -82,6 +81,8 @@ namespace ClaimWap.Controllers
                  command.Parameters.AddWithValue("@inTECH2_QTY_REJECT", aj_TECH2_QTY_REJECT);
                  command.Parameters.AddWithValue("@inTECH2_QTY_problemCategory", aj_TECH2_problemCategory);
                  command.Parameters.AddWithValue("@inTECH2_QTY_problemCategoryDetail", aj_TECH2_QTY_problemCategoryDetail);
+                 command.Parameters.AddWithValue("@inTECH2_QTY_WR", aj_TECH2_QTY_WR);
+                 command.Parameters.AddWithValue("@inTECH2_QTY_WE", aj_TECH2_QTY_WE);
                  command.Parameters.AddWithValue("@inWarrantyClmType", clamtyp);
                
                
@@ -105,6 +106,45 @@ namespace ClaimWap.Controllers
             Connection.Close();
 
             return Json(new { message, subno }, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult saveProcessAfterRejected(string aj_REQ_NO, string aj_CLM_NO_SUB, string aj_ANLYS_AFTERPROCESS,string usrname)
+        {
+            string message = string.Empty;
+            string subno = string.Empty;
+            string genStatus = string.Empty;
+            var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
+            SqlConnection Connection = new SqlConnection(connectionString);
+            try
+            {
+                Connection.Open();
+                var command = new SqlCommand("P_Process_AfterReject_Claim", Connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@inCLM_ID", aj_REQ_NO);
+            command.Parameters.AddWithValue("@inCLM_SUB", aj_CLM_NO_SUB);
+            command.Parameters.AddWithValue("@inRemark", aj_ANLYS_AFTERPROCESS);
+            command.Parameters.AddWithValue("@inusrlogin", usrname);
+
+                SqlParameter returnValuedoc = new SqlParameter("@outGenstatus", SqlDbType.NVarChar, 100);
+                returnValuedoc.Direction = System.Data.ParameterDirection.Output;
+                command.Parameters.Add(returnValuedoc);
+
+                command.ExecuteNonQuery();
+                subno = returnValuedoc.Value.ToString();
+                command.Dispose();
+                genStatus = returnValuedoc.Value?.ToString() ?? "N";
+                message = genStatus == "Y" ? "true" : "false";
+
+            }
+            catch (Exception ex)
+            {
+                genStatus = "N";
+                message = ex.Message;
+            }
+
+
+            Connection.Close();
+
+            return Json(new { message, genStatus }, JsonRequestBehavior.AllowGet);
         }
         public JsonResult SaveProcessClaimDetailPM(string aj_REQ_NO, string aj_CLM_NO_SUB, string aj_PM_NAME,string aj_PM_APPRV_STATUS,string aj_PM_REMARK,string aj_PM_APPRV_DATE,string aj_PM_Replacement)
         {
