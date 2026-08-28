@@ -2151,7 +2151,8 @@
 
                         //เก็บไฟล์เข้า folder
                         $.ajax({
-                            url: '@Url.Action("UploadVideo", "Createclaim_Sc")',
+                            @*url: '@Url.Action("UploadVideo", "Createclaim_Sc")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Claim/Video/Upload',
                             type: "POST",
                             contentType: false, // Not to set any content header
                             processData: false, // Not to process data
@@ -2161,17 +2162,14 @@
                                     var Img = result.fileName;
                                     if (Img != "") {
                                         $.ajax({
-                                            url: '@Url.Action("Savefilevideo", "Createclaim_Sc")',
-                                            data: {
-                                                im_name: Img,
-                                                aj_CLM_NO: a1,
-                                                Im_No: "01",
-                                                aj_CLM_NO_SUB: inCim_NoSub,
-                                                Size: result.Size
-                                            },
+                                            url: 'https://mst.aac.co.th/APIService_Test/Claim/Video/Save'
+                                                + '?im_name=' + encodeURIComponent(Img)
+                                                + '&aj_CLM_NO=' + encodeURIComponent(a1)
+                                                + '&Im_No=01'
+                                                + '&aj_CLM_NO_SUB=' + encodeURIComponent(inCim_NoSub)
+                                                + '&Size=' + encodeURIComponent(result.Size),
                                             type: "POST",
-                                            dataType: "JSON",
-                                            success: function (data) {
+                                            dataType: "JSON",                                            success: function (data) {
                                                 //console.log(data);
                                                 if (data.message == 'true') {
                                                     alert("บันทึก VIDEO สำเร็จ")
@@ -2219,7 +2217,8 @@
                         // fileData.append('username', 'gdb1100');
 
                         $.ajax({
-                            url: '@Url.Action("Upload", "Createclaim_Sc")',
+                            @*url: '@Url.Action("Upload", "Createclaim_Sc")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/LegacyUpload',
                             type: "POST",
                             contentType: false, // Not to set any content header
                             processData: false, // Not to process data
@@ -2229,7 +2228,8 @@
                                 if (result.message == "true") {
                                     var Img = result.imgname;
                                     $.ajax({
-                                        url: '@Url.Action("SavePathImagetemp", "Createclaim_Sc")',
+                                        @*url: '@Url.Action("SavePathImagetemp", "Createclaim_Sc")',*@
+                                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/SavePath',
                                         data: {
                                             im_name: Img,
                                             Cim_No: a1,
@@ -2283,7 +2283,8 @@
                         // fileData.append('username', 'gdb1100');
 
                         $.ajax({
-                            url: '@Url.Action("Upload", "Createclaim_Sc")',
+                            @*url: '@Url.Action("Upload", "Createclaim_Sc")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/LegacyUpload',
                             type: "POST",
                             contentType: false, // Not to set any content header
                             processData: false, // Not to process data
@@ -2292,7 +2293,8 @@
                                 if (result.message == "true") {
                                     var Img = result.imgname;
                                     $.ajax({
-                                        url: '@Url.Action("SavePathImagetemp", "Createclaim_Sc")',
+                                        @*url: '@Url.Action("SavePathImagetemp", "Createclaim_Sc")',*@
+                                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/SavePath',
                                         data: {
                                             im_name: Img,
                                             Cim_No: a1,
@@ -2343,7 +2345,8 @@
                         // fileData.append('username', 'gdb1100');
 
                         $.ajax({
-                            url: '@Url.Action("Upload", "Createclaim_Sc")',
+                            @*url: '@Url.Action("Upload", "Createclaim_Sc")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/LegacyUpload',
                             type: "POST",
                             contentType: false, // Not to set any content header
                             processData: false, // Not to process data
@@ -2352,7 +2355,8 @@
                                 if (result.message == "true") {
                                     var Img = result.imgname;
                                     $.ajax({
-                                        url: '@Url.Action("SavePathImagetemp", "Createclaim_Sc")',
+                                        @*url: '@Url.Action("SavePathImagetemp", "Createclaim_Sc")',*@
+                                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/SavePath',
                                         data: {
                                             im_name: Img,
                                             Cim_No: a1,
@@ -2403,7 +2407,8 @@
                         // fileData.append('username', 'gdb1100');
 
                         $.ajax({
-                            url: '@Url.Action("Upload", "Createclaim_Sc")',
+                            @*url: '@Url.Action("Upload", "Createclaim_Sc")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/LegacyUpload',
                             type: "POST",
                             contentType: false, // Not to set any content header
                             processData: false, // Not to process data
@@ -2412,7 +2417,8 @@
                                 if (result.message == "true") {
                                     var Img = result.imgname;
                                     $.ajax({
-                                        url: '@Url.Action("SavePathImagetemp", "Createclaim_Sc")',
+                                        @*url: '@Url.Action("SavePathImagetemp", "Createclaim_Sc")',*@
+                                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/SavePath',
                                         data: {
                                             im_name: Img,
                                             Cim_No: a1,
@@ -2459,7 +2465,8 @@
                     if (idimag != "") {
                         if (typeof idimag !== "undefined") {
                             $.ajax({
-                                url: '@Url.Action("DeleteFileVideo", "Createclaim_Sc")',
+                                @*url: '@Url.Action("DeleteFileVideo", "Createclaim_Sc")',*@
+                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Video/Delete',
                                 data: {
                                     comid: clmno,
                                     clmnoup: clmsub,
@@ -2512,7 +2519,8 @@
                     if (idimag != "") {
                         if (typeof idimag !== "undefined") {
                             $.ajax({
-                                url: '@Url.Action("Deleteimage", "Createclaim_Sc")',
+                                @*url: '@Url.Action("Deleteimage", "Createclaim_Sc")',*@
+                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete',
                                 data: {
                                     comid: clmno,
                                     clmnoup: clmsub,
@@ -2564,7 +2572,8 @@
                     if (idimag != "") {
                         if (typeof idimag !== "undefined") {
                             $.ajax({
-                                url: '@Url.Action("Deleteimage", "Createclaim_Sc")',
+                                @*url: '@Url.Action("Deleteimage", "Createclaim_Sc")',*@
+                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete',
                                 data: {
                                     comid: clmno,
                                     clmnoup: clmsub,
@@ -2615,7 +2624,8 @@
                     if (idimag != "") {
                         if (typeof idimag !== "undefined") {
                             $.ajax({
-                                url: '@Url.Action("Deleteimage", "Createclaim_Sc")',
+                                @*url: '@Url.Action("Deleteimage", "Createclaim_Sc")',*@
+                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete',
                                 data: {
                                     comid: clmno,
                                     clmnoup: clmsub,
@@ -2667,7 +2677,8 @@
                     if (idimag != "") {
                         if (typeof idimag !== "undefined") {
                             $.ajax({
-                                url: '@Url.Action("Deleteimage", "Createclaim_Sc")',
+                                @*url: '@Url.Action("Deleteimage", "Createclaim_Sc")',*@
+                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete',
                                 data: {
                                     comid: clmno,
                                     clmnoup: clmsub,
@@ -3190,7 +3201,8 @@
                         var idimag = $(this).attr("remoimage"); if (idimag != "") {
                             if (typeof idimag !== "undefined") {
                                 $.ajax({
-                                    url: '@Url.Action("Deleteimage", "Createclaim_Sc")',
+                                    @*url: '@Url.Action("Deleteimage", "Createclaim_Sc")',*@
+                                    url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete',
                                     data: {
                                         comid: clmno,
                                         clmnoup: clmsub,
@@ -3398,7 +3410,7 @@
                                     $(".pip").remove();
                                     $("<span class=\"pip\">" +
                                     "<video controls='controls' style='width: 600px; max-width: 100%;'>" +
-                                    "<source src=" + result.videolist[0].FilePath + ".mp4" + " type='video/mp4' videomode='720p' />" +
+                                        "<source src='" + resolveVideoPath(result.videolist[0].FilePath) + ".mp4' type='video/mp4' videomode='720p' />" +
                                     " </video>" +
                                      "<br/><span class=\"removevideo\"  remoimage=" + result.videolist[0].Name + " img=" + result.videolist[0].Name + " >Remove video</span>" +
                                      "</span>").insertAfter("#appvideo");
@@ -3431,7 +3443,7 @@
                                     $("#FilesList tbody tr:not(:first)").empty();
                                     for (var i = 0; i < result.Getdata.length; i++) {
                                         resultObj = eval(result.Getdata);
-                                        var markup = "<tr id='" + resultObj[i].val.IMAGE_ID + "'><td><img src='" + resultObj[i].val.PATH + "' id='myImg' style='width: 25%'></td>\
+                                        var markup = "<tr id='" + resultObj[i].val.IMAGE_ID + "'><td><img src='" + resolveImgPath(resultObj[i].val.PATH) + "' id='myImg' style='width: 25%'></td>\
                                   <td>\
                                  <button type='button' style='float: right;' class='delimagsalsccess'  faxdel=2 id=" + resultObj[i].val.IMAGE_ID + " name=" + resultObj[i].val.IMAGE_NAME + " remoimage=" + resultObj[i].val.IMAGE_ID + " img=" + resultObj[i].val.IMAGE_NAME + " >Cancel</button></td>\
                                   </tr>"; // Binding the file name
@@ -3483,7 +3495,8 @@
                     console.log(formdata);
                     //return false;
                     $.ajax({
-                        url: '@Url.Action("UploadFiles", "Createclaim_Sc")',
+                        @*url: '@Url.Action("UploadFiles", "Createclaim_Sc")',*@
+                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Upload',
                         type: "POST",
                         contentType: false, // Not to set any content header
                         processData: false, // Not to process data
@@ -3596,11 +3609,10 @@
                     });
                     if (flag_error != '') {
                         console.log("Error : " + flag_error);
-                        return true;
+                        return false;
                     }
-                    else {
-                        return true;
-                    }
+
+                    return true;
                 }
 
                 $("#btnuploadsales").click(function () {
@@ -3617,7 +3629,8 @@
                     console.log(formdata);
                     //return false;
                     $.ajax({
-                        url: '@Url.Action("UploadFiles", "Createclaim_Sc")',
+                        @*url: '@Url.Action("UploadFiles", "Createclaim_Sc")',*@
+                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Upload',
                         type: "POST",
                         contentType: false, // Not to set any content header
                         processData: false, // Not to process data
@@ -4386,7 +4399,7 @@
                                     var SubmithtmlPage = "";
                                     for (var i = 0; i < resultObj.length; i++) {
                                         SubmithtmlPage = '<tr style="cursor: pointer;" IMAGE_NO="' + resultObj[i].val.IMAGE_NO + '">';
-                                        SubmithtmlPage += '<td style="min-width: 645px;height: 128px;border: 1px solid rgb(34, 34, 34);text-align: center;left: 0px;"><img src="' + resultObj[i].val.PATH + '" id="imgzoom" style="width: 200px;height: 122px;"></td>';
+                                        SubmithtmlPage += '<td style="..."><img src="' + resolveImgPath(resultObj[i].val.PATH) + '" id="imgzoom" style="width: 200px;height: 122px;"></td>';
                                         SubmithtmlPage += '<td style="min-width: 134px;height: 60px;border: 1px solid #222;text-align: center;"></td>';
                                         SubmithtmlPage += '</tr>';
                                         $('#_tbimage > tbody:last-child').append(SubmithtmlPage);
@@ -4752,8 +4765,12 @@
                                     SubmithtmlPage += '</tr>';
                                     $('#_tbinvoicehiscx > tbody:last-child').append(SubmithtmlPage);
 
+                                    console.log("จำนวนข้อมูลจาก API =", data.Getdata.length);
+                                    console.log("จำนวน tr ใน table =", $('#_tbinvoicehiscx tbody tr').length);
+                                    console.log($('#_tbinvoicehiscx').html());
+
                                 }
-                                var fixedTable1 = fixTable(document.getElementById('fixed-table-container-1'));
+                                //var fixedTable1 = fixTable(document.getElementById('fixed-table-container-1'));
                             } else {
                                 //$("#myModal").modal('hide');
                                 $("#textAlertWarningmes").empty();
@@ -5112,8 +5129,22 @@
                     $("#_workday").val("");
                     $("#_worktime").val("");
                 }
-            });
+                function resolveImgPath(dbPath) {
+                    if (!dbPath) return '';
+                    // ถ้า path เป็น absolute URL อยู่แล้ว ใช้ได้เลย
+                    if (dbPath.indexOf('http') === 0) return dbPath;
+                    // ดึงแค่ชื่อไฟล์ แล้วชี้ไป server จริง
+                    var fileName = dbPath.split('/').pop().split('\\').pop();
+                    return 'https://mst.aac.co.th/Warranty_Test/ImgUpload/' + fileName;
+                }
+                function resolveVideoPath(dbPath) {
+                    if (!dbPath) return '';
+                    if (dbPath.indexOf('http') === 0) return dbPath;
+                    var fileName = dbPath.split('/').pop().split('\\').pop();
+                    return 'https://mst.aac.co.th/Warranty_Test/VideoFileUpload/' + fileName;
+                }
 
+            });
 
         </script>
 </body>

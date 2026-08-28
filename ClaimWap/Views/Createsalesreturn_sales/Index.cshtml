@@ -765,10 +765,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <div class="input-group">
-                                            @*<span class="input-group-addon" id="btnok" style="background-color: #7FC1A9;cursor: pointer;color: white;">Ship To Code<span class=" glyphicon glyphicon-hand-right"></span></span>*@
-                                            @*<input type="button" id="btnok" class="btn-default" name="example" value="ส่งอนุมัติ" style="background-color: aqua;">*@
-                                            <button type="button" class="btn btn btn-primary" id="btnok" style="width:50%">ส่งพิจารณา</button>
+                                        <div class="input-group"><button type="button" class="btn btn btn-primary" id="btnok" style="width:50%">ส่งพิจารณา</button>
                                             <span class="input-group-addon "><span id="scs" style="color: cyan;display:none"></span><span></span></span>
                                         </div>
                                     </div>
@@ -1424,11 +1421,25 @@
                 var splitval = _splito;
                 var _itemnosp = _splito[0].trim();
                 var _slmcod = $("#slmcod").val();
+                var _statdate = "";
+                var _enddate = "";
+                var _foc = "";
                 GetShipto()
                 //waitingDialog.show();
                 // waitingDialog.hide();
                 $("#btngetinall").css("display", "none");
                 $("#meeee").text('กำลังค้นหาประวัติ');
+                console.log({
+                    _flength,
+                    _foc,
+                    _cusno,
+                    _invoiceno,
+                    _itemno,
+                    _com,
+                    _statdate,
+                    _enddate,
+                    _slmcod
+                });
                 $.ajax({
                     url: '@Url.Action("GetdataInvoicestatudRT", "GetdataCenter")',
                     data: {
@@ -1552,7 +1563,7 @@
                         var fixedTable1 = fixTable(document.getElementById('fixed-table-container-1'));
                     }
                 });
-            } 
+            }
             $("#btngetinall").on("click", function () {
                 var _cusnosp = $("#_cusno").val();
                 var _cusno = "";
@@ -1571,7 +1582,7 @@
                 var _invoiceno = $("#_invoiceno").val();
                 if (_cusno != "" && _invoiceno != "") {
                     var wi = window.open("../Createsalereturn_salesall/Index?no=" + btoa(_cusno) + "/" + btoa(_invoiceno) + "/" + btoa(company));
-               
+
                     wi.focus();
                 } else {
                     alert("กรุณาระบุลูกค้าและเลขที่ Invoice No...");
@@ -1981,7 +1992,7 @@
                     }
                     // var xcasebec = $("#causeclaim").val();
                      var xclaimqty = $("#_claimqty").val();
-                    
+
                     if (xclaimqty == "") {
                         $("#textAlertWarningmes").empty();
                         $("#textAlertWarningmes").text("กรุณาระบุจำนวนที่ต้องการคืนสินค้า");
@@ -1993,7 +2004,7 @@
                         $("#myModalWarning").modal();
                         return false;
                     }
-                    
+
                     var xproceedto = $("#_proceedto").val();
                     if (xproceedto == "0") {
                         $("#textAlertWarningmes").empty();
@@ -2028,7 +2039,7 @@
                             $("#myModalWarning").modal();
                             return false;
                         }
-                       
+
                         if (proceed != xproceedto) {
                             $("#textAlertWarningmes").empty();
                             $("#textAlertWarningmes").text("กรุณาระบุ ต้องการให้ดำเนินการ ให้เหมือนกันทุกรายการ");
@@ -2051,7 +2062,7 @@
                         $("#myModalWarning").modal();
                         return false;
                     }
-                    
+
                     var nokey = $("#_claimno").val();
                     if (nokey == "") {
                         var Gendoc;
@@ -2779,7 +2790,8 @@
                 formdata.set('No', No);
 
                 $.ajax({
-                    url: '@Url.Action("UploadFiles", "Createsalesreturn_sales")',
+                    @*url: '@Url.Action("UploadFiles", "Createsalesreturn_sales")',*@
+                    url: 'https://mst.aac.co.th/APIService_Test/Return/Image/Upload',
                     type: "POST",
                     contentType: false, // Not to set any content header
                     processData: false, // Not to process data
@@ -2829,7 +2841,8 @@
                     var idimag = $(this).attr("remoimage"); if (idimag != "") {
                         if (typeof idimag !== "undefined") {
                             $.ajax({
-                                url: '@Url.Action("Deleteimage", "Createsalesreturn_sales")',
+                                @*url: '@Url.Action("Deleteimage", "Createsalesreturn_sales")',*@
+                                url: 'https://mst.aac.co.th/APIService_Test/Return/Image/Delete',
                                 data: {
                                     comid: clmno,
                                     clmnoup: clmsub,
@@ -2844,16 +2857,6 @@
 
                                         alert("ลบ image รายการเรียบร้อย");
                                         $("#receclaim #btngetshowdata").trigger("click");
-
-                                        //var control = $("#fileInput");
-
-                                        //control.replaceWith(control.val('').clone(true));
-
-                                        //// Some bound handlers to preserve when cloning
-                                        //control.on({
-                                        //    change: function () { console.log("Changed") },
-                                        //    focus: function () { console.log("Focus") }
-                                        //});
                                     } else {
                                         alert(data.message);
                                     }
@@ -2862,15 +2865,10 @@
                         }
                     }
                 }
-                //else if (faxdel == "1") {
-                //  DeleteFile(faxdel, FileName);
-                // }
             });
 
 
             $('#btnUpload').click(function () {
-                //$('#spinnerModal').modal('show');
-                // Checking whether FormData is available in browser
                 if (window.FormData !== undefined) {
                     var a2 = $("#_itemno").val();
                     var _val = a2.replace(/ /g, '');;
@@ -2891,11 +2889,10 @@
                         //fileData.append(files[i].name, files[i], a1 + "-" + a2 + "-" + inCim_NoSub + "-01");
                         fileData.append(files[i].name, files[i], a1 + "-" + inCim_NoSub + "-01");
                     }
-                    // Adding one more key to FormData object
-                    // fileData.append('username', 'gdb1100');
 
                     $.ajax({
-                        url: '@Url.Action("UploadVideo", "Createsalesreturn_sales")',
+                        @*url: '@Url.Action("UploadVideo", "Createsalesreturn_sales")',*@
+                        url: 'https://mst.aac.co.th/APIService_Test/Return/Video/Upload',
                         type: "POST",
                         contentType: false, // Not to set any content header
                         processData: false, // Not to process data
@@ -2906,7 +2903,8 @@
                                 var Img = result.fileName;
                                 if (Img != "") {
                                     $.ajax({
-                                        url: '@Url.Action("Savefilevideo", "Createsalesreturn_sales")',
+                                        @*url: '@Url.Action("Savefilevideo", "Createsalesreturn_sales")',*@
+                                        url: 'https://mst.aac.co.th/APIService_Test/Return/Video/Save',
                                         data: {
                                             im_name: Img,
                                             aj_CLM_NO: a1,
@@ -2920,11 +2918,6 @@
                                             console.log(data);
 
                                             if (data.message == 'true') {
-
-                                                //setTimeout(function () {
-
-                                                //    $('#spinnerModal').modal('hide');
-                                                //}, 10);
                                                 alert("บันทึก VIDEO สำเร็จ")
                                                 $('#ststus').text(data.message);
 
@@ -2932,10 +2925,7 @@
                                         }
                                     });
                                 }
-
                             }
-
-
                         },
                         error: function (err) {
                             alert(err.statusText + ":ความยาวเกินกว่ากำหนด Upload ใหม่");
@@ -2955,8 +2945,6 @@
                 });
                 var clmno = $("#_claimno").val();
                 var clmsub = $("#_claimnosub").text();
-                // var phimage = $('.imageThumb img').attr('src');
-                // var absPath = resultObj[0].val.IMAGE_NAME;
                 var absPath = $(this).attr("img");
 
                 var idimag = $(this).attr("remoimage");
@@ -2964,7 +2952,8 @@
                 if (idimag != "") {
                     if (typeof idimag !== "undefined") {
                         $.ajax({
-                            url: '@Url.Action("DeleteFileVideo", "Createsalesreturn_sales")',
+                            @*url: '@Url.Action("DeleteFileVideo", "Createsalesreturn_sales")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Return/Video/Delete',
                             data: {
                                 comid: clmno,
                                 clmnoup: clmsub,
@@ -3009,8 +2998,6 @@
                 });
                 var clmno = $("#_claimno").val();
                 var clmsub = $("#_claimnosub").text();
-                // var phimage = $('.imageThumb img').attr('src');
-                // var absPath = resultObj[0].val.IMAGE_NAME;
                 var absPath = $(this).attr("img");
 
                 var idimag = $(this).attr("remoimage");
@@ -3018,7 +3005,8 @@
                 if (idimag != "") {
                     if (typeof idimag !== "undefined") {
                         $.ajax({
-                            url: '@Url.Action("Deleteimage", "Createsalesreturn_sales")',
+                            @*url: '@Url.Action("Deleteimage", "Createsalesreturn_sales")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Return/Image/Delete',
                             data: {
                                 comid: clmno,
                                 clmnoup: clmsub,
@@ -3071,15 +3059,10 @@
                         // fileData.append(files[i].name, files[i], a1 + "-" + a2 + "-" + inCim_NoSub + "-01");
                         fileData.append(files[i].name, files[i], a1 + "-" + inCim_NoSub + "-02");
                     }
-                    // Adding one more key to FormData object
-                    // fileData.append('username', 'gdb1100');
                     if ($('#FileUpload2')[0].files.length > 0) {
-                        //    // down.innerHTML = "No files selected";
-                        //    alert("No files selected");
-                        //    return false;
-                        //}
                         $.ajax({
-                            url: '@Url.Action("Upload", "Createsalesreturn_sales")',
+                            @*url: '@Url.Action("Upload", "Createsalesreturn_sales")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Return/Image/LegacyUpload',
                             type: "POST",
                             contentType: false, // Not to set any content header
                             processData: false, // Not to process data
@@ -3094,7 +3077,8 @@
                                         return false;
                                     }
                                     $.ajax({
-                                        url: '@Url.Action("SavePathImagetemp", "Createsalesreturn_sales")',
+                                        @*url: '@Url.Action("SavePathImagetemp", "Createsalesreturn_sales")',*@
+                                        url: 'https://mst.aac.co.th/APIService_Test/Return/Image/SavePath',
                                         data: {
                                             im_name: Img,
                                             Cim_No: a1,
@@ -3145,7 +3129,8 @@
                 if (idimag != "") {
                     if (typeof idimag !== "undefined") {
                         $.ajax({
-                            url: '@Url.Action("Deleteimage", "Createsalesreturn_sales")',
+                            @*url: '@Url.Action("Deleteimage", "Createsalesreturn_sales")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Return/Image/Delete',
                             data: {
                                 comid: clmno,
                                 clmnoup: clmsub,
@@ -3195,18 +3180,12 @@
                     // Looping over all files and add it to FormData object
                     for (var i = 0; i < files.length; i++) {
 
-                        // fileData.append(files[i].name, files[i], a1 + "-" + a2 + "-" + inCim_NoSub + "-01");
                         fileData.append(files[i].name, files[i], a1 + "-" + inCim_NoSub + "-03");
                     }
-                    // Adding one more key to FormData object
-                    // fileData.append('username', 'gdb1100');
                     if ($('#FileUpload3')[0].files.length > 0) {
-                        //    // down.innerHTML = "No files selected";
-                        //    alert("No files selected");
-                        //    return false;
-                        //}
                         $.ajax({
-                            url: '@Url.Action("Upload", "Createsalesreturn_sales")',
+                            @*url: '@Url.Action("Upload", "Createsalesreturn_sales")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Return/Image/LegacyUpload',
                             type: "POST",
                             contentType: false, // Not to set any content header
                             processData: false, // Not to process data
@@ -3221,7 +3200,8 @@
                                         return false;
                                     }
                                     $.ajax({
-                                        url: '@Url.Action("SavePathImagetemp", "Createsalesreturn_sales")',
+                                        @*url: '@Url.Action("SavePathImagetemp", "Createsalesreturn_sales")',*@
+                                        url: 'https://mst.aac.co.th/APIService_Test/Return/Image/SavePath',
                                         data: {
                                             im_name: Img,
                                             Cim_No: a1,
@@ -3272,7 +3252,8 @@
                 if (idimag != "") {
                     if (typeof idimag !== "undefined") {
                         $.ajax({
-                            url: '@Url.Action("Deleteimage", "Createsalesreturn_sales")',
+                            @*url: '@Url.Action("Deleteimage", "Createsalesreturn_sales")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Return/Image/Delete',
                             data: {
                                 comid: clmno,
                                 clmnoup: clmsub,
@@ -3322,18 +3303,12 @@
                     // Looping over all files and add it to FormData object
                     for (var i = 0; i < files.length; i++) {
 
-                        // fileData.append(files[i].name, files[i], a1 + "-" + a2 + "-" + inCim_NoSub + "-01");
                         fileData.append(files[i].name, files[i], a1 + "-" + inCim_NoSub + "-04");
                     }
-                    // Adding one more key to FormData object
-                    // fileData.append('username', 'gdb1100');
                     if ($('#FileUpload4')[0].files.length > 0) {
-                        //    // down.innerHTML = "No files selected";
-                        //    alert("No files selected");
-                        //    return false;
-                        //}
                         $.ajax({
-                            url: '@Url.Action("Upload", "Createsalesreturn_sales")',
+                            @*url: '@Url.Action("Upload", "Createsalesreturn_sales")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Return/Image/LegacyUpload',
                             type: "POST",
                             contentType: false, // Not to set any content header
                             processData: false, // Not to process data
@@ -3348,7 +3323,8 @@
                                         return false;
                                     }
                                     $.ajax({
-                                        url: '@Url.Action("SavePathImagetemp", "Createsalesreturn_sales")',
+                                        @*url: '@Url.Action("SavePathImagetemp", "Createsalesreturn_sales")',*@
+                                        url: 'https://mst.aac.co.th/APIService_Test/Return/Image/SavePath',
                                         data: {
                                             im_name: Img,
                                             Cim_No: a1,
@@ -3383,15 +3359,12 @@
             $(document).on('click', '.remove4', function () {
                 var control = $("#FileUpload4");
                 control.replaceWith(control.val('').clone(true));
-                // Some bound handlers to preserve when cloning
                 control.on({
                     change: function () { console.log("Changed") },
                     focus: function () { console.log("Focus") }
                 });
                 var clmno = $("#_claimno").val();
                 var clmsub = $("#_claimnosub").text();
-                // var phimage = $('.imageThumb img').attr('src');
-                // var absPath = resultObj[0].val.IMAGE_NAME;
                 var absPath = $(this).attr("img");
 
                 var idimag = $(this).attr("remoimage");
@@ -3399,7 +3372,8 @@
                 if (idimag != "") {
                     if (typeof idimag !== "undefined") {
                         $.ajax({
-                            url: '@Url.Action("Deleteimage", "Createsalesreturn_sales")',
+                            @*url: '@Url.Action("Deleteimage", "Createsalesreturn_sales")',*@
+                            url: 'https://mst.aac.co.th/APIService_Test/Return/Image/Delete',
                             data: {
                                 comid: clmno,
                                 clmnoup: clmsub,
@@ -3413,16 +3387,6 @@
                                 if (data.message == "true") {
 
                                     alert("ลบ image รายการเรียบร้อย");
-
-                                    //var control = $("#FileUpload2");
-
-                                    //control.replaceWith(control.val('').clone(true));
-
-                                    //// Some bound handlers to preserve when cloning
-                                    //control.on({
-                                    //    change: function () { console.log("Changed") },
-                                    //    focus: function () { console.log("Focus") }
-                                    //});
                                 } else {
                                     alert(data.message);
                                 }
@@ -3504,13 +3468,7 @@
                             $("#_invcustomer").removeAttr('disabled');
                             $("#slmcod").removeAttr('disabled');
                             $("#_invoiceno").removeAttr('disabled');
-                            //alert(" No Data.....");
-                            //location.reload();
-                            //var cvaluser = $("#_uderlogin").val()
                             gettypeprocess(valclim)
-                            //$("#requestby").val(cvaluser);
-                            //var cval = $("#_tempreq").val();
-                            //$("#requestdate").val(cval);
                         }
                         var fixedTable2 = fixTable(document.getElementById('fixed-table-container-2'));
                     }
@@ -3518,13 +3476,11 @@
             }
             function clearvalsearch() {
                 $("#_claimnosub").text("");
-                //$("#_itemno").val("");
                 $("#_description").val("");
                 $("#_itemnodes").val("");
                 $("#_descriptiondes").val("");
                 $("#_prd").val("");
                 $("#_uom").val("");
-                //$("#_invoiceno").val("");
                 $("#_invoicenodes").val("");
                 $("#_psdate").val("");
                 $("#_claimqty").val("");
@@ -3534,7 +3490,6 @@
                 $("#_amt").val("");
                 $("#_focdis").val("");
                 var claimno = $("#_claimno").val();
-                //alert(claimno)
                 if (claimno != "") {
                     gettypeprocess(claimno);
                 } else {
@@ -3542,9 +3497,6 @@
                     $("#_statusclaim").val("0");
                 }
                 $("#_amtreturn").text("");
-                //$("#_proceedto").val("1");
-                //$("#_statusclaim").val("0");
-
             }
             function clearval() {
                 $("#_claimnosub").text("");
@@ -3564,24 +3516,19 @@
                 $("#_amt").val("");
                 $("#_focdis").val("");
                 var claimno = $("#_claimno").val();
-                //alert(claimno)
                 if (claimno != "") {
                     gettypeprocess(claimno);
                 } else {
                     $("#_proceedto").val("1");
                     $("#_statusclaim").val("0");
                 }
-                //$("#_proceedto").val("1");
-                //$("#_statusclaim").val("0");
-
-            }//aps//
+            }
             $(document).on('click', '#FilesList .delimagsalsccess', function () {
                 var faxdel = $(this).attr("faxdel");
                 var FileName = $(this).attr("name");
                 if (faxdel == "2") {
                     var control = $("#fileInput");
                     control.replaceWith(control.val('').clone(true));
-                    // Some bound handlers to preserve when cloning
                     control.on({
                         change: function () { console.log("Changed") },
                         focus: function () { console.log("Focus") }
@@ -3590,13 +3537,11 @@
                     var clmsub = $("#_claimnosub").text();
                     var absPath = $(this).attr("img");
                     var idimag = $(this).attr("remoimage");
-                    // alert("clmno=" + clmno + "////" + "clmsub=" + clmsub + "////" + "absPath=" + absPath + "////" + "idimag=" + idimag);
-                    //return false;
-                    //nrt//
                     var idimag = $(this).attr("remoimage"); if (idimag != "") {
                         if (typeof idimag !== "undefined") {
                             $.ajax({
-                                url: '@Url.Action("Deleteimage", "Createsalesreturn_sales")',
+                                @*url: '@Url.Action("Deleteimage", "Createsalesreturn_sales")',*@
+                                url: 'https://mst.aac.co.th/APIService_Test/Return/Image/Delete',
                                 data: {
                                     comid: clmno,
                                     clmnoup: clmsub,
@@ -3608,19 +3553,8 @@
                                 success: function (data) {
                                     console.log(data);
                                     if (data.message == "true") {
-                                        //aps//
                                         alert("ลบ image รายการเรียบร้อย");
                                         $("#receclaim #btngetshowdata").trigger("click");
-                                        // DeleteFile(Fileid, FileName);
-                                        //var control = $("#fileInput");
-
-                                        //control.replaceWith(control.val('').clone(true));
-
-                                        //// Some bound handlers to preserve when cloning
-                                        //control.on({
-                                        //    change: function () { console.log("Changed") },
-                                        //    focus: function () { console.log("Focus") }
-                                        //});
                                     } else {
                                         alert(data.message);
                                     }
@@ -3633,9 +3567,7 @@
                 }
             });
             $("#receclaim").on("click", "#btngetshowdata", function () {
-                //clearimage()
                 var cusno = $("#_cusno").val();
-
                 $("#_company").attr('disabled', 'disabled');
                 $("#slmcod").attr('disabled', 'disabled');
                 $("#requestby").attr('disabled', 'disabled');
@@ -3653,32 +3585,8 @@
                 var causeclaimup = $(this).attr('causeclaimup'); //เหตุผลเคลม//
                 var resoncod = $(this).attr('resoncod'); //เหตุผลเคลม//
                 var foc = $(this).attr('foc');
-                //alert(foc)
-                //var clmmachine = $(this).attr('clmmachine');
-                //var clmmodel = $(this).attr('clmmodel');
-                //var clmmodelyear = $(this).attr('clmmodelyear');
-                //var clmenginecode = $(this).attr('clmenginecode');
-                //var clmchassisno = $(this).attr('clmchassisno');
-                //var clminjecpump = $(this).attr('clminjecpump');
-                //var clmtypeproduct = $(this).attr('clmtypeproduct');
-
-                //var clmwarratyno = $(this).attr('clmwarratyno');
-                //var clmmilage = $(this).attr('clmmilage');
-                //var clmdatedamage = $(this).attr('clmdatedamage');
-                //var clmbatchcode = $(this).attr('clmbatchcode');
-                //var sp = worktimeup.split("/");
-
-                //var _spyear = sp[0];
-                //var _spmonth = sp[1];
-                //var _spday = sp[2];
-                //var _sphro = sp[3];
                 var prodnam = $(this).attr('prodnam');
                 var prode = $(this).attr('prode');
-                //var fax = $(this).attr('fax');
-
-                //var installdate = $(this).attr('installdate');
-                //var contact = $(this).attr('contact');
-                //var contacttel = $(this).attr('contacttel');
                 var leng = $('#receclaim > tbody:last-child').children().length;
 
                 if (leng > 1) {
@@ -3762,12 +3670,9 @@
                     $("#_cusname").val(cusnam);
                     $("#slmcod").val(slmcod);
                     $("#sslmnam").val(slmnam);
-                    // $("#requestby").val();
-                    // $("#_itemno").val(itemup);
                     $("#_description").val(stkdes);
                     $("#_itemnodes").val(itemup);
                     $("#_descriptiondes").val(stkdes);
-
                     $("#_uom").val(uomup);
                     $("#_invoiceno").val(invoicenoeup);
                     $("#_invoicenodes").val(invoicenoeup);
@@ -3778,8 +3683,6 @@
                     $("#_statusclaim").val(statusclaimup);
                     $("#_proceedto").val(proceedtoup);
                     $("#causedrop").val(resoncod);//สาเหตุการคืนสินค้า//
-
-
                     $.ajax({
                         url: '@Url.Action("Getdatahis_Date_2year", "GetdataCenter")',
                         data: {
@@ -3803,20 +3706,16 @@
                                 $("#_amt").val(addCommas(parseFloat(data.Getdata[0].val.Amt).toFixed(2)));
                                 var qty = $("#_claimqty").val();
                                 $("#_amtreturn").text(addCommas(parseInt(qty) * parseFloat(data.Getdata[0].val.Price)));
-                                //Aps//
-
-                                // $("#requestby").text(rcvby);
-                                // $("#requestdate").text(rcvdate);
                             } else {
                                 alert(data.message);
                             }
                         }
                     });
 
-
                     var nokey = $("#_claimno").val();
                     $.ajax({
-                        url: '@Url.Action("GetfileVideoRT", "GetdataCenter")',
+                        @*url: '@Url.Action("GetfileVideoRT", "GetdataCenter")',*@
+                        url: 'https://mst.aac.co.th/APIService_Test/Return/Video/Get',
                         data: {
                             inCLM_ID: nokey,
                             CLM_NO: clmnoup,
@@ -3830,7 +3729,7 @@
                                 $(".pip").remove();
                                 $("<span class=\"pip\">" +
                                 "<video controls='controls' style='width: 600px; max-width: 100%;'>" +
-                                "<source src=" + result.videolist[0].FilePath + ".mp4" + " type='video/mp4' videomode='720p' />" +
+                                "<source src='" + resolveVideoPath(result.videolist[0].FilePath) + ".mp4' type='video/mp4' videomode='720p' />" +
                                 " </video>" +
                                  "<br/><span class=\"removevideo\"  remoimage=" + result.videolist[0].Name + " img=" + result.videolist[0].Name + " >Remove Video</span>" +
                                  "</span>").insertAfter("#appvideo");
@@ -3850,7 +3749,7 @@
                     //Getimage//
                     var nokey = $("#_claimno").val();
                     $.ajax({
-                        url: '@Url.Action("GetPathImageRT", "GetdataCenter")',
+                        url: 'https://mst.aac.co.th/APIService_Test/Return/Image/GetPath',
                         data: {
                             inCLM_ID: nokey,
                             CLM_NO: clmnoup
@@ -3858,28 +3757,43 @@
                         type: "POST",
                         dataType: "JSON",
                         success: function (result) {
+                            console.log(result);
 
                             if (result.Getdata.length > 0) {
                                 $("#FilesList tbody").empty();
-                                for (var i = 0; i < result.Getdata.length; i++) {
-                                    resultObj = eval(result.Getdata);
-                                    var markup = "<tr id='" + resultObj[i].val.IMAGE_ID + "'><td><img src='" + resultObj[i].val.PATH + "' id='myImg' style='width: 25%'></td>\
-                                  <td>\
-                                 <button type='button' style='float: right;' class='delimagsalsccess'  faxdel=2 ic=" + resultObj[i].val.IMAGE_ID + " name=" + resultObj[i].val.IMAGE_NAME + " remoimage=" + resultObj[i].val.IMAGE_ID + " img=" + resultObj[i].val.IMAGE_NAME + " >Cancel</button></td>\
-                                  </tr>"; // Binding the file name
-                                    $("#FilesList tbody").append(markup);
-                                    //var sfilename = resultObj[i].val.IMAGE_NAME;
-                                    //formdata.append(sfilename, resultObj[i]);
 
+                                for (var i = 0; i < result.Getdata.length; i++) {
+                                    var resultObj = result.Getdata;
+
+                                    var markup =
+                                        "<tr id='" + resultObj[i].val.IMAGE_ID + "'>" +
+                                        "<td><img src='" +
+                                        resolveImgPath(resultObj[i].val.PATH) +
+                                        "' id='myImg' style='width: 25%'></td>" +
+                                        "<td>" +
+                                        "<button type='button' style='float: right;' " +
+                                        "class='delimagsalsccess' " +
+                                        "faxdel='2' " +
+                                        "ic='" + resultObj[i].val.IMAGE_ID + "' " +
+                                        "name='" + resultObj[i].val.IMAGE_NAME + "' " +
+                                        "remoimage='" + resultObj[i].val.IMAGE_ID + "' " +
+                                        "img='" + resultObj[i].val.IMAGE_NAME + "'>" +
+                                        "Cancel</button>" +
+                                        "</td>" +
+                                        "</tr>";
+
+                                    $("#FilesList tbody").append(markup);
                                 }
 
                                 chkatchtbl();
                             } else {
                                 $("#FilesList tbody").empty();
-
                             }
                         },
-
+                        error: function (xhr) {
+                            console.log(xhr);
+                            console.log(xhr.responseText);
+                        }
                     });
                 }
             });
@@ -3927,11 +3841,22 @@
                 $("#ststus3").text("");
                 $("#ststus4").text("");
             }
+
+            function resolveImgPath(dbPath) {
+                if (!dbPath) return '';
+                // ถ้า path เป็น absolute URL อยู่แล้ว ใช้ได้เลย
+                if (dbPath.indexOf('http') === 0) return dbPath;
+                // ดึงแค่ชื่อไฟล์ แล้วชี้ไป server จริง
+                var fileName = dbPath.split('/').pop().split('\\').pop();
+                return 'https://mst.aac.co.th/Warranty_Test/ImgUploadRT/' + fileName;
+            }
+            function resolveVideoPath(dbPath) {
+                if (!dbPath) return '';
+                if (dbPath.indexOf('http') === 0) return dbPath;
+                var fileName = dbPath.split('/').pop().split('\\').pop();
+                return 'https://mst.aac.co.th/Warranty_Test/VideoFileUploadRT/' + fileName;
+            }
         });
     </script>
-
-
 </body>
 </html>
-
-
