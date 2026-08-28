@@ -1390,7 +1390,7 @@
                     });
                 },
 
-                minLength: 2//minLength as 2, it means when ever user enter 2 character in TextBox the AutoComplete method will fire and get its source data.
+                minLength: 3//minLength as 2, it means when ever user enter 2 character in TextBox the AutoComplete method will fire and get its source data.
             });
             $("#_cusnoship").autocomplete({
                 selectFirst: true,
@@ -1512,54 +1512,59 @@
                 }
             });
 
+           var xhr;
+            //ค้นหาเบอร์สินค้า
             $("#_itemno").autocomplete({
                 selectFirst: true,
                 autoFocus: true,
-                timeout: 100000,
+                delay: 500, // รอให้หยุดพิมพ์ 0.5 ms
+                minLength: 4,
                 source: function (request, response) {
                     var param = {
-                        Name: $('#_itemno').val(),
+                        Name: request.term,
                         XvalCompany: $('#_company').val()
                     };
-                    $.ajax({
+                    // ถ้ามี request เก่าวิ่งอยู่ ให้ยกเลิกก่อน
+                    if (xhr && xhr.readyState !== 4) {
+                        xhr.abort();
+                    }
+                    xhr = $.ajax({
                         url: '@Url.Action("GetdateStockCode", "GetdataCenter")',
                         data: JSON.stringify(param),
                         dataType: "json",
                         type: "POST",
                         contentType: "application/json; charset=utf-8",
-                        dataFilter: function (data) { return data; },
                         success: function (data) {
                             response($.map(data.slice(0, 20), function (item) {
                                 return {
                                     value: item
-                                }
-                            }))
+                                };
+                            }));
                         },
-                        error: function (XMLhttpsRequest, textStatus, errorThrown) {
-                            alert(textStatus);
+                        error: function (xhr, textStatus, errorThrown) {
+                            if (textStatus !== "abort") {
+                                alert(textStatus);
+                            }
                         }
                     });
-
                 },
                 select: function (event, ui) {
                     var _val = ui.item.value;
-                    var _splito = "";
-                    _splito = _val.split('|');
-                    var splitval = _splito;
+                    var _splito = _val.split('|');
+
                     $("#_description").val(_splito[1].trim());
                     $("#_uom").val(_splito[2].trim());
                     $("#_itemno").val(_splito[0].trim());
+
                     var _itemno = _splito[0].trim();
                     var _com = $("#_company").val();
                     var _cusno = $("#_cusno").val();
                     var _invoiceno = "";
+
                     // getHisInvoice(_cusno, _itemno, _com, _invoiceno);
-
-
-                },
-
-                minLength: 2//minLength as 2, it means when ever user enter 2 character in TextBox the AutoComplete method will fire and get its source data.
+                }
             });
+
             $("#_partnocus").autocomplete({
                 selectFirst: true,
                 autoFocus: true,

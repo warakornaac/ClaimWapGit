@@ -104,7 +104,8 @@ namespace ClaimWap.Models
             SqlConnection Connection = new SqlConnection(connectionString);
             var command = new SqlCommand("P_Search_ProcessSend_Supplier", Connection);
             command.CommandType = CommandType.StoredProcedure;
-            
+            command.CommandTimeout = 300;
+
             command.Parameters.AddWithValue("@inDOC", inCLM_ID);
             command.Parameters.AddWithValue("@inDOCSUB", "");
             command.Parameters.AddWithValue("@inCOM", incompany);
