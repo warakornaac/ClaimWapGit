@@ -2901,17 +2901,15 @@
                             console.log(result)
                             if (result.message == "true") {
                                 var Img = result.fileName;
+                                console.log("Img =", Img);
                                 if (Img != "") {
                                     $.ajax({
-                                        @*url: '@Url.Action("Savefilevideo", "Createsalesreturn_sales")',*@
-                                        url: 'https://mst.aac.co.th/APIService_Test/Return/Video/Save',
-                                        data: {
-                                            im_name: Img,
-                                            aj_CLM_NO: a1,
-                                            Im_No: "01",
-                                            aj_CLM_NO_SUB: inCim_NoSub,
-                                            Size: result.Size
-                                        },
+                                        url: 'https://mst.aac.co.th/APIService_Test/Return/Video/Save' +
+                                             '?im_name=' + encodeURIComponent(Img) +
+                                             '&aj_CLM_NO=' + encodeURIComponent(a1) +
+                                             '&Im_No=01' +
+                                             '&aj_CLM_NO_SUB=' + encodeURIComponent(inCim_NoSub) +
+                                             '&Size=' + encodeURIComponent(result.Size),
                                         type: "POST",
                                         dataType: "JSON",
                                         success: function (data) {
@@ -3715,13 +3713,11 @@
                     var nokey = $("#_claimno").val();
                     $.ajax({
                         @*url: '@Url.Action("GetfileVideoRT", "GetdataCenter")',*@
-                        url: 'https://mst.aac.co.th/APIService_Test/Return/Video/Get',
-                        data: {
-                            inCLM_ID: nokey,
-                            CLM_NO: clmnoup,
-                            Im_No: ""
-                        },
-                        type: "POST",
+                        url: 'https://mst.aac.co.th/APIService_Test/Return/Video/Get' +
+                            '?inCLM_ID=' + encodeURIComponent(nokey) +
+                            '&CLM_NO=' + encodeURIComponent(clmnoup) +
+                            '&Im_No=',
+                        type: "GET",
                         dataType: "JSON",
                         success: function (result) {
                             console.log(result.videolist)
@@ -3749,12 +3745,10 @@
                     //Getimage//
                     var nokey = $("#_claimno").val();
                     $.ajax({
-                        url: 'https://mst.aac.co.th/APIService_Test/Return/Image/GetPath',
-                        data: {
-                            inCLM_ID: nokey,
-                            CLM_NO: clmnoup
-                        },
-                        type: "POST",
+                        url: 'https://mst.aac.co.th/APIService_Test/Return/Image/GetPath' +
+                            '?inCLM_ID=' + encodeURIComponent(nokey) +
+                            '&CLM_NO=' + encodeURIComponent(clmnoup),
+                        type: "GET",
                         dataType: "JSON",
                         success: function (result) {
                             console.log(result);

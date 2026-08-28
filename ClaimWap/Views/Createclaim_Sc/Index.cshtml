@@ -2229,13 +2229,11 @@
                                     var Img = result.imgname;
                                     $.ajax({
                                         @*url: '@Url.Action("SavePathImagetemp", "Createclaim_Sc")',*@
-                                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/SavePath',
-                                        data: {
-                                            im_name: Img,
-                                            Cim_No: a1,
-                                            Im_No: "01",
-                                            inCim_NoSub: inCim_NoSub
-                                        },
+                                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/SavePath'
+                                            + '?im_name=' + encodeURIComponent(Img)
+                                            + '&Cim_No=' + encodeURIComponent(a1)
+                                            + '&Im_No=01'  // 02, 03, 04
+                                            + '&inCim_NoSub=' + encodeURIComponent(inCim_NoSub),
                                         type: "POST",
                                         dataType: "JSON",
                                         success: function (data) {
@@ -2294,13 +2292,11 @@
                                     var Img = result.imgname;
                                     $.ajax({
                                         @*url: '@Url.Action("SavePathImagetemp", "Createclaim_Sc")',*@
-                                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/SavePath',
-                                        data: {
-                                            im_name: Img,
-                                            Cim_No: a1,
-                                            Im_No: "02",
-                                            inCim_NoSub: inCim_NoSub
-                                        },
+                                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/SavePath'
+                                            + '?im_name=' + encodeURIComponent(Img)
+                                            + '&Cim_No=' + encodeURIComponent(a1)
+                                            + '&Im_No=02'  // 02, 03, 04
+                                            + '&inCim_NoSub=' + encodeURIComponent(inCim_NoSub),
                                         type: "POST",
                                         dataType: "JSON",
                                         success: function (data) {
@@ -2356,13 +2352,11 @@
                                     var Img = result.imgname;
                                     $.ajax({
                                         @*url: '@Url.Action("SavePathImagetemp", "Createclaim_Sc")',*@
-                                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/SavePath',
-                                        data: {
-                                            im_name: Img,
-                                            Cim_No: a1,
-                                            Im_No: "03",
-                                            inCim_NoSub: inCim_NoSub
-                                        },
+                                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/SavePath'
+                                            + '?im_name=' + encodeURIComponent(Img)
+                                            + '&Cim_No=' + encodeURIComponent(a1)
+                                            + '&Im_No=03'  // 02, 03, 04
+                                            + '&inCim_NoSub=' + encodeURIComponent(inCim_NoSub),
                                         type: "POST",
                                         dataType: "JSON",
                                         success: function (data) {
@@ -2418,13 +2412,11 @@
                                     var Img = result.imgname;
                                     $.ajax({
                                         @*url: '@Url.Action("SavePathImagetemp", "Createclaim_Sc")',*@
-                                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/SavePath',
-                                        data: {
-                                            im_name: Img,
-                                            Cim_No: a1,
-                                            Im_No: "04",
-                                            inCim_NoSub: inCim_NoSub
-                                        },
+                                        url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/SavePath'
+                                            + '?im_name=' + encodeURIComponent(Img)
+                                            + '&Cim_No=' + encodeURIComponent(a1)
+                                            + '&Im_No=04'  // 02, 03, 04
+                                            + '&inCim_NoSub=' + encodeURIComponent(inCim_NoSub),
                                         type: "POST",
                                         dataType: "JSON",
                                         success: function (data) {
@@ -2466,14 +2458,12 @@
                         if (typeof idimag !== "undefined") {
                             $.ajax({
                                 @*url: '@Url.Action("DeleteFileVideo", "Createclaim_Sc")',*@
-                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Video/Delete',
-                                data: {
-                                    comid: clmno,
-                                    clmnoup: clmsub,
-                                    clmidimg: idimag,
-                                    absPath: absPath + ".mp4",
-                                    Im_No: "01"
-                                },
+                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Video/Delete'
+                                    + '?comid=' + encodeURIComponent(clmno)
+                                    + '&clmnoup=' + encodeURIComponent(clmsub)
+                                    + '&clmidimg=' + encodeURIComponent(idimag)
+                                    + '&absPath=' + encodeURIComponent(absPath + ".mp4")
+                                    + '&Im_No=01',
                                 type: "POST",
                                 dataType: "JSON",
                                 success: function (data) {
@@ -2520,13 +2510,11 @@
                         if (typeof idimag !== "undefined") {
                             $.ajax({
                                 @*url: '@Url.Action("Deleteimage", "Createclaim_Sc")',*@
-                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete',
-                                data: {
-                                    comid: clmno,
-                                    clmnoup: clmsub,
-                                    clmidimg: idimag,
-                                    absPath: absPath
-                                },
+                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete'
+                                    + '?comid=' + encodeURIComponent(clmno)
+                                    + '&clmnoup=' + encodeURIComponent(clmsub)
+                                    + '&clmidimg=' + encodeURIComponent(idimag)
+                                    + '&absPath=' + encodeURIComponent(absPath),
                                 type: "POST",
                                 dataType: "JSON",
                                 success: function (data) {
@@ -2573,13 +2561,11 @@
                         if (typeof idimag !== "undefined") {
                             $.ajax({
                                 @*url: '@Url.Action("Deleteimage", "Createclaim_Sc")',*@
-                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete',
-                                data: {
-                                    comid: clmno,
-                                    clmnoup: clmsub,
-                                    clmidimg: idimag,
-                                    absPath: absPath
-                                },
+                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete'
+                                    + '?comid=' + encodeURIComponent(clmno)
+                                    + '&clmnoup=' + encodeURIComponent(clmsub)
+                                    + '&clmidimg=' + encodeURIComponent(idimag)
+                                    + '&absPath=' + encodeURIComponent(absPath),
                                 type: "POST",
                                 dataType: "JSON",
                                 success: function (data) {
@@ -2625,13 +2611,11 @@
                         if (typeof idimag !== "undefined") {
                             $.ajax({
                                 @*url: '@Url.Action("Deleteimage", "Createclaim_Sc")',*@
-                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete',
-                                data: {
-                                    comid: clmno,
-                                    clmnoup: clmsub,
-                                    clmidimg: idimag,
-                                    absPath: absPath
-                                },
+                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete'
+                                    + '?comid=' + encodeURIComponent(clmno)
+                                    + '&clmnoup=' + encodeURIComponent(clmsub)
+                                    + '&clmidimg=' + encodeURIComponent(idimag)
+                                    + '&absPath=' + encodeURIComponent(absPath),
                                 type: "POST",
                                 dataType: "JSON",
                                 success: function (data) {
@@ -2678,13 +2662,11 @@
                         if (typeof idimag !== "undefined") {
                             $.ajax({
                                 @*url: '@Url.Action("Deleteimage", "Createclaim_Sc")',*@
-                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete',
-                                data: {
-                                    comid: clmno,
-                                    clmnoup: clmsub,
-                                    clmidimg: idimag,
-                                    absPath: absPath
-                                },
+                                url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete'
+                                    + '?comid=' + encodeURIComponent(clmno)
+                                    + '&clmnoup=' + encodeURIComponent(clmsub)
+                                    + '&clmidimg=' + encodeURIComponent(idimag)
+                                    + '&absPath=' + encodeURIComponent(absPath),
                                 type: "POST",
                                 dataType: "JSON",
                                 success: function (data) {
@@ -3202,13 +3184,11 @@
                             if (typeof idimag !== "undefined") {
                                 $.ajax({
                                     @*url: '@Url.Action("Deleteimage", "Createclaim_Sc")',*@
-                                    url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete',
-                                    data: {
-                                        comid: clmno,
-                                        clmnoup: clmsub,
-                                        clmidimg: idimag,
-                                        absPath: absPath
-                                    },
+                                    url: 'https://mst.aac.co.th/APIService_Test/Claim/Image/Delete'
+                                        + '?comid=' + encodeURIComponent(clmno)
+                                        + '&clmnoup=' + encodeURIComponent(clmsub)
+                                        + '&clmidimg=' + encodeURIComponent(idimag)
+                                        + '&absPath=' + encodeURIComponent(absPath),
                                     type: "POST",
                                     dataType: "JSON",
                                     success: function (data) {

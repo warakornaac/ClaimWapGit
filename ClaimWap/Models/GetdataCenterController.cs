@@ -989,6 +989,7 @@ namespace ClaimWap.Models
             string formattedLInvdate = string.Empty;
             var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
             SqlConnection Connection = new SqlConnection(connectionString);
+
             List<InvoiceStatusListDetailGetdata> Getdata = new List<InvoiceStatusListDetailGetdata>();
             InvoiceStatus model = null;
             try
@@ -996,6 +997,7 @@ namespace ClaimWap.Models
 
                 var command = new SqlCommand("P_InvoiceCheck_ByCusItm_Date", Connection);
                 command.CommandType = CommandType.StoredProcedure;
+                command.CommandTimeout = 300;
                 command.Parameters.AddWithValue("@CUS", _cusno);
                 command.Parameters.AddWithValue("@PN", _itemno);
                 command.Parameters.AddWithValue("@DOC", _invoiceno);
@@ -1177,6 +1179,7 @@ namespace ClaimWap.Models
             {
                 var command = new SqlCommand("P_InvoiceCheck_ByCusItm_Date_2year", Connection);
                 command.CommandType = CommandType.StoredProcedure;
+                command.CommandTimeout = 300;
                 command.Parameters.AddWithValue("@CUS", _cusno);
                 command.Parameters.AddWithValue("@PN", _itemno);
                 command.Parameters.AddWithValue("@DOC", _invoiceno);
@@ -2541,78 +2544,78 @@ namespace ClaimWap.Models
 
             return Json(List, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetPathImageRT(string inCLM_ID, string CLM_NO)
-        {
+        //public JsonResult GetPathImageRT(string inCLM_ID, string CLM_NO)
+        //{
 
-            var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
-            SqlConnection Connection = new SqlConnection(connectionString);
-            List<ImageFilesListDetail> Getdata = new List<ImageFilesListDetail>();
-            ImageFiles model = null;
-            // var root = @"\Warranty\ImgUpload\";
-            var root = @"..\ImgUploadRT\";
-            var command = new SqlCommand("P_GetPathImage_RT", Connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@inCim_No", inCLM_ID);
-            command.Parameters.AddWithValue("@inCim_NoSub", CLM_NO);
-            Connection.Open();
-            SqlDataReader dr = command.ExecuteReader();
-            while (dr.Read())
-            {
-                model = new ImageFiles();
-                model.IMAGE_ID = dr["IMAGE_ID"].ToString();
-                model.REQ_NO = dr["STMP_ID"].ToString();
-                model.CLM_NO_SUB = dr["STMP_ID_SUB"].ToString();
-                model.IMAGE_NO = dr["IMAGE_NO"].ToString();
-                model.IMAGE_NAME = dr["IMAGE_NAME"].ToString();
-                //model.PATH = dr["PATH"].ToString();
-                //  model.PATH = Server.MapPath(@"~\ImgUpload\" + dr["IMAGE_NAME"].ToString());
-                model.PATH = Path.Combine(root, dr["IMAGE_NAME"].ToString());
-                //model.PATH = "D:\\Projects\\work spaces\\ClaimWap\\ClaimWap\\ImgUpload\\CM18110012-GDB7224YO-CM18110012-01-01.png";
-                Getdata.Add(new ImageFilesListDetail { val = model });
-            }
-            dr.Close();
-            dr.Dispose();
-            command.Dispose();
-            Connection.Close();
-            return Json(new { Getdata }, JsonRequestBehavior.AllowGet);
+        //    var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
+        //    SqlConnection Connection = new SqlConnection(connectionString);
+        //    List<ImageFilesListDetail> Getdata = new List<ImageFilesListDetail>();
+        //    ImageFiles model = null;
+        //    // var root = @"\Warranty\ImgUpload\";
+        //    var root = @"..\ImgUploadRT\";
+        //    var command = new SqlCommand("P_GetPathImage_RT", Connection);
+        //    command.CommandType = CommandType.StoredProcedure;
+        //    command.Parameters.AddWithValue("@inCim_No", inCLM_ID);
+        //    command.Parameters.AddWithValue("@inCim_NoSub", CLM_NO);
+        //    Connection.Open();
+        //    SqlDataReader dr = command.ExecuteReader();
+        //    while (dr.Read())
+        //    {
+        //        model = new ImageFiles();
+        //        model.IMAGE_ID = dr["IMAGE_ID"].ToString();
+        //        model.REQ_NO = dr["STMP_ID"].ToString();
+        //        model.CLM_NO_SUB = dr["STMP_ID_SUB"].ToString();
+        //        model.IMAGE_NO = dr["IMAGE_NO"].ToString();
+        //        model.IMAGE_NAME = dr["IMAGE_NAME"].ToString();
+        //        //model.PATH = dr["PATH"].ToString();
+        //        //  model.PATH = Server.MapPath(@"~\ImgUpload\" + dr["IMAGE_NAME"].ToString());
+        //        model.PATH = Path.Combine(root, dr["IMAGE_NAME"].ToString());
+        //        //model.PATH = "D:\\Projects\\work spaces\\ClaimWap\\ClaimWap\\ImgUpload\\CM18110012-GDB7224YO-CM18110012-01-01.png";
+        //        Getdata.Add(new ImageFilesListDetail { val = model });
+        //    }
+        //    dr.Close();
+        //    dr.Dispose();
+        //    command.Dispose();
+        //    Connection.Close();
+        //    return Json(new { Getdata }, JsonRequestBehavior.AllowGet);
 
-        }
-        public JsonResult GetfileVideoRT(string inCLM_ID, string CLM_NO, string Im_No)
-        {
-            List<VideoFiles> videolist = new List<VideoFiles>();
-            string Docnocm = string.Empty;
-            var root = @"..\VideoFileUploadRT\";
-            var CS = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
-            SqlConnection Connection = new SqlConnection(CS);
-            using (SqlConnection con = new SqlConnection(CS))
-            {
-                SqlCommand command = new SqlCommand("spGetAllVideoFile_RT", con);
-                command.CommandType = CommandType.StoredProcedure;
+        //}
+        //public JsonResult GetfileVideoRT(string inCLM_ID, string CLM_NO, string Im_No)
+        //{
+        //    List<VideoFiles> videolist = new List<VideoFiles>();
+        //    string Docnocm = string.Empty;
+        //    var root = @"..\VideoFileUploadRT\";
+        //    var CS = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
+        //    SqlConnection Connection = new SqlConnection(CS);
+        //    using (SqlConnection con = new SqlConnection(CS))
+        //    {
+        //        SqlCommand command = new SqlCommand("spGetAllVideoFile_RT", con);
+        //        command.CommandType = CommandType.StoredProcedure;
 
-                command.Parameters.AddWithValue("@inCim_No", inCLM_ID);
-                command.Parameters.AddWithValue("@inCim_NoSub", CLM_NO);
-                command.Parameters.AddWithValue("@inImg_ID", Im_No);
-                Connection.Open();
-                con.Open();
-                SqlDataReader rdr = command.ExecuteReader();
-                while (rdr.Read())
-                {
-                    VideoFiles video = new VideoFiles();
-                    video.ID = Convert.ToInt32(rdr["ID"]);
-                    video.Name = rdr["Name"].ToString();
-                    video.FileSize = Convert.ToInt32(rdr["FileSize"]);
-                    // video.FilePath = rdr["FilePath"].ToString();
-                    video.FilePath = Path.Combine(root, rdr["Name"].ToString());
-                    videolist.Add(video);
-                }
-                rdr.Close();
-                rdr.Dispose();
-                command.Dispose();
-            }
+        //        command.Parameters.AddWithValue("@inCim_No", inCLM_ID);
+        //        command.Parameters.AddWithValue("@inCim_NoSub", CLM_NO);
+        //        command.Parameters.AddWithValue("@inImg_ID", Im_No);
+        //        Connection.Open();
+        //        con.Open();
+        //        SqlDataReader rdr = command.ExecuteReader();
+        //        while (rdr.Read())
+        //        {
+        //            VideoFiles video = new VideoFiles();
+        //            video.ID = Convert.ToInt32(rdr["ID"]);
+        //            video.Name = rdr["Name"].ToString();
+        //            video.FileSize = Convert.ToInt32(rdr["FileSize"]);
+        //            // video.FilePath = rdr["FilePath"].ToString();
+        //            video.FilePath = Path.Combine(root, rdr["Name"].ToString());
+        //            videolist.Add(video);
+        //        }
+        //        rdr.Close();
+        //        rdr.Dispose();
+        //        command.Dispose();
+        //    }
 
-            Connection.Close();
-            return Json(new { videolist }, JsonRequestBehavior.AllowGet);
-        }
+        //    Connection.Close();
+        //    return Json(new { videolist }, JsonRequestBehavior.AllowGet);
+        //}
         public JsonResult Getsalesreturndata(string inslm, string inCOM, string inSTATS, string instatdate, string inenddate, string incusno, string initem, string indoc, string inuderlogin)
         {
 
