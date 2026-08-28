@@ -3368,7 +3368,7 @@
                             $("#_wrqty").text(wrVal);
                             $("#_weqty").text(weVal);
                             //$("#_uder").text(weVal);
-                            if ($("#_udertype").val() == "4" && data.Getdata[0].val.PM_APPRV_STATUS == "2") {
+                            if ($("#_udertype").val() == "4" && data.Getdata[0].val.PM_APPRV_STATUS == "2" && data.Getdata[0].val.SLM_Remark=="") {
                                 //ARMARM
 
                                 $("#div_sale_process").prop("hidden", false);
@@ -3377,6 +3377,23 @@
                                 $("#div_sale_process").prop("hidden", true);
 
                             }
+
+                            var remark = data.Getdata[0].val.SLM_Remark || "";
+
+                            var $select = $("#select_saleman_process");
+
+                            var exists = $select.find("option").filter(function () {
+                                return $(this).val() === remark;
+                            }).length > 0;
+
+                            if (exists) {
+                                $select.val(remark);
+                            }
+                            else {
+                                $select.prop("selectedIndex", 0);
+                            }
+
+                            $select.trigger("change");
 
 
                             if (wrVal > 0 || weVal > 0) {
@@ -3804,7 +3821,7 @@
                 var req_no = $("#textclaimno").text();
                 var clm_no_sub = $("#textclaimno_sub").text();
                 var afterprocess = $("#select_saleman_process").val();
-
+                var usr = $("#_uderlogin").val()
                 if ($("#select_saleman_process").prop("selectedIndex") == 0) {
                     $("#textAlertWarningmes").empty();
                     $("#textAlertWarningmes").text("กรุณาเลือกวิธีจัดการสินค้า");
@@ -3827,6 +3844,7 @@
                             $("#textAlertSucces").empty();
                             $("#textAlertSucces").text("บันทึกวิธีจัดการสินค้าสำเร็จ");
                             $("#myModalSucces").modal();
+                            $("#div_sale_process").prop("hidden", true);
                         } else {
                             $("#textAlertWarningmes").empty();
                             $("#textAlertWarningmes").text(data.message);

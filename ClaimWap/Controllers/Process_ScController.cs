@@ -106,7 +106,7 @@ namespace ClaimWap.Controllers
 
             return Json(new { message, subno }, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult saveProcessAfterRejected(string aj_REQ_NO, string aj_CLM_NO_SUB, string aj_ANLYS_AFTERPROCESS)
+        public JsonResult saveProcessAfterRejected(string aj_REQ_NO, string aj_CLM_NO_SUB, string aj_ANLYS_AFTERPROCESS,string usrname)
         {
             string message = string.Empty;
             string subno = string.Empty;
@@ -121,7 +121,7 @@ namespace ClaimWap.Controllers
                 command.Parameters.AddWithValue("@inCLM_ID", aj_REQ_NO);
             command.Parameters.AddWithValue("@inCLM_SUB", aj_CLM_NO_SUB);
             command.Parameters.AddWithValue("@inRemark", aj_ANLYS_AFTERPROCESS);
-            command.Parameters.AddWithValue("@inusrlogin", User.Identity.Name);
+            command.Parameters.AddWithValue("@inusrlogin", usrname);
 
                 SqlParameter returnValuedoc = new SqlParameter("@outGenstatus", SqlDbType.NVarChar, 100);
                 returnValuedoc.Direction = System.Data.ParameterDirection.Output;
