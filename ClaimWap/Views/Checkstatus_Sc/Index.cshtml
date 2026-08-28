@@ -1645,7 +1645,7 @@
 
             },
 
-            minLength: 2//minLength as 2, it means when ever user enter 2 character in TextBox the AutoComplete method will fire and get its source data.
+            minLength: 4//minLength as 2, it means when ever user enter 2 character in TextBox the AutoComplete method will fire and get its source data.
         });
         $("#_cusno").autocomplete({
             selectFirst: true,
@@ -1671,7 +1671,7 @@
                     }
                 });
             },
-            minLength: 2//minLength as 2, it means when ever user enter 2 character in TextBox the AutoComplete method will fire and get its source data.
+            minLength: 3//minLength as 2, it means when ever user enter 2 character in TextBox the AutoComplete method will fire and get its source data.
         });
 
         $(document).ready(function () {
@@ -3834,7 +3834,8 @@
                     data: {
                         aj_REQ_NO: req_no,
                         aj_CLM_NO_SUB: clm_no_sub,
-                        aj_ANLYS_AFTERPROCESS: afterprocess
+                        aj_ANLYS_AFTERPROCESS: afterprocess,
+                        usrname:usr
                     },
                     type: "POST",
                     dataType: "JSON",

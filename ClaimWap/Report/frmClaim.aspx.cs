@@ -29,9 +29,7 @@ namespace ClaimWap.Report
                 fnLoadReportBoc();
             }    
         }
-        private void fnLoadReportBoc()
-        
-        {
+        private void fnLoadReportBoc() {
             string Doc = string.Empty;
             string Docwords = string.Empty;
             string Docdisplay = string.Empty;
@@ -39,10 +37,9 @@ namespace ClaimWap.Report
             string SubDoc = string.Empty;
             string SubUsrtype = string.Empty;
             string Usrtype = string.Empty;
-            //string Doc_subdisplay = string.Empty;
+
             Docdisplay = Request.QueryString["ClmNUM"];
             string[] words = Docdisplay.Split('/');
-           // Doc_subdisplay = Request.QueryString["ClmsubNUM"];
             Docwords = words[0];
             byte[] data = System.Convert.FromBase64String(Docwords);
             Doc = System.Text.ASCIIEncoding.ASCII.GetString(data);
@@ -50,109 +47,84 @@ namespace ClaimWap.Report
             SubDocwords = words[1];
             byte[] datasub = System.Convert.FromBase64String(SubDocwords);
             SubDoc = System.Text.ASCIIEncoding.ASCII.GetString(datasub);
+
             SubUsrtype = words[2];
             byte[] datasrtype = System.Convert.FromBase64String(SubUsrtype);
             Usrtype = System.Text.ASCIIEncoding.ASCII.GetString(datasrtype);
+
             string Cus = string.Empty;
             string slm = string.Empty;
             string item = string.Empty;
             DataSet ds1 = new DataSet();
             string conString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
+
+            ReportViewer.ProcessingMode = ProcessingMode.Local;
+            ReportViewer.LocalReport.ReportPath = Server.MapPath("~/Report/rptClaimTech.rdlc");
+
             using (SqlConnection con = new SqlConnection(conString))
-            {
-                ReportViewer.ProcessingMode = ProcessingMode.Local;
-                ReportViewer.LocalReport.ReportPath = Server.MapPath("~/Report/rptClaimTech.rdlc");
-                con.Open();
-                SqlDataAdapter sda1 = new SqlDataAdapter();
-              
-
-                SqlCommand cmd = new SqlCommand("P_GetClaim_ByDocSub", con);
+            using (SqlCommand cmd = new SqlCommand("P_GetClaim_ByDocSub", con)) {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@DOC", Doc.ToString());
-                cmd.Parameters.AddWithValue("@DOCSUB", SubDoc.ToString());
-                sda1.SelectCommand = cmd;
-                sda1.Fill(ds1, "DataSet1");
+                cmd.CommandTimeout = 300;
+                cmd.Parameters.AddWithValue("@DOC", Doc);
+                cmd.Parameters.AddWithValue("@DOCSUB", SubDoc);
 
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    Cus = dr["CUSCOD"].ToString() + '-' + dr["CUSNAM"].ToString();
-                    slm = dr["SLMCOD"].ToString() + '-' + dr["SLMNAM"].ToString();
-                    item = dr["STKCOD"].ToString();
+                using (SqlDataAdapter sda1 = new SqlDataAdapter(cmd)) {
+                    sda1.Fill(ds1);   // ✅ ดึงข้อมูลจริงเข้า DataSet สำหรับ Report
                 }
-                dr.Close();
-                dr.Dispose();
-                cmd.Dispose();
-                con.Close();
+            } // con ปิด/dispose อัตโนมัติแม้เกิด exception
+
+            // ตรวจสอบก่อนใช้ ป้องกัน IndexOutOfRange ถ้า SP ไม่คืนข้อมูล
+            if (ds1.Tables.Count == 0 || ds1.Tables[0].Rows.Count == 0) {
+                // TODO: แสดงข้อความแจ้งผู้ใช้ว่าไม่พบข้อมูล แทนที่จะปล่อยให้ error
+                Response.Write("ไม่พบข้อมูลใบเคลม");
+                Response.End();
+                return;
             }
+
+            DataRow row = ds1.Tables[0].Rows[0];
+            Cus = row["CUSCOD"].ToString() + '-' + row["CUSNAM"].ToString();
+            slm = row["SLMCOD"].ToString() + '-' + row["SLMNAM"].ToString();
+            item = row["STKCOD"].ToString();
+
             ReportDataSource datasource2 = new ReportDataSource("DataSet1", ds1.Tables[0]);
-            //ReportDataSource datasource3 = new ReportDataSource("DataSet2", ds1.Tables[1]);
             ReportViewer.LocalReport.DataSources.Clear();
             ReportViewer.LocalReport.DataSources.Add(datasource2);
 
-            //------add 15.02.2019 parameter SALES,TECH,CS,LOG -------
-            string GrpUserPrint = string.Empty;
-           // GrpUserPrint = "SALES";
-            GrpUserPrint = Usrtype;
+            string GrpUserPrint = Usrtype;
             ReportParameter rp = new ReportParameter("GrpUserPrint", GrpUserPrint, false);
             this.ReportViewer.LocalReport.SetParameters(new ReportParameter[] { rp });
-            //-------------------------------------------------------
 
-            ReportViewer rpt = new ReportViewer();
-            //rpt.SetPageSettings(new System.Drawing.Printing.PageSettings() { Landscape = true });
             string reportType = "PDF";
             string mimeType;
             string encoding;
             string fileNameExtension;
 
-            //The DeviceInfo settings should be changed based on the reportType
-
             string deviceInfo =
-            "<DeviceInfo>" +
-            " <OutputFormat>PDF</OutputFormat>" +
-            " <PageWidth>8.5in</PageWidth>" +
-            "<PageHeight>11.7in</PageHeight>" +
-            "<MarginTop>0.5in</MarginTop>" +
-            " <MarginLeft>0.1in</MarginLeft>" +
-            " <MarginRight>0.1in</MarginRight>" +
-            " <MarginBottom>0in</MarginBottom>" +
-            "</DeviceInfo>";
+                "<DeviceInfo>" +
+                " <OutputFormat>PDF</OutputFormat>" +
+                " <PageWidth>8.5in</PageWidth>" +
+                " <PageHeight>11.7in</PageHeight>" +
+                " <MarginTop>0.5in</MarginTop>" +
+                " <MarginLeft>0.1in</MarginLeft>" +
+                " <MarginRight>0.1in</MarginRight>" +
+                " <MarginBottom>0in</MarginBottom>" +
+                "</DeviceInfo>";
 
             Warning[] warnings;
             string[] streams;
             byte[] renderedBytes;
 
-            //Render the report
             renderedBytes = ReportViewer.LocalReport.Render(
-            reportType,
-            deviceInfo,
-            out mimeType,
-            out encoding,
-            out fileNameExtension,
-            out streams,
-            out warnings);
+                reportType, deviceInfo, out mimeType, out encoding,
+                out fileNameExtension, out streams, out warnings);
 
-            ////clear the response stream and write the bytes to the outputstream
-            //set content-disposition to “attachment” so that user is prompted to take an action
-            //on the file (open or save)
             Response.Buffer = true;
             Response.Clear();
             Response.ContentType = mimeType;
-            //Response.AddHeader("content-disposition", "attachment; filename=rptClaim"+ "." + fileNameExtension);
-            Response.AddHeader("content-disposition", "attachment; filename=rptClaim" + SubDoc + "-" + Cus +"-"+ slm+"." + fileNameExtension);
+            Response.AddHeader("content-disposition",
+                "attachment; filename=rptClaim" + SubDoc + "-" + Cus + "-" + slm + "." + fileNameExtension);
             Response.BinaryWrite(renderedBytes);
-
-
-           //string path = (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)) + @"\Downloads\rptClaim" +  ".pdf";
-           string path = (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)) + @"\Downloads\rptClaim" + SubDoc + "-" + Cus + "-" + slm +".pdf";
-            //WebClient client = new WebClient();
-            // Byte[] buffer = client.DownloadData(path);
-            System.IO.File.Delete(path);
-
-
             Response.End();
-
-
         }
     }
 }

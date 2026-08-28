@@ -512,47 +512,49 @@ namespace ClaimWap.Models
     public class ClimeDetail
     {
         public string CLM_ADMIN { get; set; }
-        public string CLM_SHELF_LOCATION { get; set; }
+        public string CLM_SHELF_LOCATION{ get; set; }
         public string CLM_RCVSTATUS { get; set; }
         public string CLM_QTY_ORG { get; set; }
         public string CLM_QTY { get; set; }
         public string CLM_QTY_PASS { get; set; }
         public string CLM_QTY_REJECT { get; set; }
-        public string CLM_REQQTY { get; set; }
-        public string CLM_REMARK { get; set; }
+        public string CLM_REQQTY { get; set; } 
+        public string CLM_REMARK{ get; set; }
         public string CLM_RCVDATE { get; set; }
         public string CLM_RCVBY { get; set; }
-        public string CLM_UOM { get; set; }
-        public string CLM_DUEDATE { get; set; }
-        public string CLM_DATE { get; set; }
-        public string Technician { get; set; }
-        public string STKGRP { get; set; }
-        public string TECH1_NAME { get; set; }
-        public string TECH1_ANLYS_DATE { get; set; }
-        public string CLM_PERFORM { get; set; }
+        public string CLM_UOM{ get; set; }
+        public string CLM_DUEDATE{ get; set; }
+        public string CLM_DATE{ get; set; }
+        public string Technician{ get; set; }
+		public string STKGRP{ get; set; }
+		public string TECH1_NAME{ get; set; }
+        public string TECH1_ANLYS_DATE{ get; set; }
+        public string CLM_PERFORM{ get; set; }
         public string ADMIN_ANLYS_STATUS { get; set; }
-        public string TECH1_ANLYS_STATUS { get; set; }
-        public string ANLYS_AFTERPROCESS { get; set; }
-        public string SCRAP_DATE { get; set; }
-        public string TECH1_ANLYS_RESULT { get; set; }
-        public string TECH1_PROCESS_STATUS { get; set; }
-        public string TECH2_NAME { get; set; }
-        public string TECH2_ANLYS_STATUS { get; set; }
-        public string TECH2_REMARK { get; set; }
-        public string TECH2_ANLYS_DATE { get; set; }
-        public string TECH2_PROCESS_STATUS { get; set; }
-        public string PM_NAME { get; set; }
-        public string PM_APPRV_DATE { get; set; }
-        public string PM_APPRV_STATUS { get; set; }
-        public string PM_PROCESS_STATUS { get; set; }
-        public string PM_Replacement { get; set; }
-        public string PM_REMARK { get; set; }
-        public string CLM_STATUS { get; set; }
-        public string CLM_UPDATE_DATE { get; set; }
+        public string TECH1_ANLYS_STATUS{ get; set; }
+        public string ANLYS_AFTERPROCESS{ get; set; }
+        public string SCRAP_DATE{ get; set; }
+        public string TECH1_ANLYS_RESULT{ get; set; }
+		public string TECH1_PROCESS_STATUS{ get; set; }		 
+		public string TECH2_NAME{ get; set; }
+		public string TECH2_ANLYS_STATUS{ get; set; }
+		public string TECH2_REMARK{ get; set; }
+		public string TECH2_ProblemCategory { get; set; }
+		public string TECH2_ProblemCategoryDetail { get; set; }
+		public string TECH2_ANLYS_DATE{ get; set; }
+		public string TECH2_PROCESS_STATUS{ get; set; }
+		public string PM_NAME { get; set; }
+		public string PM_APPRV_DATE{ get; set; }
+		public string PM_APPRV_STATUS{ get; set; } 
+		public string PM_PROCESS_STATUS{ get; set; }
+		public string PM_Replacement{ get; set; }
+		public string PM_REMARK { get; set; }
+		public string CLM_STATUS{ get; set; }
+        public string CLM_UPDATE_DATE{ get; set; }
         public string CLM_UPDATE_BY { get; set; }
         public string Customer { get; set; }
         public string CLM_FRMSUP_STATUS { get; set; }
-        public string REQ_NO { get; set; }
+        public string REQ_NO  { get; set; }
         public string CLM_NO_SUB { get; set; }
         public string REQ_DATE { get; set; }
         public string STKCOD { get; set; }
@@ -561,21 +563,21 @@ namespace ClaimWap.Models
         public string STATUSTEXT { get; set; }
         public string CLM_PERFORMTEXT { get; set; }
         public string ANLYS_AFTERPROCESSTEXT { get; set; }
-        public string CLM_FRMSUP_DATE { get; set; }
+        public string CLM_FRMSUP_DATE{ get; set; }
         public string CLM_FRMSUP_NO { get; set; }
         public string CLM_NO { get; set; }
         public string SLMCOD { get; set; }
         public string FCLM_QTY { get; set; }
-        public string CLM_Machine { get; set; }
-        public string CLM_Model { get; set; }
-        public string CLM_ModelYear { get; set; }
-        public string CLM_EngineCode { get; set; }
-        public string CLM_ChassisNo { get; set; }
-        public string CLM_InjecPump { get; set; }
-        public string CLM_TypeProduct { get; set; }
-        public string CLM_WarrantyNo { get; set; }
-        public string CLM_Milage { get; set; }
-        public string CLM_DateDamage { get; set; }
+        public string CLM_Machine{ get; set; }
+        public string CLM_Model{ get; set; }
+        public string CLM_ModelYear{ get; set; }
+        public string CLM_EngineCode{ get; set; }
+        public string CLM_ChassisNo{ get; set; }
+        public string CLM_InjecPump{ get; set; }
+        public string CLM_TypeProduct{ get; set; }
+        public string CLM_WarrantyNo{ get; set; }
+        public string CLM_Milage{ get; set; }
+        public string CLM_DateDamage{ get; set; }
         public string CLM_BatchCode { get; set; }
         public string CLM_COMPANY { get; set; }
         public string CLM_CAUSE { get; set; }
@@ -591,12 +593,12 @@ namespace ClaimWap.Models
         public string Log_No { get; set; }
         public string ClmtypeTech { get; set; }
         public string Clmtype { get; set; }
-        public string Process_Tech { get; set; }
-        public string Process_PM { get; set; }
-        public string TEC_ANLYS_STATUS { get; set; }
-        public string TEC_PROCESS_STATUS { get; set; }
-        public string TEC_ANLYS_AFTERPROCESS { get; set; }
-        public string PM_ANLYS_STATUS { get; set; }
+        public string Process_Tech{ get; set; }
+        public string Process_PM{ get; set; }  
+		public string TEC_ANLYS_STATUS{ get; set; }
+        public string TEC_PROCESS_STATUS{ get; set; }
+        public string TEC_ANLYS_AFTERPROCESS{ get; set; }
+        public string PM_ANLYS_STATUS{ get; set; }
         public string PM_PROCESS_STATUS_ANLYS { get; set; }
         public string PM_ANLYS_AFTERPROCESS { get; set; }
 

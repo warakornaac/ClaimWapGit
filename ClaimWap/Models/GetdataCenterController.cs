@@ -996,6 +996,7 @@ namespace ClaimWap.Models
             {
 
                 var command = new SqlCommand("P_InvoiceCheck_ByCusItm_Date", Connection);
+                command.CommandTimeout = 300;
                 command.CommandType = CommandType.StoredProcedure;
                 command.CommandTimeout = 300;
                 command.Parameters.AddWithValue("@CUS", _cusno);
@@ -1385,33 +1386,88 @@ namespace ClaimWap.Models
 
             return Json(List, JsonRequestBehavior.AllowGet);
         }
+        //public JsonResult GetdataCountProcess(string Usertype, string Userlogin)
+        //{
+        //    var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
+        //    SqlConnection Connection = new SqlConnection(connectionString);
+        //    List<ListCountProcess> Getdata = new List<ListCountProcess>();
+        //    CountProcess model = null;
+        //    var command = new SqlCommand("P_Count_Process", Connection);
+        //    command.CommandType = CommandType.StoredProcedure;
+        //    command.Parameters.AddWithValue("@Usertyp", Usertype);
+        //    command.Parameters.AddWithValue("@Userlogin", Userlogin);
+
+        //    Connection.Open();
+        //    SqlDataReader dr = command.ExecuteReader();
+        //    while (dr.Read())
+        //    {
+        //        model = new CountProcess();
+        //        model.CountAdmin = dr["CountAdmin"].ToString();
+        //        model.Status = dr["Status"].ToString();
+        //        model.company = dr["company"].ToString();
+        //        Getdata.Add(new ListCountProcess { val = model });
+        //    }
+
+        //    dr.Close();
+        //    dr.Dispose();
+        //    command.Dispose();
+        //    Connection.Close();
+        //    return Json(new { Getdata }, JsonRequestBehavior.AllowGet);
+        //}
         public JsonResult GetdataCountProcess(string Usertype, string Userlogin)
         {
             var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
-            SqlConnection Connection = new SqlConnection(connectionString);
+
             List<ListCountProcess> Getdata = new List<ListCountProcess>();
-            CountProcess model = null;
-            var command = new SqlCommand("P_Count_Process", Connection);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@Usertyp", Usertype);
-            command.Parameters.AddWithValue("@Userlogin", Userlogin);
 
-            Connection.Open();
-            SqlDataReader dr = command.ExecuteReader();
-            while (dr.Read())
+            try
             {
-                model = new CountProcess();
-                model.CountAdmin = dr["CountAdmin"].ToString();
-                model.Status = dr["Status"].ToString();
-                model.company = dr["company"].ToString();
-                Getdata.Add(new ListCountProcess { val = model });
-            }
+                using (SqlConnection Connection = new SqlConnection(connectionString))
+                {
+                    try
+                    {
+                        Connection.Open();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Connection Error\nConnStr: " + connectionString + "\n" + ex.ToString());
+                    }
 
-            dr.Close();
-            dr.Dispose();
-            command.Dispose();
-            Connection.Close();
-            return Json(new { Getdata }, JsonRequestBehavior.AllowGet);
+                    using (SqlCommand command = new SqlCommand("P_Count_Process", Connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Usertyp", Usertype);
+                        command.Parameters.AddWithValue("@Userlogin", Userlogin);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                var model = new CountProcess
+                                {
+                                    CountAdmin = dr["CountAdmin"].ToString(),
+                                    Status = dr["Status"].ToString(),
+                                    company = dr["company"].ToString()
+                                };
+
+                                Getdata.Add(new ListCountProcess { val = model });
+                            }
+                        }
+                    }
+                }
+
+                return Json(new { Getdata }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                // return error ออกไปดูใน browser / postman
+                return Json(new
+                {
+                    error = true,
+                    message = ex.Message,
+                    detail = ex.ToString()
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
         public JsonResult GetProductall()
         {
@@ -1520,6 +1576,10 @@ namespace ClaimWap.Models
                 model.TECH2_NAME = dr["TECH2_NAME"].ToString();
                 model.TECH2_ANLYS_STATUS = dr["TECH2_ANLYS_STATUS"].ToString();
                 model.TECH2_REMARK = dr["TECH2_REMARK"].ToString();
+
+                model.TECH2_ProblemCategory = dr["TECH2_ProblemCategory"].ToString();
+                model.TECH2_ProblemCategoryDetail = dr["TECH2_ProblemCategoryDetail"].ToString();
+
                 model.TECH2_ANLYS_DATE = dr["TECH2_ANLYS_DATE"].ToString();
                 model.TECH2_PROCESS_STATUS = dr["TECH2_PROCESS_STATUS"].ToString();
                 model.PM_NAME = dr["PM_NAME"].ToString();
