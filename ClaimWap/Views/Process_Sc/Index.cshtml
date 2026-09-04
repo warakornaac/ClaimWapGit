@@ -698,6 +698,12 @@
                                 <span style="color: blue;text-decoration: underline;font-weight: bold" id="_weqty"></span>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <span> <i class="fa fa-pencil"></i> WF_Qty:</span>
+                                <span style="color: blue;text-decoration: underline;font-weight: bold" id="_wfqty"></span>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
 
@@ -1241,7 +1247,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="row" id="wrwe_qty_row" hidden>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <span> <i class="fa fa-check-circle"></i> WR Qty.:</span>
                                     <span>
@@ -1249,11 +1255,19 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <span> <i class="fa fa-check-circle"></i> We Qty.:</span>
+                                    <span> <i class="fa fa-check-circle"></i> WE Qty.:</span>
                                     <span>
                                         <input type="number" id="tec2_clm_qty_we" value="0" onkeyup="" style="border-bottom: 5px solid #b33c0f;" />
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span> <i class="fa fa-check-circle"></i> WF Qty.:</span>
+                                    <span>
+                                        <input type="number" id="tec2_clm_qty_wf" value="0" onkeyup="" style="border-bottom: 5px solid #b33c0f;" />
                                     </span>
                                 </div>
                             </div>
@@ -1673,54 +1687,54 @@
                 $("#wrwe_qty_row").prop("hidden", true);
             }
         });
-        $(document).ready(function () {
-            var tec2_clm_qty_pass = $("#tec2_clm_qty_pass").val();//ยอดที่เคลมได้
-            if (tec2_clm_qty_pass > 0) {
-                $("#wrwe_qty_row").prop("hidden", false);
-            }
-            else {
-                $("#wrwe_qty_row").prop("hidden", true);
-            }
+        //$(document).ready(function () {
+        //    var tec2_clm_qty_pass = $("#tec2_clm_qty_pass").val();//ยอดที่เคลมได้
+        //    if (tec2_clm_qty_pass > 0) {
+        //        $("#wrwe_qty_row").prop("hidden", false);
+        //    }
+        //    else {
+        //        $("#wrwe_qty_row").prop("hidden", true);
+        //    }
 
-            $('#tec2_clm_qty_wr').on('input', function () {
-                var qty_req = parseFloat($('#tec2_clm_qty_pass').val()) || 0;
+        //    $('#tec2_clm_qty_wr').on('input', function () {
+        //        var qty_req = parseFloat($('#tec2_clm_qty_pass').val()) || 0;
 
-                let we = parseFloat($(this).val()) || 0;
+        //        let we = parseFloat($(this).val()) || 0;
 
-                if (qty_req - we < 0) {
+        //        if (qty_req - we < 0) {
 
-                    alert('ไม่สามารถใส่เกินจำนวน ' + qty_req + ' ได้');
+        //            alert('ไม่สามารถใส่เกินจำนวน ' + qty_req + ' ได้');
 
-                    $(this).val(qty_req);
-                    $('#tec2_clm_qty_we').val(0);
+        //            $(this).val(qty_req);
+        //            $('#tec2_clm_qty_we').val(0);
 
-                    return;
-                }
+        //            return;
+        //        }
 
-                $('#tec2_clm_qty_we').val(qty_req - we);
-            });
+        //        $('#tec2_clm_qty_we').val(qty_req - we);
+        //    });
 
 
-            $('#tec2_clm_qty_we').on('input', function () {
-                var qty_req = parseFloat($('#tec2_clm_qty_pass').val()) || 0;
+        //    $('#tec2_clm_qty_we').on('input', function () {
+        //        var qty_req = parseFloat($('#tec2_clm_qty_pass').val()) || 0;
                 
-                let wr = parseFloat($(this).val()) || 0;
+        //        let wr = parseFloat($(this).val()) || 0;
 
-                if (qty_req - wr < 0) {
+        //        if (qty_req - wr < 0) {
 
-                    alert('ไม่สามารถใส่เกินจำนวน ' + qty_req + ' ได้');
+        //            alert('ไม่สามารถใส่เกินจำนวน ' + qty_req + ' ได้');
 
-                    $(this).val(qty_req);
-                    $('#tec2_clm_qty_wr').val(0);
+        //            $(this).val(qty_req);
+        //            $('#tec2_clm_qty_wr').val(0);
 
-                    return;
-                }
+        //            return;
+        //        }
 
-                $('#tec2_clm_qty_wr').val(qty_req - wr);
-            });
+        //        $('#tec2_clm_qty_wr').val(qty_req - wr);
+        //    });
 
 
-        });
+        //});
 
         $('#btnSaveWeWr').click(function () {
             let wrval = $('#txtWR').val()||0;
@@ -1909,6 +1923,7 @@
                             $("#problemCategoryDetail_tech2").attr("disabled", "disabled");   //สถานะ
                             $("#tec2_clm_qty_wr").attr("disabled", "disabled");   //กำหนด WR
                             $("#tec2_clm_qty_we").attr("disabled", "disabled");   //กำหนด WE
+                            $("#tec2_clm_qty_wf").attr("disabled", "disabled");   //กำหนด WF
                             $("#_btnsaveconsider").attr("disabled", "disabled");
 
                             $("#_PM").attr("disabled", "disabled");  // Product Manager
@@ -2051,6 +2066,7 @@
                             $("#problemCategoryDetail_tech2").attr("disabled", "disabled");   //สถานะ
                             $("#tec2_clm_qty_wr").attr("disabled", "disabled");   //กำหนด WR
                             $("#tec2_clm_qty_we").attr("disabled", "disabled");   //กำหนด WE
+                            $("#tec2_clm_qty_wf").attr("disabled", "disabled");   //กำหนด WF
                             $("#_btnsaveconsider").attr("disabled", "disabled");
 
 
@@ -3188,16 +3204,18 @@
                                     $("#org_we").val(data.Getdata[0].val.WE_Qty || 0);
                                     $("#_wrqty").text(data.Getdata[0].val.WR_Qty);
                                     $("#_weqty").text(data.Getdata[0].val.WE_Qty);
-                                    tech1_anys_status = data.Getdata[0].val.TEC_ANLYS_STATUS;
+                                    $("#_wfqty").text(data.Getdata[0].val.WF_Qty);
+                                    tech1_anys_status = data.Getdata[0].val.TECH1_ANLYS_STATUS;
 
-                                    if (data.Getdata[0].val.WR_Qty > 0 || data.Getdata[0].val.WE_Qty > 0 ) {
+
                                         //tech1_anys_status = data.Getdata[0].val.TEC_ANLYS_STATUS;
-                                        if (tech1_anys_status == "5") {
-                                            $("#wrwe_qty_row").prop("hidden",false)
-                                        }
-                                        $("#tec2_clm_qty_wr").val(data.Getdata[0].val.WR_Qty);
-                                        $("#tec2_clm_qty_we").val(data.Getdata[0].val.WE_Qty);
+                                    if (tech1_anys_status == "5") {
+                                        $("#wrwe_qty_row").prop("hidden", false);
                                     }
+                                    $("#tec2_clm_qty_wr").val(data.Getdata[0].val.WR_Qty||0);
+                                    $("#tec2_clm_qty_we").val(data.Getdata[0].val.WE_Qty||0);
+                                    $("#tec2_clm_qty_wf").val(data.Getdata[0].val.WF_Qty||0);
+                                    
                                     //ARM 25082026
 
                                     var shelf = data.Getdata[0].val.CLM_SHELF_LOCATION;
@@ -5426,6 +5444,7 @@
                 var qty_pass = $("#tec2_clm_qty_pass").val();      //จำนวนเคลมได้
                 var qty_wr = $("#tec2_clm_qty_wr").val();      //จำนวนWR
                 var qty_we = $("#tec2_clm_qty_we").val();      //จำนวนWE
+                var qty_wf = $("#tec2_clm_qty_wf").val();      //จำนวนWF
                 var qty_reject = $("#tec2_clm_qty_reject").val();  //จำนวนเคลมไม่ได้
                 var problemCategory_tech2 = $("#problemCategory_tech2").val();  //สาเหตุ
                 var problemCategoryDetail_tech2 = $("#problemCategoryDetail_tech2").val();  //สาเหตุเพิ่มเติม
@@ -5462,10 +5481,10 @@
                 if (qty_pass != "" || qty_reject != "") {
                     sumQty = Number(qty_pass) + Number(qty_reject);
                     if (tech1_anys_status == "5") {
-                        var sumwrwe = (Number(qty_wr) + Number(qty_we))
+                        var sumwrwe = (Number(qty_wr) + Number(qty_we) + Number(qty_wf))
                         if (sumwrwe != sumQty) {
                             $("#textAlertWarning").empty();
-                            $("#textAlertWarning").text("กรุณากรอกจำนวน WR และ WE/Please fill the amount WR and WE number");
+                            $("#textAlertWarning").text("กรุณาระบุ WR, WE และ WF รวมกันต้องเท่ากับ Accept Qty / WR + WE + WF must equal Accept Qty.");
                             $("#myModalWarning").modal(); return false;
                         }
                     }
@@ -5499,7 +5518,8 @@
                         aj_TECH2_problemCategory: problemCategory_tech2,
                         aj_TECH2_QTY_problemCategoryDetail: problemCategoryDetail_tech2,
                         aj_TECH2_QTY_WR: qty_wr,
-                        aj_TECH2_QTY_WE: qty_we
+                        aj_TECH2_QTY_WE: qty_we,
+                        aj_TECH2_QTY_WF: qty_wf
 
                     },
                     type: "POST",

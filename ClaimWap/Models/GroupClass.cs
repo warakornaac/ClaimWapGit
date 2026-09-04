@@ -654,6 +654,8 @@ namespace ClaimWap.Models
 
         public string WR_Qty { get; set; }
         public string WE_Qty { get; set; }
+        public string WF_Qty { get; set; }
+
         public string SLM_Remark { get; set; }
     }
     public class Salesreturnsupper

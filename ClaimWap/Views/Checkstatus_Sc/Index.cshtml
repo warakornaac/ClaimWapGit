@@ -718,6 +718,12 @@
                                     <span style="color: blue;text-decoration: underline;font-weight: bold" id="_weqty"></span>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span> <i class="fa fa-pencil"></i> WF_Qty:</span>
+                                    <span style="color: blue;text-decoration: underline;font-weight: bold" id="_wfqty"></span>
+                                </div>
+                            </div>
 
                             <div class="col-sm-12">
                                 <div class="form-group">
@@ -1191,7 +1197,7 @@
                                     <div class="form-group">
                                         <span> <i class="fa fa-check-circle"></i> WR Qty.:</span>
                                         <span>
-                                            <input type="number" id="tec2_clm_qty_wr"  disabled/>
+                                            <input type="number" id="tec2_clm_qty_wr" disabled />
                                         </span>
                                     </div>
                                 </div>
@@ -1214,6 +1220,21 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <span><textarea rows="6" cols="100" id="remaketec2" placeholder="หมายเหตุ/TECH2 comment"></textarea></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <span><i class="fa fa-pencil"></i>สาเหตุการ Claim/Problem Category:</span>
+                                <span><select class="bar" id="problemCategory_tech2" disabled></select></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <span><textarea rows="6" cols="10" id="problemCategoryDetail_tech2" placeholder="รายละเอียด อาการ ลักษณะของปัญหา/Problem Details" style="width: 100%;" disabled></textarea></span>
                             </div>
                         </div>
                     </div>
@@ -1695,7 +1716,7 @@
             var udertype = $("#_udertype").val();
             var Userlogin = $("#_uderlogin").val();
             //alert(udertype);
-           
+
             if (udertype == "4") {
                 $.ajax({
                     url: '@Url.Action("GetdataCountProcess", "GetdataCenter")',
@@ -1910,6 +1931,22 @@
                         select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
                     });
                     //  var CUSCODt = $("#CUSCOD option:selected").text();
+                }
+            });
+            //ดึงสาเหตุ tech2
+            $.ajax({
+                url: '@Url.Action("GetdateStatusClm", "GetdataCenter")',
+                data: {
+                    Name: 39
+                },
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+                    var select = $("#problemCategory_tech2");
+                    select.children().remove();
+                    $(data).each(function (index, item) {
+                        select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
+                    });
                 }
             });
             var UserId = $("#_uderlogin").val();
@@ -3365,13 +3402,15 @@
                             //WRWE
                             var wrVal = data.Getdata[0].val.WR_Qty;
                             var weVal = data.Getdata[0].val.WE_Qty;
+                            var wfVal = data.Getdata[0].val.WF_Qty;
                             $("#_wrqty").text(wrVal);
                             $("#_weqty").text(weVal);
+                            $("#_wfqty").text(wfVal);
                             //$("#_uder").text(weVal);
                             if ($("#_udertype").val() == "4" && data.Getdata[0].val.PM_APPRV_STATUS == "2" && data.Getdata[0].val.SLM_Remark=="") {
                                 //ARMARM
 
-                                $("#div_sale_process").prop("hidden", false);
+                                //$("#div_sale_process").prop("hidden", false);
                             }
                             else {
                                 $("#div_sale_process").prop("hidden", true);
@@ -3514,6 +3553,8 @@
                             $("#_appdatetec").val(data.Getdata[0].val.TECH2_ANLYS_DATE);  //วันที่เทคนิคพิจารณา
                             $("#_apprvststus").val(data.Getdata[0].val.TECH2_ANLYS_STATUS); // สถานะ
                             $("#remaketec2").val(data.Getdata[0].val.TECH2_REMARK);   //หมายเหตุ
+                            $("#problemCategory_tech2").val(data.Getdata[0].val.TECH2_ProblemCategory); // สถานะสาเหตุ
+                            $("#problemCategoryDetail_tech2").val(data.Getdata[0].val.TECH2_ProblemCategoryDetail); // สถานะสาเหตุรายละเอียด
 
                             // lock Display Technic 2 : ผลการพิจารณา//
                             $("#_name2tec").attr("disabled", "disabled"); //รับรองการตรวจสอบโดย

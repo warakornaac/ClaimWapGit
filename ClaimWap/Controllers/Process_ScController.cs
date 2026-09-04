@@ -59,7 +59,7 @@ namespace ClaimWap.Controllers
             }
             return View();
         }
-        public JsonResult SaveProcessClaimDetailTec2(string clamtyp, string aj_REQ_NO, string aj_CLM_NO_SUB, string aj_TECH2_NAME, string aj_TECH2_APPRV_STATUS, string aj_TECH2_REMARK, string aj_TECH2_APPRV_DATE, string aj_TECH2_QTY_ORG, string aj_TECH2_QTY_PASS, string aj_TECH2_QTY_REJECT, string aj_TECH2_problemCategory, string aj_TECH2_QTY_problemCategoryDetail, string aj_TECH2_QTY_WR, string aj_TECH2_QTY_WE)
+        public JsonResult SaveProcessClaimDetailTec2(string clamtyp, string aj_REQ_NO, string aj_CLM_NO_SUB, string aj_TECH2_NAME, string aj_TECH2_APPRV_STATUS, string aj_TECH2_REMARK, string aj_TECH2_APPRV_DATE, string aj_TECH2_QTY_ORG, string aj_TECH2_QTY_PASS, string aj_TECH2_QTY_REJECT, string aj_TECH2_problemCategory, string aj_TECH2_QTY_problemCategoryDetail, string aj_TECH2_QTY_WR, string aj_TECH2_QTY_WE, string aj_TECH2_QTY_WF)
         {
             string message = string.Empty;
             string subno = string.Empty;
@@ -83,6 +83,7 @@ namespace ClaimWap.Controllers
                  command.Parameters.AddWithValue("@inTECH2_QTY_problemCategoryDetail", aj_TECH2_QTY_problemCategoryDetail);
                  command.Parameters.AddWithValue("@inTECH2_QTY_WR", aj_TECH2_QTY_WR);
                  command.Parameters.AddWithValue("@inTECH2_QTY_WE", aj_TECH2_QTY_WE);
+                 command.Parameters.AddWithValue("@inTECH2_QTY_WF", aj_TECH2_QTY_WF);
                  command.Parameters.AddWithValue("@inWarrantyClmType", clamtyp);
                
                

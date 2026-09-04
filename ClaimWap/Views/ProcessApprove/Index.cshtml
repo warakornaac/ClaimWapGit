@@ -637,6 +637,12 @@
                             <span style="color: blue;text-decoration: underline;font-weight: bold" id="_weqty"></span>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <span> <i class="fa fa-pencil"></i> WF_Qty:</span>
+                            <span style="color: blue;text-decoration: underline;font-weight: bold" id="_wfqty"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
 
@@ -1165,7 +1171,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="row" id="wrwe_qty_row" hidden>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <span> <i class="fa fa-check-circle"></i> WR Qty.:</span>
                                     <span>
@@ -1173,11 +1179,19 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <span> <i class="fa fa-check-circle"></i> We Qty.:</span>
+                                    <span> <i class="fa fa-check-circle"></i> WF Qty.:</span>
                                     <span>
                                         <input type="number" id="tec2_clm_qty_we" disabled />
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <span> <i class="fa fa-check-circle"></i> WF Qty.:</span>
+                                    <span>
+                                        <input type="number" id="tec2_clm_qty_wf" disabled />
                                     </span>
                                 </div>
                             </div>
@@ -1193,6 +1207,21 @@
                         <div class="form-group">
 
                             <span><textarea class="form-control" rows="6" cols="100" id="remaketec2" placeholder="หมายเหตุ"></textarea></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <span><i class="fa fa-pencil"></i>สาเหตุการ Claim/Problem Category:</span>
+                            <span><select class="bar" id="problemCategory_tech2" disabled></select></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <span><textarea rows="6" cols="10" id="problemCategoryDetail_tech2" placeholder="รายละเอียด อาการ ลักษณะของปัญหา/Problem Details" style="width: 100%;" disabled></textarea></span>
                         </div>
                     </div>
                 </div>
@@ -1846,6 +1875,22 @@
                 }
                 return x1 + x2;
             }
+            //ดึงสาเหตุ tech2
+            $.ajax({
+                url: '@Url.Action("GetdateStatusClm", "GetdataCenter")',
+                data: {
+                    Name: 39
+                },
+                type: "POST",
+                dataType: "JSON",
+                success: function (data) {
+                    var select = $("#problemCategory_tech2");
+                    select.children().remove();
+                    $(data).each(function (index, item) {
+                        select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
+                    });
+                }
+            });
             $.ajax({
                 url: '@Url.Action("GetdateStatusClm", "GetdataCenter")',
                 data: {
@@ -2200,7 +2245,7 @@
                 if (valstkgrp == "" || valstkgrp == null) {
                     valstkgrp = "ALL";
                 }
-                
+
                 $.ajax({
                     url: '@Url.Action("GetClimdataPm", "GetdataCenter")',
                     data: {
@@ -2523,13 +2568,16 @@
 
                                 var wrVal = data.Getdata[0].val.WR_Qty;
                                 var weVal = data.Getdata[0].val.WE_Qty;
+                                var wfVal = data.Getdata[0].val.WF_Qty;
                                 $("#_wrqty").text(wrVal);
                                 $("#_weqty").text(weVal);
+                                $("#_wfqty").text(wfVal);
 
-                                if (wrVal > 0 || weVal > 0) {
+                                if (wrVal > 0 || weVal > 0 || wfVal > 0) {
                                     $("#wrwe_qty_row").prop("hidden", false);
                                     $("#tec2_clm_qty_wr").val(wrVal);
                                     $("#tec2_clm_qty_we").val(weVal);
+                                    $("#tec2_clm_qty_wf").val(wfVal);
                                 }
                                 else {
                                     $("#wrwe_qty_row").prop("hidden", true);
@@ -2806,6 +2854,8 @@
                                         $("#_appdatetec").val(data.Getdata[0].val.TECH2_ANLYS_DATE);  //วันที่เทคนิคพิจารณา
                                         $("#_apprvststus").val(data.Getdata[0].val.TECH2_ANLYS_STATUS); // สถานะ
                                         $("#remaketec2").val(data.Getdata[0].val.TECH2_REMARK);   //หมายเหตุ
+                                        $("#problemCategory_tech2").val(data.Getdata[0].val.TECH2_ProblemCategory); // สถานะสาเหตุ
+                                        $("#problemCategoryDetail_tech2").val(data.Getdata[0].val.TECH2_ProblemCategoryDetail); // สถานะสาเหตุรายละเอียด
                                         $("#_btnsaveconsider").attr("disabled", "disabled");
 
                                     } else if (_tec2Proststus == "2") {//ปฎิเสธ
@@ -2814,6 +2864,8 @@
                                         $("#_appdatetec").val(data.Getdata[0].val.TECH2_ANLYS_DATE);  //วันที่เทคนิคพิจารณา
                                         $("#_apprvststus").val(data.Getdata[0].val.TECH2_ANLYS_STATUS); // สถานะ
                                         $("#remaketec2").val(data.Getdata[0].val.TECH2_REMARK);   //หมายเหตุ
+                                        $("#problemCategory_tech2").val(data.Getdata[0].val.TECH2_ProblemCategory); // สถานะสาเหตุ
+                                        $("#problemCategoryDetail_tech2").val(data.Getdata[0].val.TECH2_ProblemCategoryDetail); // สถานะสาเหตุรายละเอียด
                                         $("#_btnsaveconsider").attr("disabled", "disabled");
 
                                         $("#_btnsaveconsider").attr("disabled", "disabled");
@@ -2824,6 +2876,8 @@
                                         $("#_appdatetec").val(data.Getdata[0].val.TECH2_ANLYS_DATE);  //วันที่เทคนิคพิจารณา
                                         $("#_apprvststus").val(data.Getdata[0].val.TECH2_ANLYS_STATUS); // สถานะ
                                         $("#remaketec2").val(data.Getdata[0].val.TECH2_REMARK);   //หมายเหตุ
+                                        $("#problemCategory_tech2").val(data.Getdata[0].val.TECH2_ProblemCategory); // สถานะสาเหตุ
+                                        $("#problemCategoryDetail_tech2").val(data.Getdata[0].val.TECH2_ProblemCategoryDetail); // สถานะสาเหตุรายละเอียด
                                         // $("#_btnsaveapprove").attr("disabled", "disabled");
                                         // $("#_btnsaveapprove").css("display","none")
                                     }
@@ -2834,7 +2888,8 @@
                                     $("#_appdatetec").val(""); //วันที่เทคนิคพิจารณา
                                     $("#_apprvststus").val("0"); // สถานะ
                                     $("#remaketec2").val("");   //หมายเหตุ
-
+                                    $("#problemCategory_tech2").val("0"); // สถานะสาเหตุ
+                                    $("#problemCategoryDetail_tech2").val(""); // สถานะสาเหตุรายละเอียด
                                     //$("#_name2tec").val(""); //รับรองการตรวจสอบโดย
                                     //$("#_appdatetec").val(today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2)); //วันที่เทคนิคพิจารณา
                                     //$("#_apprvststus").val("0"); // สถานะ
