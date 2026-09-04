@@ -2573,7 +2573,7 @@
                                 $("#_weqty").text(weVal);
                                 $("#_wfqty").text(wfVal);
 
-                                if (wrVal > 0 || weVal > 0 || wfVal > 0) {
+                                if (data.Getdata[0].val.TECH1_ANLYS_STATUS == "5") {
                                     $("#wrwe_qty_row").prop("hidden", false);
                                     $("#tec2_clm_qty_wr").val(wrVal);
                                     $("#tec2_clm_qty_we").val(weVal);
@@ -3861,7 +3861,7 @@
                 $("#boximagetechnic").html("");
 
 
-
+                
                 $("#_vemac").val("");
                 $("#_moty").val("");
                 $("#_modyear").val("");

@@ -1193,7 +1193,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="row" id="wrwe_qty_row" hidden>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <span> <i class="fa fa-check-circle"></i> WR Qty.:</span>
                                         <span>
@@ -1201,11 +1201,19 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <span> <i class="fa fa-check-circle"></i> We Qty.:</span>
+                                        <span> <i class="fa fa-check-circle"></i> WE Qty.:</span>
                                         <span>
                                             <input type="number" id="tec2_clm_qty_we" disabled />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <span> <i class="fa fa-check-circle"></i> WF Qty.:</span>
+                                        <span>
+                                            <input type="number" id="tec2_clm_qty_wf" disabled />
                                         </span>
                                     </div>
                                 </div>
@@ -3435,10 +3443,11 @@
                             $select.trigger("change");
 
 
-                            if (wrVal > 0 || weVal > 0) {
+                            if (data.Getdata[0].val.TECH1_ANLYS_STATUS == "5") {
                                 $("#wrwe_qty_row").prop("hidden", false);
                                 $("#tec2_clm_qty_wr").val(wrVal);
                                 $("#tec2_clm_qty_we").val(weVal);
+                                $("#tec2_clm_qty_we").val(wfVal);
                             }
                             else {
                                 $("#wrwe_qty_row").prop("hidden", true);
