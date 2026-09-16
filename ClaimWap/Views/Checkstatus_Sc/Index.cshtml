@@ -1549,6 +1549,7 @@
 
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                     <button type="button" id="del" class="btn btn-danger btn-ok" data-dismiss="modal">ยกเลิกเคลม</button>
+                    <button type="button" id="no-del" class="btn btn-warning btn-ok" data-dismiss="modal" hidden>ปฏิเสธยกเลิกเคลม</button>
                 </div>
             </div>
         </div>
@@ -2806,9 +2807,11 @@
 
                                     if (CLM_STATUS != "7") {
                                         if (TECH1_PROCESS_STATUS == "0") {
-                                            SubmithtmlPage += '<td>  <button type="button" id="_btndelclaim" class="btn btn-default"  req_no="' + data.Getdata[i].val.REQ_NO + '"  clm_no_sub="' + data.Getdata[i].val.CLM_NO_SUB + '">ยกเลิก/cancel</button></td>';
+                                            SubmithtmlPage += '<td>  <button type="button" id="_btndelclaim" class="btn btn-default"  req_no="' + data.Getdata[i].val.REQ_NO + '"  clm_no_sub="' + data.Getdata[i].val.CLM_NO_SUB + '" admin_status="' + ADMIN_ANLYS_STATUS +'">ยกเลิก/cancel</button></td>';
                                         } else if (TECH1_PROCESS_STATUS == "1") {
                                             SubmithtmlPage += '<td>  <button type="button" id="_btndelclaim" class="btn btn-default" disabled="disabled"  req_no="' + data.Getdata[i].val.REQ_NO + '"  clm_no_sub="' + data.Getdata[i].val.CLM_NO_SUB + '">ยกเลิก/cancel</button></td>';
+                                        } else if (ADMIN_ANLYS_STATUS == "2") {
+                                            SubmithtmlPage += '<td>  <button type="button" id="_btndelclaim" class="btn btn-default"  req_no="' + data.Getdata[i].val.REQ_NO + '"  clm_no_sub="' + data.Getdata[i].val.CLM_NO_SUB + '" admin_status="' + ADMIN_ANLYS_STATUS + '">ยกเลิก/cancel</button></td>';
                                         }
                                         if (ADMIN_ANLYS_STATUS == "0") {
                                             SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: blue;" title="รอการตรวจรับสินค้า"></span></td>';
@@ -4157,14 +4160,20 @@
 
                 var req_no = $(this).attr('req_no');
                 var clm_no_sub = $(this).attr('clm_no_sub');
-
+                var admin_cancle_sta = $(this).attr('admin_status');
                 $("#confirm-delete").modal();
+                $("#no-del").prop("hidden", admin_cancle_sta != "2");
                 var row_d = $(this).attr('cartid');
 
                 $('#del').attr("req_no", req_no);
                 $('#del').attr("clm_no_sub", clm_no_sub);
                 $('#del').attr("user", _user);
+
+                $('#no-del').attr("req_no", req_no);
+                $('#no-del').attr("clm_no_sub", clm_no_sub);
+                $('#no-del').attr("user", _user);
             });
+
             $("#del").on("click", function () {
                 var _user = $("#_uderlogin").val();
                 var req_no = $(this).attr('req_no');
@@ -4198,6 +4207,41 @@
                     }
                 });
             });
+
+            $("#no-del").on("click", function () {
+                var _user = $("#_uderlogin").val();
+                var req_no = $(this).attr('req_no');
+                var clm_no_sub = $(this).attr('clm_no_sub');
+                $.ajax({
+                    url: '@Url.Action("noCancelclaim", "Checkstatus_Sc")',
+                    data: {
+                        User: _user,
+                        req_no: req_no,
+                        clm_no_sub: clm_no_sub
+                    },
+                    type: "POST",
+                    dataType: "JSON",
+                    success: function (data) {
+                        if (data.message == "true") {
+
+                            $("#textAlertSucces").empty();
+                            $("#textAlertSucces").text("ปฏิเสธยกเลิกรายการเคลมสำเร็จ");
+                            $("#myModalSucces").modal();
+                            $("#myModalSucces").modal('hide');
+                            setTimeout(function () {
+                                var slmcod = $("#slmcod").val();
+                                GetClimline("", company, "1", "", "", "", "", slmcod, "0", "0", "ALL", "0", "2")
+                            }, 2000);
+                            //$("#_btnsearch").click();
+                        } else {
+                            $("#textAlertSucces").empty();
+                            $("#textAlertSucces").text(data.message);
+                            $("#myModalSucces").modal();
+                        }
+                    }
+                });
+            });
+
             $("table").on("click", "tr #_btnsupplier", function () {
                 //_udertype
                 var _user = $("#_uderlogin").val();

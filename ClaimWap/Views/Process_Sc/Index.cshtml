@@ -2863,6 +2863,8 @@
                                         SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: blue;" title="รอการตรวจรับสินค้า"></span></td>';
                                     } else if (ADMIN_ANLYS_STATUS == "1") {
                                         SubmithtmlPage += '<td><span class="fa fa-check-circle gi-4x" style="color: #09b709;"title="ตรวจรับสินค้าเรียบร้อย"></span></td>';
+                                    } else if (ADMIN_ANLYS_STATUS == "2") {
+                                        SubmithtmlPage += '<td><td><span class="fa fa-minus gi-4x" style="color: red;" "title="รอ Saleman ยกเลิกเคลม"></span></td></td>';
                                     }
                                     if (TECH1_PROCESS_STATUS == "0") {
                                         SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: blue;" title="รอการตรวจสอบ"></span></td>';
@@ -3260,6 +3262,9 @@
 
                                     $("#_duedatetec").val(('0' + newDate.getDate()).slice(-2) + '/' + ('0' + (newDate.getMonth() + 1)).slice(-2) + '/' + newDate.getFullYear()); //Due date
                                     $("#causeclaimtec").val(data.Getdata[0].val.CLM_REMARK);//หมายเหตุการรับเคลม
+                                    
+                                        $("#_btnsavecheck").attr("disabled", "disabled");
+                                    
                                 }
                                 //alert(_tec1Proststus)
                                 if (_tec1Proststus != "0") {
@@ -3410,8 +3415,15 @@
                                         $("#_anlysafterprotec1").val("0"); //หลังเสร็จสิ้นกระบวนการเคลม
                                         $("#_scrapdatetec1").val(today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2));
                                         $("#remaketec1").val("");
+                                        if (_AdminProststus == "2") {
+                                            console.log("_AdminProststus =", _AdminProststus);
+                                            console.log("disabled =", $("#_btnsavecheck").prop("disabled"));
+                                            $("#_btnsavecheck").attr("disabled", "disabled");
+                                        }
                                     }
-
+                                   
+                                    
+  
                                 }
                                 var _tec2Proststus = data.Getdata[0].val.TECH2_ANLYS_STATUS;//approve tec2
                                 var _PMProststus = data.Getdata[0].val.PM_PROCESS_STATUS;//approve PM
@@ -3660,6 +3672,13 @@
                                 $("#textAlertWarning").empty();
                                 $("#textAlertWarning").text("ไม่มีรายการเคลม../No claim list..");
                                 $("#myModalWarning").modal();
+                            }
+
+                            //ARM
+                            if (_AdminProststus == "2") {
+                                console.log("_AdminProststus =", _AdminProststus);
+                                console.log("disabled =", $("#_btnsavecheck").prop("disabled"));
+                                $("#_btnsavecheck").attr("disabled", "disabled");
                             }
                         }
                     });
@@ -4152,7 +4171,8 @@
                     $("#textAlertWarning").text("กรุณาระบุจำนวนรับเคลม/Please specify Qty claim received.");
                     $("#myModalWarning").modal(); return false;
                 } else if (rvqtytec != "") {
-                    if (proceedtotec != "1") {
+                    if (proceedtotec != "1"&& proceedtotec != '6') {
+                        console.log("process tecadmin:" + proceedtotec)
                         $("#textAlertWarning").empty();
                         $("#textAlertWarning").text("กรุณาเปลี่ยนสถานะการรับสินค้า/Please specify change received status.");
                         $("#myModalWarning").modal(); return false;

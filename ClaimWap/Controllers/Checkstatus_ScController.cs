@@ -465,6 +465,39 @@ namespace ClaimWap.Controllers
 
             return Json(new { message}, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult noCancelclaim(string User, string req_no, string clm_no_sub)
+        {
+            string message = string.Empty;
+            string subno = string.Empty;
+            var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
+            SqlConnection Connection = new SqlConnection(connectionString);
+            try
+            {
+                Connection.Open();
+                var command = new SqlCommand("P_RejectCancel_Claim", Connection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@inCLM_ID", req_no);
+                command.Parameters.AddWithValue("@inCLM_SUB", clm_no_sub);
+                command.Parameters.AddWithValue("@inusrlogin", User);
+
+
+
+                command.ExecuteNonQuery();
+
+                command.Dispose();
+                message = "true";
+
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+            }
+
+
+            Connection.Close();
+
+            return Json(new { message }, JsonRequestBehavior.AllowGet);
+        }
     }
 
 }
