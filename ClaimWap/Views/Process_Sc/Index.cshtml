@@ -1616,6 +1616,8 @@
             }
 
             if (tec2_clm_qty_pass != 0 || tec2_clm_qty_pass != '' && tech1_anys_status == "5") {
+                console.log(" tec2_clm_qty_pass = " + tec2_clm_qty_pass);
+                console.log(" tech1_anys_status = " + tech1_anys_status);             
                 $("#wrwe_qty_row").prop("hidden", false);
             }
             else {
@@ -1680,7 +1682,8 @@
         $("#tec2_clm_qty_pass").focusout(function () {
             //$(this).css("background-color", "#FFFFFF");
             var tec2_clm_qty_pass = $(this).val();//ยอดที่เคลมได้
-            if (tec2_clm_qty_pass > 0) {
+            if (tec2_clm_qty_pass > 0 && tech1_anys_status == "5") {
+                console.log("ROW Hidden False");
                 $("#wrwe_qty_row").prop("hidden", false);
             }
             else {
@@ -3214,6 +3217,10 @@
                                     if (tech1_anys_status == "5") {
                                         $("#wrwe_qty_row").prop("hidden", false);
                                     }
+                                    else {
+                                        $("#wrwe_qty_row").prop("hidden", true);
+                                    }
+
                                     $("#tec2_clm_qty_wr").val(data.Getdata[0].val.WR_Qty||0);
                                     $("#tec2_clm_qty_we").val(data.Getdata[0].val.WE_Qty||0);
                                     $("#tec2_clm_qty_wf").val(data.Getdata[0].val.WF_Qty||0);
