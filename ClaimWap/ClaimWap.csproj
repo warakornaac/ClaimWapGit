@@ -69,6 +69,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -193,6 +194,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AppCache.cs" />
+    <Compile Include="Helpers\DefineCodeCache.cs" />
     <Compile Include="Models\GetdataCenterController.cs" />
     <Compile Include="Models\GroupClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

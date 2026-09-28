@@ -1903,7 +1903,6 @@
                     //alert(selectudertype)
                     var select = $("#_status");
                     select.children().remove();
-                    // select.append($("<option>").val("0").text("เลือกCUSCOD"));
                     $(data).each(function (index, item) {
                         select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
                     });
@@ -2001,22 +2000,9 @@
                 success: function (data) {
                     var select = $("#_statusclaimdisplay");
                     select.children().remove();
-                    // select.append($("<option>").val("0").text("สถานะรับของเคลม"));
-                    // if (chkststus == "1" || chkststus == "2") {
                     $(data).each(function (index, item) {
-                        //  if (item.CODE == "1" || item.CODE == "2" || item.CODE == "3") {
                         select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
-                        //  }
                     });
-                    // }else if(chkststus == "4" || chkststus == "5"){
-
-                    //  $(data).each(function (index, item) {
-                    //  if (item.CODE == "2" || item.CODE == "4") {
-                    //       select.append($("<option custyp=" + item.CODE + ">").val(item.CODE).text(item.DESCRIPTION_TH));
-                    //   }
-                    // });
-                    // }
-                    //  var CUSCODt = $("#CUSCOD option:selected").text();
                 }
             });
 
@@ -2677,6 +2663,8 @@
                                             SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: blue;" title="รอการตรวจรับสินค้า"></span></td>';
                                         } else if (ADMIN_ANLYS_STATUS == "1") {
                                             SubmithtmlPage += '<td><span class="fa fa-check-circle gi-4x" style="color: #09b709;"title="ตรวจรับสินค้าเรียบร้อย"></span></td>';
+                                        } else if (ADMIN_ANLYS_STATUS == "2") {
+                                            SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;" title="รอ Salesman ยกเลิกเคลม"></span></td>';
                                         }
                                         if (TECH1_PROCESS_STATUS == "0") {
                                             SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: blue;" title="รอการตรวจสอบ"></span></td>';
@@ -2817,6 +2805,8 @@
                                             SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: blue;" title="รอการตรวจรับสินค้า"></span></td>';
                                         } else if (ADMIN_ANLYS_STATUS == "1") {
                                             SubmithtmlPage += '<td><span class="fa fa-check-circle gi-4x" style="color: #09b709;"title="ตรวจรับสินค้าเรียบร้อย"></span></td>';
+                                        } else if (ADMIN_ANLYS_STATUS == "2") {
+                                            SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;"title="รอ Salesman ยกเลิกเคลม"></span></td>';
                                         }
                                         if (TECH1_PROCESS_STATUS == "0") {
                                             SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: blue;" title="รอการตรวจสอบ"></span></td>';
