@@ -9,6 +9,8 @@ using ClaimWap.Models;
 using System.Data;
 using ClaimWap.Controllers;
 using System.IO;
+using ClaimWap.Helpers;
+
 namespace ClaimWap.Models
 {
     public class GetdataCenterController : Controller
@@ -619,46 +621,114 @@ namespace ClaimWap.Models
             Connection.Close();
             return Json(List, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetdateStatusClm(string Name)
-        {
-            List<DefineCode> List = new List<DefineCode>();
-            //DefineCode model = null;
-            var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
-            SqlConnection Connection = new SqlConnection(connectionString);
-            var command = new SqlCommand("P_Get_DefineCode", Connection);
-            command.CommandType = CommandType.StoredProcedure;
-            //ดึง ช่างที่รับผิดชอบ/TECH1 Name
-            if (Name == "12" && Session["company"].ToString() == "TAM")
-            {
-                Name = "41"; //ดึงเฉพาะ Tec TAM
-            }
-            command.Parameters.AddWithValue("@DefineID", Convert.ToInt32(Name));
-            Connection.Open();
-            SqlDataReader dr = command.ExecuteReader();
-            while (dr.Read())
-            {
+        //public JsonResult GetdateStatusClm(string Name)
+        //{
+        //    List<DefineCode> List = new List<DefineCode>();
+        //    //DefineCode model = null;
+        //    var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
+        //    SqlConnection Connection = new SqlConnection(connectionString);
+        //    var command = new SqlCommand("P_Get_DefineCode", Connection);
+        //    command.CommandType = CommandType.StoredProcedure;
+        //    //ดึง ช่างที่รับผิดชอบ/TECH1 Name
+        //    if (Name == "12" && Session["company"].ToString() == "TAM")
+        //    {
+        //        Name = "41"; //ดึงเฉพาะ Tec TAM
+        //    }
+        //    command.Parameters.AddWithValue("@DefineID", Convert.ToInt32(Name));
+        //    Connection.Open();
+        //    SqlDataReader dr = command.ExecuteReader();
+        //    while (dr.Read())
+        //    {
 
-                List.Add(new DefineCode()
-                {
-                    ID = dr["ID"].ToString(),
-                    CODE = dr["CODE"].ToString(),
-                    FIELD_RELATION = dr["FIELD_RELATION"].ToString(),
-                    DESCRIPTION_TH = dr["DESCRIPTION_TH"].ToString(),
-                    DESCRIPTION_EN = dr["DESCRIPTION_EN"].ToString(),
-                    INACTIVE = dr["INACTIVE"].ToString()
-                });
-                //ถ้าไม่ใช่ TAM ลบ Status ที่เกี่ยว Saleman, Yap/GM
-                if (Name == "6" && Session["company"].ToString() != "TAM")
-                {
-                    var nameToRemove = new[] { "9", "10", "11", "12", "13", "14" };
-                    List.RemoveAll(t => nameToRemove.Contains(Name));
+        //        List.Add(new DefineCode()
+        //        {
+        //            ID = dr["ID"].ToString(),
+        //            CODE = dr["CODE"].ToString(),
+        //            FIELD_RELATION = dr["FIELD_RELATION"].ToString(),
+        //            DESCRIPTION_TH = dr["DESCRIPTION_TH"].ToString(),
+        //            DESCRIPTION_EN = dr["DESCRIPTION_EN"].ToString(),
+        //            INACTIVE = dr["INACTIVE"].ToString()
+        //        });
+        //        //ถ้าไม่ใช่ TAM ลบ Status ที่เกี่ยว Saleman, Yap/GM
+        //        if (Name == "6" && Session["company"].ToString() != "TAM")
+        //        {
+        //            var nameToRemove = new[] { "9", "10", "11", "12", "13", "14" };
+        //            List.RemoveAll(t => nameToRemove.Contains(Name));
+        //        }
+        //    }
+        //    dr.Close();
+        //    dr.Dispose();
+        //    command.Dispose();
+        //    Connection.Close();
+        //    return Json(List, JsonRequestBehavior.AllowGet);
+        //}
+        public JsonResult GetdateStatusClm(string Name) {
+            // ป้องกัน Session หมดอายุ / null
+            string company = Session["company"] != null ? Session["company"].ToString() : string.Empty;
+
+            int defineId;
+            if (!int.TryParse(Name, out defineId)) {
+                return Json(new List<DefineCode>(), JsonRequestBehavior.AllowGet);
+            }
+
+            // ดึง ช่างที่รับผิดชอบ/TECH1 : ถ้าเป็น TAM ใช้ DefineID 41
+            if (defineId == 12 && company == "TAM") {
+                defineId = 41; // ดึงเฉพาะ Tec TAM
+            }
+
+            // ดึงจาก Cache (ถ้าไม่มีจะไปดึงจาก DB แล้วเก็บ Cache ให้อัตโนมัติ)
+            List<DefineCode> source = DefineCodeCache.GetOrLoad(defineId, LoadDefineCodeFromDb);
+
+            List<DefineCode> result;
+
+            // ถ้าไม่ใช่ TAM ลบ Status ที่เกี่ยวกับ Saleman, Yap/GM
+            if (defineId == 6 && company != "TAM") {
+                var codesToRemove = new[] { "9", "10", "11", "12", "13", "14" };
+                result = source.Where(t => !codesToRemove.Contains(t.CODE)).ToList();
+            }
+            else {
+                // สร้าง List ใหม่ ไม่ส่ง reference ของ List ใน Cache ออกไปตรงๆ
+                result = new List<DefineCode>(source);
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// ดึงข้อมูล DefineCode จาก DB (ถูกเรียกเฉพาะตอน Cache ว่าง/หมดอายุ)
+        /// </summary>
+        private static List<DefineCode> LoadDefineCodeFromDb(int defineId) {
+            var list = new List<DefineCode>();
+            string connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
+
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = new SqlCommand("P_Get_DefineCode", connection)) {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@DefineID", SqlDbType.Int).Value = defineId;
+
+                connection.Open();
+                using (SqlDataReader dr = command.ExecuteReader()) {
+                    while (dr.Read()) {
+                        list.Add(new DefineCode {
+                            ID = dr["ID"].ToString(),
+                            CODE = dr["CODE"].ToString(),
+                            FIELD_RELATION = dr["FIELD_RELATION"].ToString(),
+                            DESCRIPTION_TH = dr["DESCRIPTION_TH"].ToString(),
+                            DESCRIPTION_EN = dr["DESCRIPTION_EN"].ToString(),
+                            INACTIVE = dr["INACTIVE"].ToString()
+                        });
+                    }
                 }
             }
-            dr.Close();
-            dr.Dispose();
-            command.Dispose();
-            Connection.Close();
-            return Json(List, JsonRequestBehavior.AllowGet);
+
+            return list;
+        }
+        /// <summary>
+        /// (Optional) ใช้ล้าง Cache หลังแก้ไขข้อมูล DefineCode หรือให้ Admin เรียก
+        /// </summary>
+        [HttpPost]
+        public JsonResult ClearDefineCodeCache() {
+            DefineCodeCache.ClearAll();
+            return Json(new { success = true });
         }
         public JsonResult GetProductdata(string UserId)
         {
@@ -1469,41 +1539,87 @@ namespace ClaimWap.Models
                 }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult GetProductall()
-        {
+        //public JsonResult GetProductall()
+        //{
+        //    string company = Session["company"].ToString();
+        //    string tbProd = string.Empty;
+        //    tbProd = " v_SLMTAB_PD";
+        //    if (company == "TAM")
+        //    {
+        //        tbProd = " v_SLMTAB_PD_TAM";
+        //    }
+        //    List<Pm> List = new List<Pm>();
+        //    var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
+        //    SqlConnection Connection = new SqlConnection(connectionString);
+        //    Connection.Open();
+
+        //    SqlCommand command = new SqlCommand("select * From " + tbProd, Connection);
+
+        //    SqlDataReader dr = command.ExecuteReader();
+
+        //    while (dr.Read())
+        //    {
+        //        List.Add(new Pm()
+        //        {
+        //            PROD = dr["SLMCOD"].ToString(),
+        //            PRODNAM = dr["SLMNAM"].ToString()
+        //        });
+
+        //    }
+
+        //    dr.Close();
+        //    dr.Dispose();
+        //    command.Dispose();
+        //    Connection.Close();
+
+
+        //    return Json(List, JsonRequestBehavior.AllowGet);
+        //}
+        public JsonResult GetProductall() {
+            // Session หมดอายุ: ไม่ส่งข้อมูลออกไป
+            if (Session["company"] == null) {
+                return Json(new List<Pm>(), JsonRequestBehavior.AllowGet);
+            }
+
             string company = Session["company"].ToString();
-            string tbProd = string.Empty;
-            tbProd = " v_SLMTAB_PD";
-            if (company == "TAM")
-            {
-                tbProd = " v_SLMTAB_PD_TAM";
-            }
-            List<Pm> List = new List<Pm>();
-            var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
-            SqlConnection Connection = new SqlConnection(connectionString);
-            Connection.Open();
+            string tbProd = company == "TAM" ? "v_SLMTAB_PD_TAM" : "v_SLMTAB_PD";
 
-            SqlCommand command = new SqlCommand("select * From " + tbProd, Connection);
+            // key แยกตาม View: บริษัทที่ไม่ใช่ TAM ใช้ Cache ร่วมกัน
+            List<Pm> source = AppCache.GetOrLoad(
+                "Product_" + tbProd,
+                () => LoadProductFromDb(tbProd),
+                TimeSpan.FromMinutes(60));
 
-            SqlDataReader dr = command.ExecuteReader();
+            // คืน List ใหม่ ไม่ส่ง reference ของ Cache ออกไปตรงๆ
+            return Json(new List<Pm>(source), JsonRequestBehavior.AllowGet);
+        }
 
-            while (dr.Read())
-            {
-                List.Add(new Pm()
-                {
-                    PROD = dr["SLMCOD"].ToString(),
-                    PRODNAM = dr["SLMNAM"].ToString()
-                });
-
+        /// <summary>
+        /// ดึงข้อมูลสินค้าจาก DB (ถูกเรียกเฉพาะตอน Cache ว่าง/หมดอายุ)
+        /// </summary>
+        private static List<Pm> LoadProductFromDb(string tbProd) {
+            // Whitelist ชื่อ View เพราะชื่อ table ใช้ SqlParameter ไม่ได้
+            if (tbProd != "v_SLMTAB_PD" && tbProd != "v_SLMTAB_PD_TAM") {
+                throw new ArgumentException("Invalid product view: " + tbProd);
             }
 
-            dr.Close();
-            dr.Dispose();
-            command.Dispose();
-            Connection.Close();
+            var list = new List<Pm>();
+            string connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
 
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = new SqlCommand("SELECT SLMCOD, SLMNAM FROM " + tbProd, connection)) {
+                connection.Open();
+                using (SqlDataReader dr = command.ExecuteReader()) {
+                    while (dr.Read()) {
+                        list.Add(new Pm {
+                            PROD = dr["SLMCOD"].ToString(),
+                            PRODNAM = dr["SLMNAM"].ToString()
+                        });
+                    }
+                }
+            }
 
-            return Json(List, JsonRequestBehavior.AllowGet);
+            return list;
         }
         public JsonResult GetReasonCodes()
         {
@@ -2605,78 +2721,73 @@ namespace ClaimWap.Models
 
             return Json(List, JsonRequestBehavior.AllowGet);
         }
-        //public JsonResult GetPathImageRT(string inCLM_ID, string CLM_NO)
-        //{
+        public JsonResult GetPathImageRT(string inCLM_ID, string CLM_NO) {
 
-        //    var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
-        //    SqlConnection Connection = new SqlConnection(connectionString);
-        //    List<ImageFilesListDetail> Getdata = new List<ImageFilesListDetail>();
-        //    ImageFiles model = null;
-        //    // var root = @"\Warranty\ImgUpload\";
-        //    var root = @"..\ImgUploadRT\";
-        //    var command = new SqlCommand("P_GetPathImage_RT", Connection);
-        //    command.CommandType = CommandType.StoredProcedure;
-        //    command.Parameters.AddWithValue("@inCim_No", inCLM_ID);
-        //    command.Parameters.AddWithValue("@inCim_NoSub", CLM_NO);
-        //    Connection.Open();
-        //    SqlDataReader dr = command.ExecuteReader();
-        //    while (dr.Read())
-        //    {
-        //        model = new ImageFiles();
-        //        model.IMAGE_ID = dr["IMAGE_ID"].ToString();
-        //        model.REQ_NO = dr["STMP_ID"].ToString();
-        //        model.CLM_NO_SUB = dr["STMP_ID_SUB"].ToString();
-        //        model.IMAGE_NO = dr["IMAGE_NO"].ToString();
-        //        model.IMAGE_NAME = dr["IMAGE_NAME"].ToString();
-        //        //model.PATH = dr["PATH"].ToString();
-        //        //  model.PATH = Server.MapPath(@"~\ImgUpload\" + dr["IMAGE_NAME"].ToString());
-        //        model.PATH = Path.Combine(root, dr["IMAGE_NAME"].ToString());
-        //        //model.PATH = "D:\\Projects\\work spaces\\ClaimWap\\ClaimWap\\ImgUpload\\CM18110012-GDB7224YO-CM18110012-01-01.png";
-        //        Getdata.Add(new ImageFilesListDetail { val = model });
-        //    }
-        //    dr.Close();
-        //    dr.Dispose();
-        //    command.Dispose();
-        //    Connection.Close();
-        //    return Json(new { Getdata }, JsonRequestBehavior.AllowGet);
+            var connectionString = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
+            SqlConnection Connection = new SqlConnection(connectionString);
+            List<ImageFilesListDetail> Getdata = new List<ImageFilesListDetail>();
+            ImageFiles model = null;
+            // var root = @"\Warranty\ImgUpload\";
+            var root = @"..\ImgUploadRT\";
+            var command = new SqlCommand("P_GetPathImage_RT", Connection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@inCim_No", inCLM_ID);
+            command.Parameters.AddWithValue("@inCim_NoSub", CLM_NO);
+            Connection.Open();
+            SqlDataReader dr = command.ExecuteReader();
+            while (dr.Read()) {
+                model = new ImageFiles();
+                model.IMAGE_ID = dr["IMAGE_ID"].ToString();
+                model.REQ_NO = dr["STMP_ID"].ToString();
+                model.CLM_NO_SUB = dr["STMP_ID_SUB"].ToString();
+                model.IMAGE_NO = dr["IMAGE_NO"].ToString();
+                model.IMAGE_NAME = dr["IMAGE_NAME"].ToString();
+                //model.PATH = dr["PATH"].ToString();
+                //  model.PATH = Server.MapPath(@"~\ImgUpload\" + dr["IMAGE_NAME"].ToString());
+                model.PATH = Path.Combine(root, dr["IMAGE_NAME"].ToString());
+                //model.PATH = "D:\\Projects\\work spaces\\ClaimWap\\ClaimWap\\ImgUpload\\CM18110012-GDB7224YO-CM18110012-01-01.png";
+                Getdata.Add(new ImageFilesListDetail { val = model });
+            }
+            dr.Close();
+            dr.Dispose();
+            command.Dispose();
+            Connection.Close();
+            return Json(new { Getdata }, JsonRequestBehavior.AllowGet);
 
-        //}
-        //public JsonResult GetfileVideoRT(string inCLM_ID, string CLM_NO, string Im_No)
-        //{
-        //    List<VideoFiles> videolist = new List<VideoFiles>();
-        //    string Docnocm = string.Empty;
-        //    var root = @"..\VideoFileUploadRT\";
-        //    var CS = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
-        //    SqlConnection Connection = new SqlConnection(CS);
-        //    using (SqlConnection con = new SqlConnection(CS))
-        //    {
-        //        SqlCommand command = new SqlCommand("spGetAllVideoFile_RT", con);
-        //        command.CommandType = CommandType.StoredProcedure;
+        }
+        public JsonResult GetfileVideoRT(string inCLM_ID, string CLM_NO, string Im_No) {
+            List<VideoFiles> videolist = new List<VideoFiles>();
+            string Docnocm = string.Empty;
+            var root = @"..\VideoFileUploadRT\";
+            var CS = ConfigurationManager.ConnectionStrings["CLAIM_ConnectionString"].ConnectionString;
+            SqlConnection Connection = new SqlConnection(CS);
+            using (SqlConnection con = new SqlConnection(CS)) {
+                SqlCommand command = new SqlCommand("spGetAllVideoFile_RT", con);
+                command.CommandType = CommandType.StoredProcedure;
 
-        //        command.Parameters.AddWithValue("@inCim_No", inCLM_ID);
-        //        command.Parameters.AddWithValue("@inCim_NoSub", CLM_NO);
-        //        command.Parameters.AddWithValue("@inImg_ID", Im_No);
-        //        Connection.Open();
-        //        con.Open();
-        //        SqlDataReader rdr = command.ExecuteReader();
-        //        while (rdr.Read())
-        //        {
-        //            VideoFiles video = new VideoFiles();
-        //            video.ID = Convert.ToInt32(rdr["ID"]);
-        //            video.Name = rdr["Name"].ToString();
-        //            video.FileSize = Convert.ToInt32(rdr["FileSize"]);
-        //            // video.FilePath = rdr["FilePath"].ToString();
-        //            video.FilePath = Path.Combine(root, rdr["Name"].ToString());
-        //            videolist.Add(video);
-        //        }
-        //        rdr.Close();
-        //        rdr.Dispose();
-        //        command.Dispose();
-        //    }
+                command.Parameters.AddWithValue("@inCim_No", inCLM_ID);
+                command.Parameters.AddWithValue("@inCim_NoSub", CLM_NO);
+                command.Parameters.AddWithValue("@inImg_ID", Im_No);
+                Connection.Open();
+                con.Open();
+                SqlDataReader rdr = command.ExecuteReader();
+                while (rdr.Read()) {
+                    VideoFiles video = new VideoFiles();
+                    video.ID = Convert.ToInt32(rdr["ID"]);
+                    video.Name = rdr["Name"].ToString();
+                    video.FileSize = Convert.ToInt32(rdr["FileSize"]);
+                    // video.FilePath = rdr["FilePath"].ToString();
+                    video.FilePath = Path.Combine(root, rdr["Name"].ToString());
+                    videolist.Add(video);
+                }
+                rdr.Close();
+                rdr.Dispose();
+                command.Dispose();
+            }
 
-        //    Connection.Close();
-        //    return Json(new { videolist }, JsonRequestBehavior.AllowGet);
-        //}
+            Connection.Close();
+            return Json(new { videolist }, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult Getsalesreturndata(string inslm, string inCOM, string inSTATS, string instatdate, string inenddate, string incusno, string initem, string indoc, string inuderlogin)
         {
 

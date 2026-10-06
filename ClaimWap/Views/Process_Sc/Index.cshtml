@@ -2867,7 +2867,7 @@
                                     } else if (ADMIN_ANLYS_STATUS == "1") {
                                         SubmithtmlPage += '<td><span class="fa fa-check-circle gi-4x" style="color: #09b709;"title="ตรวจรับสินค้าเรียบร้อย"></span></td>';
                                     } else if (ADMIN_ANLYS_STATUS == "2") {
-                                        SubmithtmlPage += '<td><td><span class="fa fa-minus gi-4x" style="color: red;" "title="รอ Saleman ยกเลิกเคลม"></span></td></td>';
+                                        SubmithtmlPage += '<td><span class="fa fa-minus gi-4x" style="color: red;" "title="รอ Salesman ยกเลิกเคลม"></span></td>';
                                     }
                                     if (TECH1_PROCESS_STATUS == "0") {
                                         SubmithtmlPage += '<td><span class="fa fa-lock gi-4x" style="color: blue;" title="รอการตรวจสอบ"></span></td>';
@@ -3036,7 +3036,7 @@
                 $("#_t1").val(tec1status);
                 $("#_t2").val(tec2status);
                 $("#_t3").val(pmstatus);
-                if (tec1status == 0) {
+                if (tec1status == 0 && statusclaimup != 6) {
                     statusclaimup = 1;
                 }
 
@@ -3114,6 +3114,7 @@
                         success: function (data) {
                             console.log("Getdata.length = " + data.Getdata.length);
                             if (data.Getdata.length > 0) {
+                                //alert(data.Getdata[0].val.CLM_RCVSTATUS)
                                 //จำนวนเคลมทั้งหมด
                                 var clm_qty = data.Getdata[0].val.CLM_QTY;
                                 if (clm_qty != '') {
